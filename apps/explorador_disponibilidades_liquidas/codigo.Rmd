@@ -1,0 +1,56 @@
+```
+# tem ID_DOCUMENTO_CCOR estranho (com valores -7)
+# tem ID_DOCUMENTO == SALDO INICIAL 2017 2018 2019
+# o que é obrigacoes_a_pagar negativa?
+
+#inner_join: 96113     
+#left_join: 151432  
+#right_join: 110739
+#full_join: 166058
+
+disponibilidades_liquidas_diarias <- inner_join(
+  lim_saque %>%
+    group_by(
+      NO_DIA_COMPLETO,
+      NO_UG,
+      NO_ORGAO,
+      # NO_ITEM_INFORMACAO,
+      NO_FONTE_RECURSO
+    ) %>%
+    summarise(
+      saldo_diario = sum(SALDORITEMINFORMAO)
+    ),
+  obrigacoes %>%
+    rename(
+      NO_ORGAO = NO_ORGAO...16
+    ) %>%
+    group_by(
+      NO_DIA_COMPLETO,
+      NO_UG,
+      NO_ORGAO,
+      # NO_ITEM_INFORMACAO,
+      NO_FONTE_RECURSO
+    ) %>%
+    summarise(
+      obrigacoes_a_pagar = sum(SALDORITEMINFORMAO)
+    )
+) %>%
+  mutate(
+    disponibilidade_liquida = saldo_diario - obrigacoes_a_pagar
+  ) %>%
+  filter(
+    !str_detect(NO_DIA_COMPLETO , "-09/00/")
+  ) %>%
+  ungroup %>%
+  mutate(
+    NO_DIA_COMPLETO = dmy(NO_DIA_COMPLETO)
+  ) %>%
+  padr::pad(group = c("NO_UG", "NO_ORGAO", "NO_FONTE_RECURSO")) %>%
+  mutate(
+    ano = year(NO_DIA_COMPLETO),
+    mes = month(NO_DIA_COMPLETO),
+    dia = day(NO_DIA_COMPLETO),
+    paded = !is.na(saldo_diario)
+  ) %>%
+  tidyr::fill(saldo_diario, obrigacoes_a_pagar, disponibilidade_liquida) 
+```

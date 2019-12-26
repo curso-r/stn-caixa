@@ -1,0 +1,11 @@
+# Bases de dados
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE, 
+  message = FALSE, 
+  warning = FALSE, 
+  eval = TRUE
+)
+```
+

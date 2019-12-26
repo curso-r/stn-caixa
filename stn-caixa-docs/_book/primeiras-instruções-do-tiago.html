@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 2 Primeiras Instruções do Tiago | Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)</title>
+  <meta name="description" content="STN-Caixa" />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 2 Primeiras Instruções do Tiago | Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="STN-Caixa" />
+  <meta name="github-repo" content="curso-r/stn-caixa" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 2 Primeiras Instruções do Tiago | Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)" />
+  
+  <meta name="twitter:description" content="STN-Caixa" />
+  
+
+<meta name="author" content="R6 Estatística" />
+
+
+<meta name="date" content="2019-12-20" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="bases-de-dados.html"/>
+<script src="book_assets/jquery-2.2.3/jquery.min.js"></script>
+<link href="book_assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Relatório de análise de dados</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introdução</a></li>
+<li class="chapter" data-level="2" data-path="primeiras-instruções-do-tiago.html"><a href="primeiras-instruções-do-tiago.html"><i class="fa fa-check"></i><b>2</b> Primeiras Instruções do Tiago</a><ul>
+<li class="chapter" data-level="2.1" data-path="primeiras-instruções-do-tiago.html"><a href="primeiras-instruções-do-tiago.html#é-preciso-de-início-conhecer-o-perfil-das-despesas-e-receitas-orçamentárias-desses-órgãos."><i class="fa fa-check"></i><b>2.1</b> É preciso de início conhecer o perfil das despesas e receitas orçamentárias desses órgãos.</a></li>
+<li class="chapter" data-level="2.2" data-path="primeiras-instruções-do-tiago.html"><a href="primeiras-instruções-do-tiago.html#como-fazer-isso-diretamente-a-partir-do-siafi"><i class="fa fa-check"></i><b>2.2</b> Como fazer isso diretamente a partir do Siafi?</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="primeiras-instruções-do-tiago.html"><a href="primeiras-instruções-do-tiago.html#movimentações-diárias-do-limite-de-saque-item-de-informação-limites-de-saque"><i class="fa fa-check"></i><b>2.2.1</b> Movimentações diárias do Limite de Saque (item de informação: “LIMITES DE SAQUE”)</a></li>
+<li class="chapter" data-level="2.2.2" data-path="primeiras-instruções-do-tiago.html"><a href="primeiras-instruções-do-tiago.html#pagamentos-diários-item-de-informação-pagamentos-totais"><i class="fa fa-check"></i><b>2.2.2</b> Pagamentos diários (item de informação: “PAGAMENTOS TOTAIS”)</a></li>
+<li class="chapter" data-level="2.2.3" data-path="primeiras-instruções-do-tiago.html"><a href="primeiras-instruções-do-tiago.html#movimentações-diárias-em-obrigações-a-pagar-item-de-informação-valores-liquidados-a-pagar-exercicio-rp"><i class="fa fa-check"></i><b>2.2.3</b> Movimentações diárias em obrigações a pagar (item de informação: “VALORES LIQUIDADOS A PAGAR (EXERCICIO + RP)”)</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="primeiras-instruções-do-tiago.html"><a href="primeiras-instruções-do-tiago.html#o-que-analisar"><i class="fa fa-check"></i><b>2.3</b> O que analisar?</a></li>
+<li class="chapter" data-level="2.4" data-path="primeiras-instruções-do-tiago.html"><a href="primeiras-instruções-do-tiago.html#questões-iniciais-a-serem-investigadas"><i class="fa fa-check"></i><b>2.4</b> Questões iniciais a serem investigadas</a></li>
+<li class="chapter" data-level="2.5" data-path="primeiras-instruções-do-tiago.html"><a href="primeiras-instruções-do-tiago.html#inspirações"><i class="fa fa-check"></i><b>2.5</b> Inspirações</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="bases-de-dados.html"><a href="bases-de-dados.html"><i class="fa fa-check"></i><b>3</b> Bases de dados</a></li>
+<li class="chapter" data-level="4" data-path="relatório-1-validação-e-compreensão-dos-dados.html"><a href="relatório-1-validação-e-compreensão-dos-dados.html"><i class="fa fa-check"></i><b>4</b> Relatório 1: Validação e Compreensão dos Dados</a><ul>
+<li class="chapter" data-level="4.1" data-path="relatório-1-validação-e-compreensão-dos-dados.html"><a href="relatório-1-validação-e-compreensão-dos-dados.html#introdução-1"><i class="fa fa-check"></i><b>4.1</b> Introdução</a></li>
+<li class="chapter" data-level="4.2" data-path="relatório-1-validação-e-compreensão-dos-dados.html"><a href="relatório-1-validação-e-compreensão-dos-dados.html#questões-elementares"><i class="fa fa-check"></i><b>4.2</b> Questões elementares</a></li>
+<li class="chapter" data-level="4.3" data-path="relatório-1-validação-e-compreensão-dos-dados.html"><a href="relatório-1-validação-e-compreensão-dos-dados.html#bases-de-dados-levantadas-para-endereçar-as-questões"><i class="fa fa-check"></i><b>4.3</b> Bases de dados levantadas para endereçar as questões</a></li>
+<li class="chapter" data-level="4.4" data-path="relatório-1-validação-e-compreensão-dos-dados.html"><a href="relatório-1-validação-e-compreensão-dos-dados.html#base-1-movimentações-diárias-do-limite-de-saque"><i class="fa fa-check"></i><b>4.4</b> Base 1: Movimentações diárias do Limite de Saque</a></li>
+<li class="chapter" data-level="4.5" data-path="relatório-1-validação-e-compreensão-dos-dados.html"><a href="relatório-1-validação-e-compreensão-dos-dados.html#base-2-pagamentos-diários"><i class="fa fa-check"></i><b>4.5</b> Base 2: Pagamentos diários</a></li>
+<li class="chapter" data-level="4.6" data-path="relatório-1-validação-e-compreensão-dos-dados.html"><a href="relatório-1-validação-e-compreensão-dos-dados.html#base-3-movimentações-diárias-em-obrigações-a-pagar"><i class="fa fa-check"></i><b>4.6</b> Base 3: Movimentações diárias em obrigações a pagar</a></li>
+<li class="chapter" data-level="4.7" data-path="relatório-1-validação-e-compreensão-dos-dados.html"><a href="relatório-1-validação-e-compreensão-dos-dados.html#tabelas-derivadas"><i class="fa fa-check"></i><b>4.7</b> Tabelas Derivadas</a><ul>
+<li class="chapter" data-level="4.7.1" data-path="relatório-1-validação-e-compreensão-dos-dados.html"><a href="relatório-1-validação-e-compreensão-dos-dados.html#disponibilidades-líquidas-diárias"><i class="fa fa-check"></i><b>4.7.1</b> Disponibilidades líquidas Diárias</a></li>
+<li class="chapter" data-level="4.7.2" data-path="relatório-1-validação-e-compreensão-dos-dados.html"><a href="relatório-1-validação-e-compreensão-dos-dados.html#vinculação-de-pagamentos"><i class="fa fa-check"></i><b>4.7.2</b> Vinculação de Pagamentos</a></li>
+<li class="chapter" data-level="4.7.3" data-path="relatório-1-validação-e-compreensão-dos-dados.html"><a href="relatório-1-validação-e-compreensão-dos-dados.html#limimtes-de-saque-por-tipo-de-documento"><i class="fa fa-check"></i><b>4.7.3</b> Limimtes de Saque Por Tipo De Documento</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="título-a.html"><a href="título-a.html"><i class="fa fa-check"></i><b>5</b> Título A</a></li>
+<li class="chapter" data-level="" data-path="referências.html"><a href="referências.html"><i class="fa fa-check"></i>Referências</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado com bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="primeiras-instruções-do-tiago" class="section level1">
+<h1><span class="header-section-number">Capítulo 2</span> Primeiras Instruções do Tiago</h1>
+<p>A ideia deste projeto é analisar o comportamento do caixa e das obrigações financeiras dos órgãos federais, com a finalidade de fornecer informações para a gestão da programação financeira por parte do Tesouro Nacional, além de identificar oportunidades de melhorias nesse processo, e possivelmente fundamentar a criação de indicadores para avaliação da gestão financeira das unidades do Governo Federal.</p>
+<p>Vamos elencar aqui alguns aspectos, ou componentes, importantes do projeto, sem uma ordem específica.</p>
+<div id="é-preciso-de-início-conhecer-o-perfil-das-despesas-e-receitas-orçamentárias-desses-órgãos." class="section level2">
+<h2><span class="header-section-number">2.1</span> É preciso de início conhecer o perfil das despesas e receitas orçamentárias desses órgãos.</h2>
+<p>Vamos começar com um perfil das despesas do Ministério da Justiça (que já tem um excelente sistema de acompanhamento das despesas).</p>
+<p><strong>Tentar compatibilizar as informações orçamentárias (classificações como função, subfunção, ação, grupo de despesa, indicadores orçamentários etc.) com as informações financeiras (vinculação de pagamento, essencialmente).</strong></p>
+<p>O que estamos chamando de <em>classificadores orçamentários</em>: Função, Subfunção, Programa, Ação, Grupo de Despesa, Modalidade de Aplicação, Elemento de Despesa, Indicador de Resultado EOF, Indicador de Exceção Decreto.</p>
+<p>O que estamos chamando de <em>classificadores financeiros</em>: Vinculação de Pagamento, essencialmente.</p>
+<p>A <em>fonte de recurso</em> é um caso especial, é um classificador comum a esses dois contextos, orçamentário e financeiro.</p>
+</div>
+<div id="como-fazer-isso-diretamente-a-partir-do-siafi" class="section level2">
+<h2><span class="header-section-number">2.2</span> Como fazer isso diretamente a partir do Siafi?</h2>
+<p>Algumas ideias, a serem testadas:</p>
+<ul>
+<li><p>analisar as despesas pagas, pelos classificadores, pelo número da nota de empenho e pelo número do documento de pagamento; e relacionar documento de pagamento x nota de empenho x vinculação de pagamento pelo campo “inscrição” do documento de pagamento.</p></li>
+<li><p>analisar as despesas pagas, pelos classificadores, pelo número da nota de empenho e pelo número do documento de pagamento; e tentar compatibilizar com as informações dos pagamentos efetuados, por vinculação de pagamento e número do documento de pegamento.</p></li>
+<li><p>Mais simples: parecido com o anterior, a partir da tabela com as despesas pagas detalhadas pelos classificadores orçamentários, empenho e documento de pagamento, buscar a <em>vinculação de pagamento</em> de uma tabela com toda a movimentação do limite de saque detalhada por documento. Assim, quando a movimentação do limite de saque for um pagamento, o documento correspondente, um documento de pagamento, pode ser usado como chave para relacionar as duas tabelas.</p></li>
+</ul>
+<p>Teríamos então três extrações: uma para a movimentação no caixa e outras duas, semelhantes em termos de detalhamentos, para os pagamentos totais e para as obrigações a pagar. A relação dos campos está simplificada, e os campos <strong>destacados</strong> são aqueles que só aparecem na tabela 1, ou que só aparecem nas tabelas 2 e 3.</p>
+<div id="movimentações-diárias-do-limite-de-saque-item-de-informação-limites-de-saque" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> Movimentações diárias do Limite de Saque (item de informação: “LIMITES DE SAQUE”)</h3>
+<ul>
+<li>Órgão Máximo</li>
+<li>Órgão</li>
+<li>UG</li>
+<li><strong>Vinculação de Pagamento</strong></li>
+<li>Fonte Detalhada</li>
+<li>Fonte (posições 3 e 4 da fonte detalhada – exemplo: se a fonte detalhada é: <code>0100123456</code>, a fonte será <code>00</code>)</li>
+<li>Documento Lançamento [chave para fazer a junção com tabela (2)]</li>
+<li>Movimento / Valor Financeiro</li>
+</ul>
+</div>
+<div id="pagamentos-diários-item-de-informação-pagamentos-totais" class="section level3">
+<h3><span class="header-section-number">2.2.2</span> Pagamentos diários (item de informação: “PAGAMENTOS TOTAIS”)</h3>
+<ul>
+<li>Órgão Máximo</li>
+<li>Órgão</li>
+<li>UG</li>
+<li>Fonte Detalhada</li>
+<li>Fonte (posições 3 e 4 da fonte detalhada – exemplo: se a fonte detalhada é: <code>0100123456</code>, a fonte será <code>00</code>)</li>
+<li><strong>Função</strong></li>
+<li><strong>Subfunção</strong></li>
+<li><strong>Programa</strong></li>
+<li><strong>Ação</strong></li>
+<li><strong>Grupo de Despesa</strong></li>
+<li><strong>Modalidade de Aplicação</strong></li>
+<li><strong>Elemento de Despesa</strong></li>
+<li><strong>Indicador de Resultado EOF</strong> (indica se a despesa é primária ou financeira, entre outras coisas)</li>
+<li><strong>Indicador de Exceção Decreto</strong></li>
+<li><strong>Ano do Empenho</strong></li>
+<li><strong>Empenho</strong></li>
+<li><strong>Órgão Máximo da UO</strong> (o “dono” original do orçamento, que pode ter sido em algum momento “descentralizado”, isto é, transferido, para um óutro “Órgão Máximo” – ou seja, se o Órgão Máximo da UO é diferente do Órgão Máximo, significa que a unidade está realizando uma despesa com orçamento de outro órgão)</li>
+<li>Documento Lançamento [chave para fazer a junção com tabela (1)]</li>
+<li>Movimento / Valor Financeiro</li>
+</ul>
+</div>
+<div id="movimentações-diárias-em-obrigações-a-pagar-item-de-informação-valores-liquidados-a-pagar-exercicio-rp" class="section level3">
+<h3><span class="header-section-number">2.2.3</span> Movimentações diárias em obrigações a pagar (item de informação: “VALORES LIQUIDADOS A PAGAR (EXERCICIO + RP)”)</h3>
+<ul>
+<li>Órgão Máximo</li>
+<li>Órgão</li>
+<li>UG</li>
+<li>Fonte Detalhada</li>
+<li>Fonte (posições 3 e 4 da fonte detalhada – exemplo: se a fonte detalhada é: <code>0100123456</code>, a fonte será <code>00</code>)</li>
+<li><strong>Função</strong></li>
+<li><strong>Subfunção</strong></li>
+<li><strong>Programa</strong></li>
+<li><strong>Ação</strong></li>
+<li><strong>Grupo de Despesa</strong></li>
+<li><strong>Modalidade de Aplicação</strong></li>
+<li><strong>Elemento de Despesa</strong></li>
+<li><strong>Indicador de Resultado EOF</strong> (indica se a despesa é primária ou financeira, entre outras coisas)</li>
+<li><strong>Indicador de Exceção Decreto</strong></li>
+<li><strong>Ano do Empenho</strong></li>
+<li><strong>Empenho</strong></li>
+<li><strong>Órgão Máximo da UO</strong> (o “dono” original do orçamento, que pode ter sido em algum momento “descentralizado”, isto é, transferido, para um óutro “Órgão Máximo” – ou seja, se o Órgão Máximo da UO é diferente do Órgão Máximo, significa que a unidade está realizando uma despesa com orçamento de outro órgão)</li>
+<li>Documento Lançamento (acho que não será necessário)</li>
+<li>Movimento / Valor Financeiro</li>
+</ul>
+</div>
+</div>
+<div id="o-que-analisar" class="section level2">
+<h2><span class="header-section-number">2.3</span> O que analisar?</h2>
+<p>Com <strong>(1)</strong> e <strong>(3)</strong> podemos obter os saldos diários do caixa (tabela <strong>(1)</strong>) e das obrigações a pagar (tabela <strong>(3)</strong>) – e calcular a <em>disponibilidade líquida diária</em>, como sendo o saldo do caixa (item “LIMITES DE SAQUE”) subtraído das obrigações a pagar (item “VALORES LIQUIDADOS A PAGAR (EXERCICIO + RP)”)–, para cada unidade gestora ou órgão, e para cada fonte de recursos. Para isso sumarizaríamos os dados por DIA_LANC, UG, ORGAO, FONTE e ITEM_INFORMACAO. Essa seria a tabela <strong>(i)</strong>.</p>
+<p>Com <strong>(1)</strong> e <strong>(2)</strong> poderíamos relacionar, no contexto dos pagamentos, as informações orçamentárias com as vinculações de pagamento, obtendo uma tabela <strong>(ii)</strong>. Partiríamos de <strong>(2)</strong> e faríamos um join com <strong>(1)</strong>, por “Documento de Lançamento”, para trazer a “Vinculação de Pagamento” da tabela <strong>(1)</strong> (acho que seria interessante trazer também o campo de Movimento / Valor da tabela <strong>(1)</strong>, porque pode acontecer de um mesmo pagamento ter utilizado mais de uma <em>vinculação de pagamento</em>. Nesse caso, o valor mostrado na tabela <strong>(2)</strong> seria o valor consolidado, e precisaríamos do ).</p>
+<p>Finalmente com <strong>(1)</strong>, podemos analisar as movimentações para tipo de documento, obtendo um histórico das movimentações de cada órgão e cada UG, a que chamaremos de <strong>(iii)</strong>.</p>
+</div>
+<div id="questões-iniciais-a-serem-investigadas" class="section level2">
+<h2><span class="header-section-number">2.4</span> Questões iniciais a serem investigadas</h2>
+<ol style="list-style-type: lower-alpha">
+<li>Qual o comportamento do caixa e das obrigações a pagar (e da disponibilidade líquida) no período analisado? Por órgão? Por unidade? Por fonte? Por unidade e por fonte? (Tabela (i))</li>
+</ol>
+<p>(semelhante ao que foi feito superficialmente <a href="https://github.com/TesouroNacional/puddles-puddles">aqui</a>, só que melhor, com mais rigor.)</p>
+<p>a1. Há casos em que unidades de um mesmo órgão permanecem com disponibilidade líquida negativa, enquanto outras unidades desse mesmo órgão estão com disponibilidade positiva? E se levarmos em consideração a fonte de recursos, há casos em que o órgão passa por períodos com disponibilidade negativa numa fonte, enquanto há recursos disponíveis em outra fonte? E se levarmos em consideração as duas coisas (unidade + fonte: ou seja, uma unidade de um mesmo órgão fica com disponibilidade negativa numa fonte, enquanto outra unidade desse mesmo órgão possui disponibilidade positiva nessa mesma fonte?)</p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li><p>A partir de (ii), como as classificações orçamentárias se relacionam com as classificações financeiras? Especificamente, é possível identificar certos tipos de despesas que são sempre (ou frequentemente) pagas com recursos de determinadas vinculações?</p></li>
+<li><p>Se for possível a identificação mencionada em (b), então, poderíamos fazer uma versão de (i) em que os dados estariam detalhados também por <em>vinculação de pagamento</em> e alguns <em>classificadores orçamentários</em>. Com o resultado de (b), poderíamos então refinar (a) e (a1), estimando a disponibilidade líquida para cada vinculação, considerando as classificações orçamentárias das obrigações. Por exemplo, a unidade pode ter saldo suficiente para cobrir todas as suas obrigações; mas, quando se analisam na prática que vinculações costumam pagar que obrigações (algo obtido de (b)), pode-se observar que na verdade há suficiência em algumas vinculações, mas insuficiência em outras.</p></li>
+<li><p>Qual o comportamento do caixa das unidades, em termos de movimentações? Para isso, podemos considerar os seguintes tipos de movimentações (sete, por enquanto), de acordo com o sinal do valor da movimentação, e do tipo do documento de lançamento (posições 16 e 17 do campo <code>ID_DOCUMENTO</code>):</p></li>
+</ol>
+<ul>
+<li>Receitas próprias - movimentos positivos por RAs;</li>
+<li>Recebimentos de recursos financeiros - movimentos positivos por PFs;</li>
+<li>Anulações de pagamentos - movimentos positivos por DF, DR, GF, GP, GR ou OB;</li>
+<li>Ajustes contábeis - movimentos por NS;</li>
+<li>Pagamentos - movimentos negativos por DF, DR, GF, GP, GR ou OB;</li>
+<li>Ajustes na receita arrecadada (anulações, retificações etc.): movimentos negativos por RA; e</li>
+<li>Liberações de recursos para outros órgãos - movimentos negativos por PFs.</li>
+</ul>
+<ol start="5" style="list-style-type: lower-alpha">
+<li>Provavelmente vamos observar grandes recebimentos de recursos financeiros seguidos por grandes despesas. Nesses casos, em geral, qual o intervalo entre essas duas operações?</li>
+</ol>
+</div>
+<div id="inspirações" class="section level2">
+<h2><span class="header-section-number">2.5</span> Inspirações</h2>
+<p>NatGeo immigrations. Pode ser interessante fazer algo semelhante para visualizar e comparar o saldo diário das unidades.</p>
+<p><img src="natgeo.jpg" /></p>
+<p><a href="https://twitter.com/aLucasLopez/status/1153646875427385344?s=20" class="uri">https://twitter.com/aLucasLopez/status/1153646875427385344?s=20</a></p>
+<p>Para mostrar a composição das despesas, vamos usar um diagrama de bolhas em D3 semelhante <a href="https://vallandingham.me/bubble_charts_with_d3v4.html">ao do Jim Vallandingham</a>.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="bases-de-dados.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="book_assets/gitbook-2.6.7/js/app.min.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/lunr.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/01-instrucoes_tiago.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
