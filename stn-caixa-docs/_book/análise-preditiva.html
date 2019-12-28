@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 3 Análise preditiva | Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)</title>
+  <meta name="description" content="STN-Caixa" />
+  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 3 Análise preditiva | Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="STN-Caixa" />
+  <meta name="github-repo" content="curso-r/stn-caixa" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 3 Análise preditiva | Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)" />
+  
+  <meta name="twitter:description" content="STN-Caixa" />
+  
+
+<meta name="author" content="R6 Estatística e Treinamentos LTDA" />
+
+
+<meta name="date" content="2019-12-27" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="análise-descritiva.html"/>
+<link rel="next" href="oficina-de-repasses-e-implementação-dos-produtos.html"/>
+<script src="book_assets/jquery-2.2.3/jquery.min.js"></script>
+<link href="book_assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Relatório de análise de dados</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introdução</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#questões-investigadas"><i class="fa fa-check"></i><b>1.1</b> Questões investigadas</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#as-bases-de-dados"><i class="fa fa-check"></i><b>1.2</b> As bases de dados</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="análise-descritiva.html"><a href="análise-descritiva.html"><i class="fa fa-check"></i><b>2</b> Análise descritiva</a></li>
+<li class="chapter" data-level="3" data-path="análise-preditiva.html"><a href="análise-preditiva.html"><i class="fa fa-check"></i><b>3</b> Análise preditiva</a></li>
+<li class="chapter" data-level="4" data-path="oficina-de-repasses-e-implementação-dos-produtos.html"><a href="oficina-de-repasses-e-implementação-dos-produtos.html"><i class="fa fa-check"></i><b>4</b> Oficina de repasses e implementação dos produtos</a></li>
+<li class="chapter" data-level="5" data-path="validação-e-compreensão-dos-dados.html"><a href="validação-e-compreensão-dos-dados.html"><i class="fa fa-check"></i><b>5</b> Validação e Compreensão dos Dados</a><ul>
+<li class="chapter" data-level="5.1" data-path="validação-e-compreensão-dos-dados.html"><a href="validação-e-compreensão-dos-dados.html#introdução-1"><i class="fa fa-check"></i><b>5.1</b> Introdução</a></li>
+<li class="chapter" data-level="5.2" data-path="validação-e-compreensão-dos-dados.html"><a href="validação-e-compreensão-dos-dados.html#questões-elementares"><i class="fa fa-check"></i><b>5.2</b> Questões elementares</a></li>
+<li class="chapter" data-level="5.3" data-path="validação-e-compreensão-dos-dados.html"><a href="validação-e-compreensão-dos-dados.html#bases-de-dados-levantadas-para-endereçar-as-questões"><i class="fa fa-check"></i><b>5.3</b> Bases de dados levantadas para endereçar as questões</a></li>
+<li class="chapter" data-level="5.4" data-path="validação-e-compreensão-dos-dados.html"><a href="validação-e-compreensão-dos-dados.html#base-1-movimentações-diárias-do-limite-de-saque"><i class="fa fa-check"></i><b>5.4</b> Base 1: Movimentações diárias do Limite de Saque</a></li>
+<li class="chapter" data-level="5.5" data-path="validação-e-compreensão-dos-dados.html"><a href="validação-e-compreensão-dos-dados.html#base-2-pagamentos-diários"><i class="fa fa-check"></i><b>5.5</b> Base 2: Pagamentos diários</a></li>
+<li class="chapter" data-level="5.6" data-path="validação-e-compreensão-dos-dados.html"><a href="validação-e-compreensão-dos-dados.html#base-3-movimentações-diárias-em-obrigações-a-pagar"><i class="fa fa-check"></i><b>5.6</b> Base 3: Movimentações diárias em obrigações a pagar</a></li>
+<li class="chapter" data-level="5.7" data-path="validação-e-compreensão-dos-dados.html"><a href="validação-e-compreensão-dos-dados.html#tabelas-derivadas"><i class="fa fa-check"></i><b>5.7</b> Tabelas Derivadas</a><ul>
+<li class="chapter" data-level="5.7.1" data-path="validação-e-compreensão-dos-dados.html"><a href="validação-e-compreensão-dos-dados.html#disponibilidades-líquidas-diárias"><i class="fa fa-check"></i><b>5.7.1</b> Disponibilidades líquidas Diárias</a></li>
+<li class="chapter" data-level="5.7.2" data-path="validação-e-compreensão-dos-dados.html"><a href="validação-e-compreensão-dos-dados.html#vinculação-de-pagamentos"><i class="fa fa-check"></i><b>5.7.2</b> Vinculação de Pagamentos</a></li>
+<li class="chapter" data-level="5.7.3" data-path="validação-e-compreensão-dos-dados.html"><a href="validação-e-compreensão-dos-dados.html#limimtes-de-saque-por-tipo-de-documento"><i class="fa fa-check"></i><b>5.7.3</b> Limimtes de Saque Por Tipo De Documento</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="quadro-analítico-histórico.html"><a href="quadro-analítico-histórico.html"><i class="fa fa-check"></i><b>6</b> Quadro analítico histórico</a></li>
+<li class="chapter" data-level="7" data-path="quadro-analítico-preditivo.html"><a href="quadro-analítico-preditivo.html"><i class="fa fa-check"></i><b>7</b> Quadro analítico preditivo</a></li>
+<li class="chapter" data-level="" data-path="referências.html"><a href="referências.html"><i class="fa fa-check"></i>Referências</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado com bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="análise-preditiva" class="section level1">
+<h1><span class="header-section-number">Capítulo 3</span> Análise preditiva</h1>
+<p>Os modelos utilizados neste projeto consideraram os métodos em estado da arte dentro do contexto de modelagem preditiva, como florestas aleatórias, o algorítmo XGBoost e redes neurais.</p>
+<p>A descrição dos modelos ajustados e seus resultados se encontram no Capítulo 4.</p>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="análise-descritiva.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="oficina-de-repasses-e-implementação-dos-produtos.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="book_assets/gitbook-2.6.7/js/app.min.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/lunr.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

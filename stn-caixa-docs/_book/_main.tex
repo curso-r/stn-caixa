@@ -24,7 +24,7 @@
 \usepackage{hyperref}
 \hypersetup{unicode=true,
             pdftitle={Documentação do projeto `Execução Orçamentária e Financeira do Governo Federal' (``Projeto Caixa'')},
-            pdfauthor={R6 Estatística},
+            pdfauthor={R6 Estatística e Treinamentos LTDA},
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
@@ -79,12 +79,12 @@
   \title{Documentação do projeto `Execução Orçamentária e Financeira do Governo Federal' (``Projeto Caixa'')}
     \pretitle{\vspace{\droptitle}\centering\huge}
   \posttitle{\par}
-    \author{R6 Estatística}
+    \author{R6 Estatística e Treinamentos LTDA}
     \preauthor{\centering\large\emph}
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2019-12-26}
+    \date{2019-12-27}
 
 \usepackage{booktabs}
 \usepackage{amsthm}
@@ -105,231 +105,103 @@
 \hypertarget{introduuxe7uxe3o}{%
 \chapter{Introdução}\label{introduuxe7uxe3o}}
 
-\hypertarget{primeiras-instruuxe7uxf5es-do-tiago}{%
-\section{Primeiras Instruções do Tiago}\label{primeiras-instruuxe7uxf5es-do-tiago}}
+O objetivo deste projeto é analisar o comportamento do caixa e das obrigações financeiras dos órgãos federais, com a finalidade de fornecer informações para a gestão da programação financeira por parte do Tesouro Nacional, além de identificar oportunidades de melhorias nesse processo, e possivelmente fundamentar a criação de indicadores para avaliação da gestão financeira das unidades do Governo Federal.
 
-A ideia deste projeto é analisar o comportamento do caixa e das obrigações financeiras dos órgãos federais, com a finalidade de fornecer informações para a gestão da programação financeira por parte do Tesouro Nacional, além de identificar oportunidades de melhorias nesse processo, e possivelmente fundamentar a criação de indicadores para avaliação da gestão financeira das unidades do Governo Federal.
+Elencamos aqui alguns aspectos importantes do projeto.
 
-Vamos elencar aqui alguns aspectos, ou componentes, importantes do projeto, sem uma ordem específica.
+\hypertarget{questuxf5es-investigadas}{%
+\section{Questões investigadas}\label{questuxf5es-investigadas}}
 
-\hypertarget{uxe9-preciso-de-inuxedcio-conhecer-o-perfil-das-despesas-e-receitas-oruxe7amentuxe1rias-desses-uxf3rguxe3os.}{%
-\section{É preciso de início conhecer o perfil das despesas e receitas orçamentárias desses órgãos.}\label{uxe9-preciso-de-inuxedcio-conhecer-o-perfil-das-despesas-e-receitas-oruxe7amentuxe1rias-desses-uxf3rguxe3os.}}
+De início, analisamos o perfil das despesas e receitas das unidades do Governo Federal, começando com os órgãos do Ministério da Justiça (que já possui um sistema de acompanhamento de despesas bem estruturado).
 
-Vamos começar com um perfil das despesas do Ministério da Justiça (que já tem um excelente sistema de acompanhamento das despesas).
+A análise procurou compatibilizar as informações orçamentárias com as informações financeiras. Chamamos de \emph{classificadores orçamentários}: Função, Subfunção, Programa, Ação, Grupo de Despesa, Modalidade de Aplicação, Elemento de Despesa, Indicador de Resultado EOF, Indicador de Exceção Decreto. Como \emph{classificadores financeiros}, nos referimos, essencialmente, à Vinculação de Pagamento.
 
-\textbf{Tentar compatibilizar as informações orçamentárias (classificações como função, subfunção, ação, grupo de despesa, indicadores orçamentários etc.) com as informações financeiras (vinculação de pagamento, essencialmente).}
+A \emph{Fonte de Recurso} é um classificador comum a esses dois contextos, orçamentário e financeiro.
 
-O que estamos chamando de \emph{classificadores orçamentários}: Função, Subfunção, Programa, Ação, Grupo de Despesa, Modalidade de Aplicação, Elemento de Despesa, Indicador de Resultado EOF, Indicador de Exceção Decreto.
-
-O que estamos chamando de \emph{classificadores financeiros}: Vinculação de Pagamento, essencialmente.
-
-A \emph{fonte de recurso} é um caso especial, é um classificador comum a esses dois contextos, orçamentário e financeiro.
-
-\hypertarget{como-fazer-isso-diretamente-a-partir-do-siafi}{%
-\section{Como fazer isso diretamente a partir do Siafi?}\label{como-fazer-isso-diretamente-a-partir-do-siafi}}
-
-Algumas ideias, a serem testadas:
-
-\begin{itemize}
-\item
-  analisar as despesas pagas, pelos classificadores, pelo número da nota de empenho e pelo número do documento de pagamento; e relacionar documento de pagamento x nota de empenho x vinculação de pagamento pelo campo ``inscrição'' do documento de pagamento.
-\item
-  analisar as despesas pagas, pelos classificadores, pelo número da nota de empenho e pelo número do documento de pagamento; e tentar compatibilizar com as informações dos pagamentos efetuados, por vinculação de pagamento e número do documento de pegamento.
-\item
-  Mais simples: parecido com o anterior, a partir da tabela com as despesas pagas detalhadas pelos classificadores orçamentários, empenho e documento de pagamento, buscar a \emph{vinculação de pagamento} de uma tabela com toda a movimentação do limite de saque detalhada por documento. Assim, quando a movimentação do limite de saque for um pagamento, o documento correspondente, um documento de pagamento, pode ser usado como chave para relacionar as duas tabelas.
-\end{itemize}
-
-Teríamos então três extrações: uma para a movimentação no caixa e outras duas, semelhantes em termos de detalhamentos, para os pagamentos totais e para as obrigações a pagar. A relação dos campos está simplificada, e os campos \textbf{destacados} são aqueles que só aparecem na tabela 1, ou que só aparecem nas tabelas 2 e 3.
-
-\hypertarget{movimentauxe7uxf5es-diuxe1rias-do-limite-de-saque-item-de-informauxe7uxe3o-limites-de-saque}{%
-\subsection{Movimentações diárias do Limite de Saque (item de informação: ``LIMITES DE SAQUE'')}\label{movimentauxe7uxf5es-diuxe1rias-do-limite-de-saque-item-de-informauxe7uxe3o-limites-de-saque}}
-
-\begin{itemize}
-\tightlist
-\item
-  Órgão Máximo
-\item
-  Órgão
-\item
-  UG
-\item
-  \textbf{Vinculação de Pagamento}
-\item
-  Fonte Detalhada
-\item
-  Fonte (posições 3 e 4 da fonte detalhada -- exemplo: se a fonte detalhada é: \texttt{0100123456}, a fonte será \texttt{00})
-\item
-  Documento Lançamento {[}chave para fazer a junção com tabela (2){]}
-\item
-  Movimento / Valor Financeiro
-\end{itemize}
-
-\hypertarget{pagamentos-diuxe1rios-item-de-informauxe7uxe3o-pagamentos-totais}{%
-\subsection{Pagamentos diários (item de informação: ``PAGAMENTOS TOTAIS'')}\label{pagamentos-diuxe1rios-item-de-informauxe7uxe3o-pagamentos-totais}}
-
-\begin{itemize}
-\tightlist
-\item
-  Órgão Máximo
-\item
-  Órgão
-\item
-  UG
-\item
-  Fonte Detalhada
-\item
-  Fonte (posições 3 e 4 da fonte detalhada -- exemplo: se a fonte detalhada é: \texttt{0100123456}, a fonte será \texttt{00})
-\item
-  \textbf{Função}
-\item
-  \textbf{Subfunção}
-\item
-  \textbf{Programa}
-\item
-  \textbf{Ação}
-\item
-  \textbf{Grupo de Despesa}
-\item
-  \textbf{Modalidade de Aplicação}
-\item
-  \textbf{Elemento de Despesa}
-\item
-  \textbf{Indicador de Resultado EOF} (indica se a despesa é primária ou financeira, entre outras coisas)
-\item
-  \textbf{Indicador de Exceção Decreto}
-\item
-  \textbf{Ano do Empenho}
-\item
-  \textbf{Empenho}
-\item
-  \textbf{Órgão Máximo da UO} (o ``dono'' original do orçamento, que pode ter sido em algum momento ``descentralizado'', isto é, transferido, para um óutro ``Órgão Máximo'' -- ou seja, se o Órgão Máximo da UO é diferente do Órgão Máximo, significa que a unidade está realizando uma despesa com orçamento de outro órgão)
-\item
-  Documento Lançamento {[}chave para fazer a junção com tabela (1){]}
-\item
-  Movimento / Valor Financeiro
-\end{itemize}
-
-\hypertarget{movimentauxe7uxf5es-diuxe1rias-em-obrigauxe7uxf5es-a-pagar-item-de-informauxe7uxe3o-valores-liquidados-a-pagar-exercicio-rp}{%
-\subsection{Movimentações diárias em obrigações a pagar (item de informação: ``VALORES LIQUIDADOS A PAGAR (EXERCICIO + RP)'')}\label{movimentauxe7uxf5es-diuxe1rias-em-obrigauxe7uxf5es-a-pagar-item-de-informauxe7uxe3o-valores-liquidados-a-pagar-exercicio-rp}}
-
-\begin{itemize}
-\tightlist
-\item
-  Órgão Máximo
-\item
-  Órgão
-\item
-  UG
-\item
-  Fonte Detalhada
-\item
-  Fonte (posições 3 e 4 da fonte detalhada -- exemplo: se a fonte detalhada é: \texttt{0100123456}, a fonte será \texttt{00})
-\item
-  \textbf{Função}
-\item
-  \textbf{Subfunção}
-\item
-  \textbf{Programa}
-\item
-  \textbf{Ação}
-\item
-  \textbf{Grupo de Despesa}
-\item
-  \textbf{Modalidade de Aplicação}
-\item
-  \textbf{Elemento de Despesa}
-\item
-  \textbf{Indicador de Resultado EOF} (indica se a despesa é primária ou financeira, entre outras coisas)
-\item
-  \textbf{Indicador de Exceção Decreto}
-\item
-  \textbf{Ano do Empenho}
-\item
-  \textbf{Empenho}
-\item
-  \textbf{Órgão Máximo da UO} (o ``dono'' original do orçamento, que pode ter sido em algum momento ``descentralizado'', isto é, transferido, para um óutro ``Órgão Máximo'' -- ou seja, se o Órgão Máximo da UO é diferente do Órgão Máximo, significa que a unidade está realizando uma despesa com orçamento de outro órgão)
-\item
-  Documento Lançamento (acho que não será necessário)
-\item
-  Movimento / Valor Financeiro
-\end{itemize}
-
-\hypertarget{o-que-analisar}{%
-\section{O que analisar?}\label{o-que-analisar}}
-
-Com \textbf{(1)} e \textbf{(3)} podemos obter os saldos diários do caixa (tabela \textbf{(1)}) e das obrigações a pagar (tabela \textbf{(3)}) -- e calcular a \emph{disponibilidade líquida diária}, como sendo o saldo do caixa (item ``LIMITES DE SAQUE'') subtraído das obrigações a pagar (item ``VALORES LIQUIDADOS A PAGAR (EXERCICIO + RP)'')--, para cada unidade gestora ou órgão, e para cada fonte de recursos. Para isso sumarizaríamos os dados por DIA\_LANC, UG, ORGAO, FONTE e ITEM\_INFORMACAO. Essa seria a tabela \textbf{(i)}.
-
-Com \textbf{(1)} e \textbf{(2)} poderíamos relacionar, no contexto dos pagamentos, as informações orçamentárias com as vinculações de pagamento, obtendo uma tabela \textbf{(ii)}. Partiríamos de \textbf{(2)} e faríamos um join com \textbf{(1)}, por ``Documento de Lançamento'', para trazer a ``Vinculação de Pagamento'' da tabela \textbf{(1)} (acho que seria interessante trazer também o campo de Movimento / Valor da tabela \textbf{(1)}, porque pode acontecer de um mesmo pagamento ter utilizado mais de uma \emph{vinculação de pagamento}. Nesse caso, o valor mostrado na tabela \textbf{(2)} seria o valor consolidado, e precisaríamos do ).
-
-Finalmente com \textbf{(1)}, podemos analisar as movimentações para tipo de documento, obtendo um histórico das movimentações de cada órgão e cada UG, a que chamaremos de \textbf{(iii)}.
-
-\hypertarget{questuxf5es-iniciais-a-serem-investigadas}{%
-\section{Questões iniciais a serem investigadas}\label{questuxf5es-iniciais-a-serem-investigadas}}
+Com esse escopo em mente, em parceria com a equipe do GT-CEAD, as seguintes questões foram abordadas neste projeto:
 
 \begin{enumerate}
 \def\labelenumi{\alph{enumi}.}
-\tightlist
 \item
-  Qual o comportamento do caixa e das obrigações a pagar (e da disponibilidade líquida) no período analisado? Por órgão? Por unidade? Por fonte? Por unidade e por fonte? (Tabela (i))
+  Qual o comportamento do caixa e das obrigações a pagar (e da disponibilidade líquida) no período analisado\footnote{Por órgão, por unidade e por fonte de recursos.}?
+\item
+  Existem casos em que unidades de um mesmo órgão permanecem com disponibilidade líquida negativa, enquanto outras unidades desse mesmo órgão encontram-se com disponibilidade positiva? E se considerar a fonte de recursos, há casos em que o órgão passa por períodos com disponibilidade negativa em uma fonte enquanto há recursos disponíveis em outra fonte? E se considerar as duas situações conjuntamente\footnote{Ou seja, uma unidade de um mesmo órgão fica com disponibilidade negativa em uma fonte, enquanto outra unidade desse mesmo órgão possui disponibilidade positiva nessa mesma fonte.}?
+\item
+  Como as classificações orçamentárias se relacionam com as classificações financeiras? Especificamente, é possível identificar certos tipos de despesas que são sempre (ou frequentemente) pagas com recursos de determinadas vinculações?
+\item
+  Caso seja possível a identificação mencionada em (c), as questões (a) e (b) seriam revisitadas para estimar a disponibilidade líquida para cada vinculação, considerando as classificações orçamentárias das obrigações. Nesse cenário, existem unidades com saldo total suficiente para cobrir todas as suas obrigações, porém com insuficiência em algumas vinculações?
+\item
+  Qual o comportamento do caixa das unidades em termos de movimentações?
+\item
+  Qual o intervalo entre duas operações\footnote{Uma despesa alta seguida de um recebimento de recursos também alto.} de grande porte?
 \end{enumerate}
 
-(semelhante ao que foi feito superficialmente \href{https://github.com/TesouroNacional/puddles-puddles}{aqui}, só que melhor, com mais rigor.)
+Para responder essas perguntas, utilizamos ferramentas descritivas e de modelagem preditiva, descritas nos Capítulos 3 e 4, respectivamente.
 
-a1. Há casos em que unidades de um mesmo órgão permanecem com disponibilidade líquida negativa, enquanto outras unidades desse mesmo órgão estão com disponibilidade positiva? E se levarmos em consideração a fonte de recursos, há casos em que o órgão passa por períodos com disponibilidade negativa numa fonte, enquanto há recursos disponíveis em outra fonte? E se levarmos em consideração as duas coisas (unidade + fonte: ou seja, uma unidade de um mesmo órgão fica com disponibilidade negativa numa fonte, enquanto outra unidade desse mesmo órgão possui disponibilidade positiva nessa mesma fonte?)
+\hypertarget{as-bases-de-dados}{%
+\section{As bases de dados}\label{as-bases-de-dados}}
 
-\begin{enumerate}
-\def\labelenumi{\alph{enumi}.}
-\setcounter{enumi}{1}
-\item
-  A partir de (ii), como as classificações orçamentárias se relacionam com as classificações financeiras? Especificamente, é possível identificar certos tipos de despesas que são sempre (ou frequentemente) pagas com recursos de determinadas vinculações?
-\item
-  Se for possível a identificação mencionada em (b), então, poderíamos fazer uma versão de (i) em que os dados estariam detalhados também por \emph{vinculação de pagamento} e alguns \emph{classificadores orçamentários}. Com o resultado de (b), poderíamos então refinar (a) e (a1), estimando a disponibilidade líquida para cada vinculação, considerando as classificações orçamentárias das obrigações. Por exemplo, a unidade pode ter saldo suficiente para cobrir todas as suas obrigações; mas, quando se analisam na prática que vinculações costumam pagar que obrigações (algo obtido de (b)), pode-se observar que na verdade há suficiência em algumas vinculações, mas insuficiência em outras.
-\item
-  Qual o comportamento do caixa das unidades, em termos de movimentações? Para isso, podemos considerar os seguintes tipos de movimentações (sete, por enquanto), de acordo com o sinal do valor da movimentação, e do tipo do documento de lançamento (posições 16 e 17 do campo \texttt{ID\_DOCUMENTO}):
-\end{enumerate}
+Para responder as questões levantadas no item anterior, os dados do SIAFI foram divididos em três bases de dados:
 
 \begin{itemize}
-\tightlist
 \item
-  Receitas próprias - movimentos positivos por RAs;
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    base de movimentações diárias do limite de saque;
+  \end{enumerate}
 \item
-  Recebimentos de recursos financeiros - movimentos positivos por PFs;
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \setcounter{enumi}{1}
+  \tightlist
+  \item
+    base de pagamentos diários;
+  \end{enumerate}
 \item
-  Anulações de pagamentos - movimentos positivos por DF, DR, GF, GP, GR ou OB;
-\item
-  Ajustes contábeis - movimentos por NS;
-\item
-  Pagamentos - movimentos negativos por DF, DR, GF, GP, GR ou OB;
-\item
-  Ajustes na receita arrecadada (anulações, retificações etc.): movimentos negativos por RA; e
-\item
-  Liberações de recursos para outros órgãos - movimentos negativos por PFs.
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \setcounter{enumi}{2}
+  \tightlist
+  \item
+    base de movimentações diárias nas obrigações a pagar.
+  \end{enumerate}
 \end{itemize}
 
-\begin{enumerate}
-\def\labelenumi{\alph{enumi}.}
-\setcounter{enumi}{4}
-\tightlist
-\item
-  Provavelmente vamos observar grandes recebimentos de recursos financeiros seguidos por grandes despesas. Nesses casos, em geral, qual o intervalo entre essas duas operações?
-\end{enumerate}
+Com as Tabelas 1 e 3, calculamos a \emph{disponibilidade líquida diária} a partir da subtração entre os saldos diários do caixa (Tabela 1) e as obrigações a pagar (Tabela 3), para cada unidade gestora ou órgão, e para cada fonte de recursos.
 
-\hypertarget{inspirauxe7uxf5es}{%
-\section{Inspirações}\label{inspirauxe7uxf5es}}
+Com as Tabelas 1 e 2, relacionamos no contexto dos pagamentos, as informações orçamentrárias (Tabela 2) com os vínculos de pagamento (Tabela 1).
 
-NatGeo immigrations. Pode ser interessante fazer algo semelhante para visualizar e comparar o saldo diário das unidades.
+Finalmente com a Tabela 1, analisamos as movimentações para tipo de documento, obtendo um histórico das movimentações de cada órgão e cada Unidade Gestora.
 
-\includegraphics{natgeo.jpg}
+Na primeira etapa do projeto, essas bases foram estudadas e validadas. Bases auxiliares também foram construídas para facilitar as análises subsequentes. A documentação dessa etapa se encontra no Capítulo 2.
 
-\url{https://twitter.com/aLucasLopez/status/1153646875427385344?s=20}
+\hypertarget{anuxe1lise-descritiva}{%
+\section{Análise descritiva}\label{anuxe1lise-descritiva}}
 
-Para mostrar a composição das despesas, vamos usar um diagrama de bolhas em D3 semelhante \href{https://vallandingham.me/bubble_charts_with_d3v4.html}{ao do Jim Vallandingham}.
+Dada a riqueza de informações e granularidade das bases de dados, todos os resultados descritivos foram construídos em uma aplicação online, que permite a manipulação das visualizações a partir de filtros e seletores.
 
-\hypertarget{bases-de-dados}{%
-\chapter{Bases de dados}\label{bases-de-dados}}
+O aplicativo pode ser acessado a partir do seguinte link: \url{https://rseis.shinyapps.io/explorador_disponibilidades_liquidas_v2/}
 
-\hypertarget{relatuxf3rio-1-validauxe7uxe3o-e-compreensuxe3o-dos-dados}{%
-\chapter{Relatório 1: Validação e Compreensão dos Dados}\label{relatuxf3rio-1-validauxe7uxe3o-e-compreensuxe3o-dos-dados}}
+O código-fonte e manutenção do aplicativo foram repassados à equipe do GT-CEAD ao fim do projeto.
+
+Um resumo dos principais resultados se encontra no Capítulo 3.
+
+\hypertarget{anuxe1lise-preditiva}{%
+\section{Análise preditiva}\label{anuxe1lise-preditiva}}
+
+Os modelos utilizados neste projeto consideraram os métodos em estado da arte dentro do contexto de modelagem preditiva, como florestas aleatórias, o algorítmo XGBoost e redes neurais.
+
+A descrição dos modelos ajustados e seus resultados se encontram no Capítulo 4.
+
+\hypertarget{oficina-de-repasses-e-implementauxe7uxe3o-dos-produtos}{%
+\section{Oficina de repasses e implementação dos produtos}\label{oficina-de-repasses-e-implementauxe7uxe3o-dos-produtos}}
+
+A última etapa do projeto consistiu de uma oficina de repasses, realizada presencialmente no GT-CEAD, no Tesouro Nacional, em Brasília. Nessa oficina, foi discutida a teoria por trás dos métodos aplicados, tal como apresentada neste relatório. Também foram apresentados e explicados os scripts em linguagem de programação R utilizados para implementar os modelos.
+
+\hypertarget{validauxe7uxe3o-e-compreensuxe3o-dos-dados}{%
+\chapter{Validação e Compreensão dos Dados}\label{validauxe7uxe3o-e-compreensuxe3o-dos-dados}}
 
 \hypertarget{introduuxe7uxe3o-1}{%
 \section{Introdução}\label{introduuxe7uxe3o-1}}
@@ -597,19 +469,33 @@ Verificou-se que as extrações \textbf{encontram-se prontas para análise} e co
 * saldo_diario       `<dbl> -35.47, -2089.65, -3644.19, -12.01, -14.94, -31.3…`
 \end{verbatim}
 
-\hypertarget{tuxedtulo-a}{%
-\chapter{Título A}\label{tuxedtulo-a}}
+\hypertarget{quadro-analuxedtico-histuxf3rico}{%
+\chapter{Quadro analítico histórico}\label{quadro-analuxedtico-histuxf3rico}}
 
-`r if (knitr:::is\_html\_output()) '
-\# Referências \{-\}
+\hypertarget{quadro-analuxedtico-preditivo}{%
+\chapter{Quadro analítico preditivo}\label{quadro-analuxedtico-preditivo}}
+
+\hypertarget{referuxeancias}{%
+\chapter*{Referências}\label{referuxeancias}}
+\addcontentsline{toc}{chapter}{Referências}
 
 \begin{itemize}
 \tightlist
 \item
+  NatGep migration waves
+\end{itemize}
+
+\includegraphics{natgeo.jpg}
+
+\url{https://twitter.com/aLucasLopez/status/1153646875427385344?s=20}
+
+\begin{itemize}
+\item
+  \href{https://vallandingham.me/bubble_charts_with_d3v4.html}{Diagrama de bolhas em D3 do Jim Vallandingham}.
+\item
   \url{https://www.nature.com/articles/s41598-017-13448-3}
 \item
   \url{https://github.com/gm-spacagna/deep-ttf/}
-  \textasciitilde{}
 \end{itemize}
 
 \bibliography{book.bib,packages.bib}
