@@ -1,4 +1,4 @@
-# Relatório 1: Validação e Compreensão dos Dados
+# Validação e Compreensão dos Dados
 
 ## Introdução
 

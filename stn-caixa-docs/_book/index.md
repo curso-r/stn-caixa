@@ -1,7 +1,7 @@
 --- 
 title: "Documentação do projeto 'Execução Orçamentária e Financeira do Governo Federal' (\"Projeto Caixa\")"
-author: "R6 Estatística"
-date: "2019-12-26"
+author: "R6 Estatística e Treinamentos LTDA"
+date: "2019-12-27"
 site: bookdown::bookdown_site
 output: 
   bookdown::gitbook:
@@ -16,135 +16,75 @@ description: "STN-Caixa"
 
 # Introdução
 
+O objetivo deste projeto é analisar o comportamento do caixa e das obrigações financeiras dos órgãos federais, com a finalidade de fornecer informações para a gestão da programação financeira por parte do Tesouro Nacional, além de identificar oportunidades de melhorias nesse processo, e possivelmente fundamentar a criação de indicadores para avaliação da gestão financeira das unidades do Governo Federal.
 
+Elencamos aqui alguns aspectos importantes do projeto.
 
-## Primeiras Instruções do Tiago
+## Questões investigadas
 
-A ideia deste projeto é analisar o comportamento do caixa e das obrigações financeiras dos órgãos federais, com a finalidade de fornecer informações para a gestão da programação financeira por parte do Tesouro Nacional, além de identificar oportunidades de melhorias nesse processo, e possivelmente fundamentar a criação de indicadores para avaliação da gestão financeira das unidades do Governo Federal.
+De início, analisamos o perfil das despesas e receitas das unidades do Governo Federal, começando com os órgãos do Ministério da Justiça (que já possui um sistema de acompanhamento de despesas bem estruturado).
 
-Vamos elencar aqui alguns aspectos, ou componentes, importantes do projeto, sem uma ordem específica.
+A análise procurou compatibilizar as informações orçamentárias com as informações financeiras. Chamamos de _classificadores orçamentários_: Função, Subfunção, Programa, Ação, Grupo de Despesa, Modalidade de Aplicação, Elemento de Despesa, Indicador de Resultado EOF, Indicador de Exceção Decreto. Como _classificadores financeiros_, nos referimos, essencialmente, à Vinculação de Pagamento.
 
-## É preciso de início conhecer o perfil das despesas e receitas orçamentárias desses órgãos.
+A _Fonte de Recurso_ é um classificador comum a esses dois contextos, orçamentário e financeiro.
 
-Vamos começar com um perfil das despesas do Ministério da Justiça (que já tem um excelente sistema de acompanhamento das despesas).
+Com esse escopo em mente, em parceria com a equipe do GT-CEAD, as seguintes questões foram abordadas neste projeto:
 
-**Tentar compatibilizar as informações orçamentárias (classificações como função, subfunção, ação, grupo de despesa, indicadores orçamentários etc.) com as informações financeiras (vinculação de pagamento, essencialmente).**
+a. Qual o comportamento do caixa e das obrigações a pagar (e da disponibilidade líquida) no período analisado^[Por órgão, por unidade e por fonte de recursos.]? 
 
-O que estamos chamando de _classificadores orçamentários_: Função, Subfunção, Programa, Ação, Grupo de Despesa, Modalidade de Aplicação, Elemento de Despesa, Indicador de Resultado EOF, Indicador de Exceção Decreto.
+b. Existem casos em que unidades de um mesmo órgão permanecem com disponibilidade líquida negativa, enquanto outras unidades desse mesmo órgão encontram-se com disponibilidade positiva? E se considerar a fonte de recursos, há casos em que o órgão passa por períodos com disponibilidade negativa em uma fonte enquanto há recursos disponíveis em outra fonte? E se considerar as duas situações conjuntamente^[Ou seja, uma unidade de um mesmo órgão fica com disponibilidade negativa em uma fonte, enquanto outra unidade desse mesmo órgão possui disponibilidade positiva nessa mesma fonte.]? 
 
-O que estamos chamando de _classificadores financeiros_: Vinculação de Pagamento, essencialmente.
+c. Como as classificações orçamentárias se relacionam com as classificações financeiras? Especificamente, é possível identificar certos tipos de despesas que são sempre (ou frequentemente) pagas com recursos de determinadas vinculações? 
 
-A _fonte de recurso_ é um caso especial, é um classificador comum a esses dois contextos, orçamentário e financeiro.
+d. Caso seja possível a identificação mencionada em (c), as questões (a) e (b) seriam revisitadas para estimar a disponibilidade líquida para cada vinculação, considerando as classificações orçamentárias das obrigações. Nesse cenário, existem unidades com saldo total suficiente para cobrir todas as suas obrigações, porém com insuficiência em algumas vinculações?
 
-## Como fazer isso diretamente a partir do Siafi?
+e. Qual o comportamento do caixa das unidades em termos de movimentações?
 
-Algumas ideias, a serem testadas:
+f. Qual o intervalo entre duas operações^[Uma despesa alta seguida de um recebimento de recursos também alto.] de grande porte?
 
-* analisar as despesas pagas, pelos classificadores, pelo número da nota de empenho e pelo número do documento de pagamento; e relacionar documento de pagamento x nota de empenho x vinculação de pagamento pelo campo "inscrição" do documento de pagamento.
+Para responder essas perguntas, utilizamos ferramentas descritivas e de modelagem preditiva, descritas nos Capítulos 3 e 4, respectivamente. 
 
-* analisar as despesas pagas, pelos classificadores, pelo número da nota de empenho e pelo número do documento de pagamento; e tentar compatibilizar com as informações dos pagamentos efetuados, por vinculação de pagamento e número do documento de pegamento.
+## As bases de dados
 
-* Mais simples: parecido com o anterior, a partir da tabela com as despesas pagas detalhadas pelos classificadores orçamentários, empenho e documento de pagamento, buscar a _vinculação de pagamento_ de uma tabela com toda a movimentação do limite de saque detalhada por documento. Assim, quando a movimentação do limite de saque for um pagamento, o documento correspondente, um documento de pagamento, pode ser usado como chave para relacionar as duas tabelas.
+<!-- Algumas ideias, a serem testadas: -->
 
-Teríamos então três extrações: uma para a movimentação no caixa e outras duas, semelhantes em termos de detalhamentos, para os pagamentos totais e para as obrigações a pagar. A relação dos campos está simplificada, e os campos **destacados** são aqueles que só aparecem na tabela 1, ou que só aparecem nas tabelas 2 e 3.
+<!-- * analisar as despesas pagas, pelos classificadores, pelo número da nota de empenho e pelo número do documento de pagamento; e relacionar documento de pagamento x nota de empenho x vinculação de pagamento pelo campo "inscrição" do documento de pagamento. -->
 
-### Movimentações diárias do Limite de Saque (item de informação: "LIMITES DE SAQUE")
+<!-- * analisar as despesas pagas, pelos classificadores, pelo número da nota de empenho e pelo número do documento de pagamento; e tentar compatibilizar com as informações dos pagamentos efetuados, por vinculação de pagamento e número do documento de pegamento. -->
 
-- Órgão Máximo
-- Órgão
-- UG
-- **Vinculação de Pagamento**
-- Fonte Detalhada
-- Fonte (posições 3 e 4 da fonte detalhada -- exemplo: se a fonte detalhada é: `0100123456`, a fonte será `00`)
-- Documento Lançamento [chave para fazer a junção com tabela (2)]
-- Movimento / Valor Financeiro
+<!-- * Mais simples: parecido com o anterior, a partir da tabela com as despesas pagas detalhadas pelos classificadores orçamentários, empenho e documento de pagamento, buscar a _vinculação de pagamento_ de uma tabela com toda a movimentação do limite de saque detalhada por documento. Assim, quando a movimentação do limite de saque for um pagamento, o documento correspondente, um documento de pagamento, pode ser usado como chave para relacionar as duas tabelas. -->
 
-### Pagamentos diários (item de informação: "PAGAMENTOS TOTAIS")
+Para responder as questões levantadas no item anterior, os dados do SIAFI foram divididos em três bases de dados:
 
-- Órgão Máximo
-- Órgão
-- UG
-- Fonte Detalhada
-- Fonte (posições 3 e 4 da fonte detalhada -- exemplo: se a fonte detalhada é: `0100123456`, a fonte será `00`)
-- **Função**
-- **Subfunção**
-- **Programa**
-- **Ação**
-- **Grupo de Despesa**
-- **Modalidade de Aplicação**
-- **Elemento de Despesa**
-- **Indicador de Resultado EOF** (indica se a despesa é primária ou financeira, entre outras coisas)
-- **Indicador de Exceção Decreto**
-- **Ano do Empenho**
-- **Empenho**
-- **Órgão Máximo da UO** (o "dono" original do orçamento, que pode ter sido em algum momento "descentralizado", isto é, transferido, para um óutro "Órgão Máximo" -- ou seja, se o Órgão Máximo da UO é diferente do Órgão Máximo, significa que a unidade está realizando uma despesa com orçamento de outro órgão)
-- Documento Lançamento [chave para fazer a junção com tabela (1)]
-- Movimento / Valor Financeiro
+- 1. base de movimentações diárias do limite de saque;
+- 2. base de pagamentos diários;
+- 3. base de movimentações diárias nas obrigações a pagar.
 
-### Movimentações diárias em obrigações a pagar (item de informação: "VALORES LIQUIDADOS A PAGAR (EXERCICIO + RP)")
+Com as Tabelas 1 e 3, calculamos a _disponibilidade líquida diária_ a partir da subtração entre os saldos diários do caixa (Tabela 1) e as obrigações a pagar (Tabela 3), para cada unidade gestora ou órgão, e para cada fonte de recursos.
 
-- Órgão Máximo
-- Órgão
-- UG
-- Fonte Detalhada
-- Fonte (posições 3 e 4 da fonte detalhada -- exemplo: se a fonte detalhada é: `0100123456`, a fonte será `00`)
-- **Função**
-- **Subfunção**
-- **Programa**
-- **Ação**
-- **Grupo de Despesa**
-- **Modalidade de Aplicação**
-- **Elemento de Despesa**
-- **Indicador de Resultado EOF** (indica se a despesa é primária ou financeira, entre outras coisas)
-- **Indicador de Exceção Decreto**
-- **Ano do Empenho**
-- **Empenho**
-- **Órgão Máximo da UO** (o "dono" original do orçamento, que pode ter sido em algum momento "descentralizado", isto é, transferido, para um óutro "Órgão Máximo" -- ou seja, se o Órgão Máximo da UO é diferente do Órgão Máximo, significa que a unidade está realizando uma despesa com orçamento de outro órgão)
-- Documento Lançamento (acho que não será necessário)
-- Movimento / Valor Financeiro
+Com as Tabelas 1 e 2, relacionamos no contexto dos pagamentos, as informações orçamentrárias (Tabela 2) com os vínculos de pagamento (Tabela 1).
 
-## O que analisar?
+Finalmente com a Tabela 1, analisamos as movimentações para tipo de documento, obtendo um histórico das movimentações de cada órgão e cada Unidade Gestora.
 
-Com **(1)** e **(3)** podemos obter os saldos diários do caixa (tabela **(1)**) e das obrigações a pagar (tabela **(3)**) -- e calcular a _disponibilidade líquida diária_, como sendo o saldo do caixa (item "LIMITES DE SAQUE") subtraído das obrigações a pagar (item "VALORES LIQUIDADOS A PAGAR (EXERCICIO + RP)")--, para cada unidade gestora ou órgão, e para cada fonte de recursos. Para isso sumarizaríamos os dados por DIA_LANC, UG, ORGAO, FONTE e ITEM_INFORMACAO. Essa seria a tabela **(i)**.
+Na primeira etapa do projeto, essas bases foram estudadas e validadas. Bases auxiliares também foram construídas para facilitar as análises subsequentes. A documentação dessa etapa se encontra no Capítulo 2.
 
-Com **(1)** e **(2)** poderíamos relacionar, no contexto dos pagamentos, as informações orçamentárias com as vinculações de pagamento, obtendo uma tabela **(ii)**. Partiríamos de **(2)** e faríamos um join com **(1)**, por "Documento de Lançamento", para trazer a "Vinculação de Pagamento" da tabela **(1)** (acho que seria interessante trazer também o campo de Movimento / Valor da tabela **(1)**, porque pode acontecer de um mesmo pagamento ter utilizado mais de uma _vinculação de pagamento_. Nesse caso, o valor mostrado na tabela **(2)** seria o valor consolidado, e precisaríamos do ).
+## Análise descritiva
 
-Finalmente com **(1)**, podemos analisar as movimentações para tipo de documento, obtendo um histórico das movimentações de cada órgão e cada UG, a que chamaremos de **(iii)**.
+Dada a riqueza de informações e granularidade das bases de dados, todos os resultados descritivos foram construídos em uma aplicação online, que permite a manipulação das visualizações a partir de filtros e seletores.
 
+O aplicativo pode ser acessado a partir do seguinte link: https://rseis.shinyapps.io/explorador_disponibilidades_liquidas_v2/
 
-## Questões iniciais a serem investigadas
+O código-fonte e manutenção do aplicativo foram repassados à equipe do GT-CEAD ao fim do projeto.
 
-a. Qual o comportamento do caixa e das obrigações a pagar (e da disponibilidade líquida) no período analisado? Por órgão? Por unidade? Por fonte? Por unidade e por fonte? (Tabela (i))
+Um resumo dos principais resultados se encontra no Capítulo 3.
 
-(semelhante ao que foi feito superficialmente [aqui](https://github.com/TesouroNacional/puddles-puddles), só que melhor, com mais rigor.)
+## Análise preditiva
 
+Os modelos utilizados neste projeto consideraram os métodos em estado da arte dentro do contexto de modelagem preditiva, como florestas aleatórias, o algorítmo XGBoost e redes neurais.
 
-a1. Há casos em que unidades de um mesmo órgão permanecem com disponibilidade líquida negativa, enquanto outras unidades desse mesmo órgão estão com disponibilidade positiva? E se levarmos em consideração a fonte de recursos, há casos em que o órgão passa por períodos com disponibilidade negativa numa fonte, enquanto há recursos disponíveis em outra fonte? E se levarmos em consideração as duas coisas (unidade + fonte: ou seja, uma unidade de um mesmo órgão fica com disponibilidade negativa numa fonte, enquanto outra unidade desse mesmo órgão possui disponibilidade positiva nessa mesma fonte?)
+A descrição dos modelos ajustados e seus resultados se encontram no Capítulo 4.
 
-b. A partir de (ii), como as classificações orçamentárias se relacionam com as classificações financeiras? Especificamente, é possível identificar certos tipos de despesas que são sempre (ou frequentemente) pagas com recursos de determinadas vinculações? 
+## Oficina de repasses e implementação dos produtos
 
-c. Se for possível a identificação mencionada em (b), então, poderíamos fazer uma versão de (i) em que os dados estariam detalhados também por _vinculação de pagamento_ e alguns _classificadores orçamentários_. Com o resultado de (b), poderíamos então refinar (a) e (a1), estimando a disponibilidade líquida para cada vinculação, considerando as classificações orçamentárias das obrigações. Por exemplo, a unidade pode ter saldo suficiente para cobrir todas as suas obrigações; mas, quando se analisam na prática que vinculações costumam pagar que obrigações (algo obtido de (b)), pode-se observar que na verdade há suficiência em algumas vinculações, mas insuficiência em outras.
-
-d. Qual o comportamento do caixa das unidades, em termos de movimentações? Para isso, podemos considerar os seguintes tipos de movimentações (sete, por enquanto), de acordo com o sinal do valor da movimentação, e do tipo do documento de lançamento (posições 16 e 17 do campo `ID_DOCUMENTO`):
-
-* Receitas próprias - movimentos positivos por RAs;
-* Recebimentos de recursos financeiros - movimentos positivos por PFs;
-* Anulações de pagamentos - movimentos positivos por DF, DR, GF, GP, GR ou OB;
-* Ajustes contábeis - movimentos por NS;
-* Pagamentos - movimentos negativos por DF, DR, GF, GP, GR ou OB;
-* Ajustes na receita arrecadada (anulações, retificações etc.): movimentos negativos por RA; e
-* Liberações de recursos para outros órgãos - movimentos negativos por PFs.
-
-e. Provavelmente vamos observar grandes recebimentos de recursos financeiros seguidos por grandes despesas. Nesses casos, em geral, qual o intervalo entre essas duas operações?
-
-## Inspirações
-
-NatGeo immigrations. Pode ser interessante fazer algo semelhante para visualizar e comparar o saldo diário das unidades.
-
-![](natgeo.jpg)
-
-https://twitter.com/aLucasLopez/status/1153646875427385344?s=20
-
-Para mostrar a composição das despesas, vamos usar um diagrama de bolhas em D3 semelhante [ao do Jim Vallandingham](https://vallandingham.me/bubble_charts_with_d3v4.html).
-
+A última etapa do projeto consistiu de uma oficina de repasses, realizada presencialmente no GT-CEAD, no Tesouro Nacional, em Brasília. Nessa oficina, foi discutida a teoria por trás dos métodos aplicados, tal como apresentada neste relatório. Também foram apresentados e explicados os scripts em linguagem de programação R utilizados para implementar os modelos.
 
