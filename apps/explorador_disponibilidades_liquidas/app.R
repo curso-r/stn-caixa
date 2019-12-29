@@ -49,15 +49,9 @@ abrevia_palavras <- function(str) {
     str_replace_all("ARRECADADOS", "ARREC")
 }
 
-
-grafico_linhas <- function(data, log = FALSE) {
+grafico_linhas_fonte <- function(data, log = FALSE) {
   hc_data <- data %>%
-    group_by(NO_DIA_COMPLETO, NO_UG) %>%
-    summarise(
-      valor = sum(valor)
-    ) %>%
-    ungroup() %>%
-    arrange(NO_UG, NO_DIA_COMPLETO) 
+    arrange(NO_UG, NO_DIA_COMPLETO_dmy) 
   
   if(log) {
     hc_data <- hc_data %>% mutate(valor = sign(valor) * log1p(abs(valor)))
@@ -66,7 +60,27 @@ grafico_linhas <- function(data, log = FALSE) {
   hc_data %>%
     highcharter::hchart(
       type = "line",
-      highcharter::hcaes(x = NO_DIA_COMPLETO, y = valor, group = NO_UG)
+      highcharter::hcaes(x = NO_DIA_COMPLETO_dmy, y = valor, group = NO_FONTE_RECURSO)
+    )
+}
+
+grafico_linhas <- function(data, log = FALSE) {
+  hc_data <- data %>%
+    group_by(NO_DIA_COMPLETO_dmy, NO_UG) %>%
+    summarise(
+      valor = sum(valor)
+    ) %>%
+    ungroup() %>%
+    arrange(NO_UG, NO_DIA_COMPLETO_dmy) 
+  
+  if(log) {
+    hc_data <- hc_data %>% mutate(valor = sign(valor) * log1p(abs(valor)))
+  }
+  
+  hc_data %>%
+    highcharter::hchart(
+      type = "line",
+      highcharter::hcaes(x = NO_DIA_COMPLETO_dmy, y = valor, group = NO_UG)
     )
 }
 
@@ -94,11 +108,11 @@ grafico_linhas <- function(data, log = FALSE) {
 #       NO_FONTE_RECURSO
 #     ) %>%
 #     summarise(
-#       obrigacoes_a_pagar = sum(SALDORITEMINFORMAO)
+#       obrigacoes_a_pagar_diario = sum(SALDORITEMINFORMAO)
 #     )
 # ) %>%
 #   mutate(
-#     disponibilidade_liquida = saldo_diario - obrigacoes_a_pagar
+#     disponibilidade_liquida = saldo_diario - obrigacoes_a_pagar_diario
 #   ) %>%
 #   filter(
 #     !str_detect(NO_DIA_COMPLETO , "-09/00/")
@@ -114,9 +128,9 @@ grafico_linhas <- function(data, log = FALSE) {
 #     dia = day(NO_DIA_COMPLETO),
 #     paded = !is.na(saldo_diario)
 #   ) %>%
-#   tidyr::fill(saldo_diario, obrigacoes_a_pagar, disponibilidade_liquida) 
+#   tidyr::fill(saldo_diario, obrigacoes_a_pagar_diario, disponibilidade_liquida) 
 # write_rds(disponibilidades_liquidas_diarias, path = "apps/explorador_disponibilidades_liquidas/disponibilidades_liquidas_diarias.rds")
-disponibilidades_liquidas_diarias <- read_rds("disponibilidades_liquidas_diarias.rds")
+# disponibilidades_liquidas_diarias <- read_rds("disponibilidades_liquidas_diarias.rds")
 
 sumario_por_ug <- disponibilidades_liquidas_diarias %>%
   filter(!paded) %>%
@@ -124,7 +138,7 @@ sumario_por_ug <- disponibilidades_liquidas_diarias %>%
   mutate(
     fontes_distintas = n_distinct(NO_FONTE_RECURSO)
   ) %>%
-  gather(tipo_valor, valor, saldo_diario, obrigacoes_a_pagar, disponibilidade_liquida) %>%
+  gather(tipo_valor, valor, saldo_diario, obrigacoes_a_pagar_diario, disponibilidade_liquida) %>%
   group_by(NO_UG, tipo_valor) %>%
   summarise(
     media = mean(valor),
@@ -144,7 +158,7 @@ ui <- fluidPage(
         width = "100%",
         multiple = TRUE,
         choices = unique(disponibilidades_liquidas_diarias$NO_UG),
-        selected = unique(disponibilidades_liquidas_diarias$NO_UG)[c(1, 10)],
+        selected = unique(indicadores$NO_UG)[1:16],
         options = shinyWidgets::pickerOptions(
           actionsBox = TRUE, 
           deselectAllText = "Limpar seleção", 
@@ -174,13 +188,13 @@ ui <- fluidPage(
     ),
     column(
       width = 2,
-      selectInput("valor", "Valor: ", choices = c("saldo_diario", "obrigacoes_a_pagar", "disponibilidade_liquida"))
-    ),
+      selectInput("valor", "Valor: ", choices = c("saldo_diario_acumulado", "obrigacoes_a_pagar_diario_acumulado", "disponibilidade_liquida"))
+    )
   ), 
   fluidRow(
     column(
       width = 4,
-      switchInput("grafico1_log", "Escala log", value = TRUE, size = "mini")
+      switchInput("grafico1_log", "Escala log", value = FALSE, size = "mini")
     )
   ),
   
@@ -190,19 +204,19 @@ ui <- fluidPage(
       width = 12,
       tabsetPanel(
         tabPanel(
-          "Gráfico 1",
+          "Densidades",
           plotOutput("grafico1")
         ),
         tabPanel(
-          "Gráfico 2",
-          highchartOutput("grafico2"),
+          "Por UG",
+          uiOutput("grafico2")
         ),
         tabPanel(
-          "Gráfico 3",
-          plotOutput("grafico3"),
+          "Por Fonte e UG",
+          uiOutput("grafico3")
         ),
         tabPanel(
-          "Gráfico 4",
+          "Relação Fontes e UGs",
           box(title = "valores positivos", sankeyNetworkOutput("grafico4")),
           box(title = "valores negativos", sankeyNetworkOutput("grafico5"))
         ),
@@ -214,10 +228,6 @@ ui <- fluidPage(
           "Dados",
           downloadButton('downloadData', 'Download CSV'),
           reactableOutput("dados")
-        ),
-        tabPanel(
-          "Código R",
-          includeMarkdown("codigo.Rmd")
         )
       )
     )
@@ -226,16 +236,21 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   
+  
+  
+  ug <- debounce(reactive(input$ug), 1000)
+  fonte <- debounce(reactive(input$fonte), 1000)
+  
   dados <- reactive({
     validate(
-      need(input$ug, "ug faltando"),
-      need(input$fonte, "fonte faltando")
+      need(ug(), "ug faltando"),
+      need(fonte(), "fonte faltando")
     )
     
     disponibilidades_liquidas_diarias %>%
       filter(
-        NO_UG %in% input$ug, 
-        NO_FONTE_RECURSO %in% input$fonte
+        NO_UG %in% ug(), 
+        NO_FONTE_RECURSO %in% fonte()
       ) %>%
       rename(
         valor = !!sym(input$valor)
@@ -256,26 +271,39 @@ server <- function(input, output, session) {
     p
   })
   
-  output$grafico2 <- renderHighchart({
-    grafico_linhas(dados(), log = input$grafico1_log)
+  output$grafico2 <- renderUI({
+    fluidPage(
+      grafico_linhas(dados(), log = input$grafico1_log)
+    )
   })
   
-  output$grafico3 <- renderPlot({
-    df <- dados() %>%
-      group_by(dia, mes, ano, NO_DIA_COMPLETO, NO_UG) %>%
-      summarise(
-        valor = sum(valor)
-      ) %>%
-      ungroup() 
+  output$grafico3 <- renderUI({
+    validate(
+      need(dados(), "dado faltando")
+    )
     
+    df <- dados()
     if(input$grafico1_log) {
       df <- df %>% mutate(valor = sign(valor) * log1p(abs(valor)))
     }
     
-    df %>%
-      ggplot(aes(x = dmy(paste(dia, mes, "1900", sep = "-")), y = valor, colour = factor(ano))) +
-      geom_line() +
-      facet_grid(rows = vars(NO_UG))
+    tabpanels <- df %>%
+      group_by(NO_UG) %>%
+      dplyr::group_nest() %>%
+      mutate(
+        hc = purrr::map2(NO_UG, data, ~{
+            grafico_linhas_fonte(.y %>% mutate(NO_UG = .x) %>% arrange(NO_DIA_COMPLETO_dmy), log = input$grafico1_log)
+        }),
+        panel = purrr::map2(NO_UG, hc, ~{
+          tabPanel(
+            title = .x,
+            .y
+          )
+        })
+      )
+    
+    do.call(tabsetPanel, tabpanels$panel)
+    
   })
   
   observe({

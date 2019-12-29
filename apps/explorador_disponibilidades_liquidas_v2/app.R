@@ -128,27 +128,30 @@ ui <- navbarPage(
 
 server <- function(input, output, session) {
   
+  ug <- debounce(reactive(input$ug), 1000)
+  fonte <- debounce(reactive(input$fonte), 1000)
+  
   dados_ug_fonte <- reactive({
     validate(
-      need(input$ug, "ug faltando"),
-      need(input$fonte, "fonte faltando")
+      need(ug(), "ug faltando"),
+      need(fonte(), "fonte faltando")
     )
     
     disponibilidades_liquidas_diarias %>%
       filter(
-        NO_UG %in% input$ug, 
-        NO_FONTE_RECURSO %in% input$fonte
+        NO_UG %in% ug(), 
+        NO_FONTE_RECURSO %in% fonte()
       )
   })
   
   dados_ug <- reactive({
     validate(
-      need(input$ug, "ug faltando")
+      need(ug(), "ug faltando")
     )
     
     disponibilidades_liquidas_diarias_visao_ug %>%
       filter(
-        NO_UG %in% input$ug
+        NO_UG %in% ug()
       )
   })
   

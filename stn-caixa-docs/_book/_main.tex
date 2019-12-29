@@ -84,7 +84,7 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2019-12-27}
+    \date{2019-12-29}
 
 \usepackage{booktabs}
 \usepackage{amsthm}
@@ -102,15 +102,15 @@
 \setcounter{tocdepth}{1}
 \tableofcontents
 }
-\hypertarget{introduuxe7uxe3o}{%
-\chapter{Introdução}\label{introduuxe7uxe3o}}
+\hypertarget{introducao}{%
+\chapter{Introdução}\label{introducao}}
 
 O objetivo deste projeto é analisar o comportamento do caixa e das obrigações financeiras dos órgãos federais, com a finalidade de fornecer informações para a gestão da programação financeira por parte do Tesouro Nacional, além de identificar oportunidades de melhorias nesse processo, e possivelmente fundamentar a criação de indicadores para avaliação da gestão financeira das unidades do Governo Federal.
 
 Elencamos aqui alguns aspectos importantes do projeto.
 
-\hypertarget{questuxf5es-investigadas}{%
-\section{Questões investigadas}\label{questuxf5es-investigadas}}
+\hypertarget{questoes-investigadas}{%
+\section{Questões investigadas}\label{questoes-investigadas}}
 
 De início, analisamos o perfil das despesas e receitas das unidades do Governo Federal, começando com os órgãos do Ministério da Justiça (que já possui um sistema de acompanhamento de despesas bem estruturado).
 
@@ -177,8 +177,8 @@ Finalmente com a Tabela 1, analisamos as movimentações para tipo de documento,
 
 Na primeira etapa do projeto, essas bases foram estudadas e validadas. Bases auxiliares também foram construídas para facilitar as análises subsequentes. A documentação dessa etapa se encontra no Capítulo 2.
 
-\hypertarget{anuxe1lise-descritiva}{%
-\section{Análise descritiva}\label{anuxe1lise-descritiva}}
+\hypertarget{analise-descritiva}{%
+\section{Análise descritiva}\label{analise-descritiva}}
 
 Dada a riqueza de informações e granularidade das bases de dados, todos os resultados descritivos foram construídos em uma aplicação online, que permite a manipulação das visualizações a partir de filtros e seletores.
 
@@ -188,30 +188,30 @@ O código-fonte e manutenção do aplicativo foram repassados à equipe do GT-CE
 
 Um resumo dos principais resultados se encontra no Capítulo 3.
 
-\hypertarget{anuxe1lise-preditiva}{%
-\section{Análise preditiva}\label{anuxe1lise-preditiva}}
+\hypertarget{analise-preditiva}{%
+\section{Análise preditiva}\label{analise-preditiva}}
 
 Os modelos utilizados neste projeto consideraram os métodos em estado da arte dentro do contexto de modelagem preditiva, como florestas aleatórias, o algorítmo XGBoost e redes neurais.
 
 A descrição dos modelos ajustados e seus resultados se encontram no Capítulo 4.
 
-\hypertarget{oficina-de-repasses-e-implementauxe7uxe3o-dos-produtos}{%
-\section{Oficina de repasses e implementação dos produtos}\label{oficina-de-repasses-e-implementauxe7uxe3o-dos-produtos}}
+\hypertarget{oficina-de-repasses-e-implementacao-dos-produtos}{%
+\section{Oficina de repasses e implementação dos produtos}\label{oficina-de-repasses-e-implementacao-dos-produtos}}
 
 A última etapa do projeto consistiu de uma oficina de repasses, realizada presencialmente no GT-CEAD, no Tesouro Nacional, em Brasília. Nessa oficina, foi discutida a teoria por trás dos métodos aplicados, tal como apresentada neste relatório. Também foram apresentados e explicados os scripts em linguagem de programação R utilizados para implementar os modelos.
 
-\hypertarget{validauxe7uxe3o-e-compreensuxe3o-dos-dados}{%
-\chapter{Validação e Compreensão dos Dados}\label{validauxe7uxe3o-e-compreensuxe3o-dos-dados}}
+\hypertarget{validacao-e-compreensao-dos-dados}{%
+\chapter{Validação e Compreensão dos Dados}\label{validacao-e-compreensao-dos-dados}}
 
-\hypertarget{introduuxe7uxe3o-1}{%
-\section{Introdução}\label{introduuxe7uxe3o-1}}
+\hypertarget{introducao-1}{%
+\section{Introdução}\label{introducao-1}}
 
 A base de dados do SIAFI concentra as informações geradas pelo processo de execução orçamentária e programação financeira do Governo Federal. Este projeto tem como objetivo gerar conhecimento sobre o comportamento do caixa e das obrigações financeiras dos órgãos federais para fins de gestão da programação financeira por parte do Tesouro Nacional, além de identificar oportunidades de melhorias nesse processo e, possivelmente, fundamentar a criação de indicadores para avaliação da gestão financeira das unidades do Governo Federal.
 
 Este é o primeiro dos quatro relatórios que irão compor o projeto e descreve o processo de conhecimento, ajuste e preparo das bases de dados para análises subsequentes.
 
-\hypertarget{questuxf5es-elementares}{%
-\section{Questões elementares}\label{questuxf5es-elementares}}
+\hypertarget{questoes-elementares}{%
+\section{Questões elementares}\label{questoes-elementares}}
 
 Para nortear as análises das próximas etapas, nessa primeira fase de conhecimento do problema e da base, foram levantadas as seguintes questões:
 
@@ -231,8 +231,8 @@ Para nortear as análises das próximas etapas, nessa primeira fase de conhecime
   Qual o intervalo entre duas operações\footnote{Uma despesa alta seguida de um recebimento de recursos também alto.} de grande porte?
 \end{enumerate}
 
-\hypertarget{bases-de-dados-levantadas-para-endereuxe7ar-as-questuxf5es}{%
-\section{Bases de dados levantadas para endereçar as questões}\label{bases-de-dados-levantadas-para-endereuxe7ar-as-questuxf5es}}
+\hypertarget{bases-de-dados-levantadas-para-enderecar-as-questoes}{%
+\section{Bases de dados levantadas para endereçar as questões}\label{bases-de-dados-levantadas-para-enderecar-as-questoes}}
 
 O perfil das despesas do \textbf{Ministério da Justiça} será utilizado como ponto de partida das análises descritivas e exploratórias. A escolha deste órgão foi em virtude do seu excelente sistema de acompanhamento das despesas.
 
@@ -261,8 +261,8 @@ A partir destas, outras três tabelas derivadas foram construídas. As descriç�
 
 Verificou-se que as extrações \textbf{encontram-se prontas para análise} e com replicações em formatos \texttt{.rds} para serem leitas pelo software R. Abaixo estão listados os seus respectivos campos.
 
-\hypertarget{base-1-movimentauxe7uxf5es-diuxe1rias-do-limite-de-saque}{%
-\section{Base 1: Movimentações diárias do Limite de Saque}\label{base-1-movimentauxe7uxf5es-diuxe1rias-do-limite-de-saque}}
+\hypertarget{base-1-movimentacoes-diarias-do-limite-de-saque}{%
+\section{Base 1: Movimentações diárias do Limite de Saque}\label{base-1-movimentacoes-diarias-do-limite-de-saque}}
 
 \textbf{Filtro:} item de informação ``LIMITES DE SAQUE''.
 
@@ -288,8 +288,8 @@ Verificou-se que as extrações \textbf{encontram-se prontas para análise} e co
   Movimento / Valor Financeiro
 \end{itemize}
 
-\hypertarget{base-2-pagamentos-diuxe1rios}{%
-\section{Base 2: Pagamentos diários}\label{base-2-pagamentos-diuxe1rios}}
+\hypertarget{base-2-pagamentos-diarios}{%
+\section{Base 2: Pagamentos diários}\label{base-2-pagamentos-diarios}}
 
 \textbf{Filtro:} item de informação ``PAGAMENTOS TOTAIS''.
 
@@ -337,8 +337,8 @@ Verificou-se que as extrações \textbf{encontram-se prontas para análise} e co
   Movimento / Valor Financeiro
 \end{itemize}
 
-\hypertarget{base-3-movimentauxe7uxf5es-diuxe1rias-em-obrigauxe7uxf5es-a-pagar}{%
-\section{Base 3: Movimentações diárias em obrigações a pagar}\label{base-3-movimentauxe7uxf5es-diuxe1rias-em-obrigauxe7uxf5es-a-pagar}}
+\hypertarget{base-3-movimentacoes-diarias-em-obrigacoes-a-pagar}{%
+\section{Base 3: Movimentações diárias em obrigações a pagar}\label{base-3-movimentacoes-diarias-em-obrigacoes-a-pagar}}
 
 \textbf{Filtro:} item de informação ``VALORES LIQUIDADOS A PAGAR (EXERCICIO + RP)''.
 
@@ -387,8 +387,8 @@ Verificou-se que as extrações \textbf{encontram-se prontas para análise} e co
 \hypertarget{tabelas-derivadas}{%
 \section{Tabelas Derivadas}\label{tabelas-derivadas}}
 
-\hypertarget{disponibilidades-luxedquidas-diuxe1rias}{%
-\subsection{Disponibilidades líquidas Diárias}\label{disponibilidades-luxedquidas-diuxe1rias}}
+\hypertarget{disponibilidades-liquidas-diarias}{%
+\subsection{Disponibilidades líquidas Diárias}\label{disponibilidades-liquidas-diarias}}
 
 \begin{itemize}
 \item
@@ -417,8 +417,8 @@ Verificou-se que as extrações \textbf{encontram-se prontas para análise} e co
 * paded                   `<lgl> TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, …`
 \end{verbatim}
 
-\hypertarget{vinculauxe7uxe3o-de-pagamentos}{%
-\subsection{Vinculação de Pagamentos}\label{vinculauxe7uxe3o-de-pagamentos}}
+\hypertarget{vinculacao-de-pagamentos}{%
+\subsection{Vinculação de Pagamentos}\label{vinculacao-de-pagamentos}}
 
 \begin{itemize}
 \item
@@ -469,14 +469,72 @@ Verificou-se que as extrações \textbf{encontram-se prontas para análise} e co
 * saldo_diario       `<dbl> -35.47, -2089.65, -3644.19, -12.01, -14.94, -31.3…`
 \end{verbatim}
 
-\hypertarget{quadro-analuxedtico-histuxf3rico}{%
-\chapter{Quadro analítico histórico}\label{quadro-analuxedtico-histuxf3rico}}
+\hypertarget{quadro-analitico-historico}{%
+\chapter{Quadro analítico histórico}\label{quadro-analitico-historico}}
 
-\hypertarget{quadro-analuxedtico-preditivo}{%
-\chapter{Quadro analítico preditivo}\label{quadro-analuxedtico-preditivo}}
+\hypertarget{disponibilidades-liquidas}{%
+\section{Disponibilidades Líquidas}\label{disponibilidades-liquidas}}
 
-\hypertarget{referuxeancias}{%
-\chapter*{Referências}\label{referuxeancias}}
+Para responder as questões (a) e (b) sobre disponibilidades líquidas das UGs, elaboramos:
+
+\begin{itemize}
+\tightlist
+\item
+  Gráficos das séries temporais das disponibilidades líquidas de cada UG e Fonte de Recurso.
+\item
+  Gráficos das séries temporais das disponibilidades líquidas consolidadas por UG.
+\item
+  Indicadores de disponibilidades líquidas negativas para as UGs:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Proporção do tempo do período analisado com disponibilidade negativa.
+  \item
+    Duração da disponibilidade negativa atual.
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{classificacoes-orcamentarias-e-financeiras}{%
+\section{Classificações Orçamentárias e Financeiras}\label{classificacoes-orcamentarias-e-financeiras}}
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  Despesas e Vinculações
+\end{enumerate}
+
+\hypertarget{disponibilidades-liquidas-por-vinculacao}{%
+\section{Disponibilidades Líquidas por Vinculação}\label{disponibilidades-liquidas-por-vinculacao}}
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  revisitamos\ldots{}
+\end{enumerate}
+
+\hypertarget{comportamento-do-caixa-por-movimentacao}{%
+\section{Comportamento do Caixa por Movimentação}\label{comportamento-do-caixa-por-movimentacao}}
+
+\begin{itemize}
+\tightlist
+\item
+  Gráficos das séries temporais dos saldos e obrigações de cada UG e Fonte de Recurso.
+\item
+  Gráficos das séries temporais dos saldos e obrigações consolidados por UG.
+\item
+  Gráfico dos tempos entre duas movimentações de grande porte por UG e por Órgão.
+\end{itemize}
+
+\hypertarget{quadro-analitico-preditivo}{%
+\chapter{Quadro analítico preditivo}\label{quadro-analitico-preditivo}}
+
+\hypertarget{referencias}{%
+\chapter*{Referências}\label{referencias}}
 \addcontentsline{toc}{chapter}{Referências}
 
 \begin{itemize}

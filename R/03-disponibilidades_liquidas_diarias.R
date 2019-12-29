@@ -154,6 +154,10 @@ disponibilidades_liquidas_diarias <- saldos_diarios %>%
     by = c("ID_ANO_LANC", "NO_DIA_COMPLETO", "NO_UG", "NO_ORGAO", "NO_FONTE_RECURSO", "NO_DIA_COMPLETO_dmy"),
     suffix = c("_saldos", "_obrigacoes")
   ) %>%
+  tidyr::fill(obrigacoes_a_pagar_diario_acumulado) %>%
+  mutate(
+    obrigacoes_a_pagar_diario = coalesce(obrigacoes_a_pagar_diario, 0)
+  ) %>%
   left_join(
     pagamentos_diarios %>% 
       select(
@@ -167,6 +171,10 @@ disponibilidades_liquidas_diarias <- saldos_diarios %>%
       ),
     by = c("ID_ANO_LANC", "NO_DIA_COMPLETO", "NO_UG", "NO_ORGAO", "NO_FONTE_RECURSO", "NO_DIA_COMPLETO_dmy"),
     suffix = c("", "_pagamentos")
+  ) %>%
+  tidyr::fill(pagamento_diario_acumulado) %>%
+  mutate(
+    pagamento_diario = coalesce(pagamento_diario, 0)
   ) %>%
   arrange(NO_DIA_COMPLETO_dmy) %>%
   mutate(
@@ -191,7 +199,7 @@ disponibilidades_liquidas_diarias_visao_ug <- disponibilidades_liquidas_diarias 
     saldo_diario_acumulado = sum(saldo_diario_acumulado, na.rm = TRUE),
     obrigacoes_a_pagar_diario = sum(obrigacoes_a_pagar_diario, na.rm = TRUE),
     obrigacoes_a_pagar_diario_acumulado = sum(obrigacoes_a_pagar_diario_acumulado, na.rm = TRUE),
-    disponibilidade_liquida = sum(disponibilidade_liquida, na.rm = TRUE)
+    disponibilidade_liquida = sum(disponibilidade_liquida, na.rm = TRUE),
     pagamento_diario = sum(pagamento_diario),
     pagamento_diario_acumulado = sum(pagamento_diario_acumulado)
   )
@@ -200,6 +208,20 @@ saveRDS(disponibilidades_liquidas_diarias_visao_ug, file = "data/disponibilidade
 saveRDS(disponibilidades_liquidas_diarias_visao_ug, file = "apps/explorador_disponibilidades_liquidas_v2/disponibilidades_liquidas_diarias_visao_ug.rds")
 
 
+# indicador de disponibilidade liquida positiva ---------------------------
+indicadores <- disponibilidades_liquidas_diarias %>%
+  group_by(
+    ID_ANO_LANC,
+    NO_UG,
+    NO_ORGAO,
+    NO_FONTE_RECURSO
+  ) %>%
+  summarise(
+    proporcao_de_disponibilidade_liquida_negativa = mean(disponibilidade_liquida < 0),
+    dias_no_periodo = n(),
+    disponibilidade_estritamente_crescente = mean(diff(disponibilidade_liquida)  > 0) + mean(abs(diff(disponibilidade_liquida)[diff(disponibilidade_liquida) < 0]) < sd(disponibilidade_liquida)/100)
+  ) %>%
+  arrange(desc(disponibilidade_estritamente_crescente))
 
 ##################
 # checando se o 01/01/2018 bate com as contas de 2017 de uma certa NO_UG para uma certa fonte NO_FONTE
