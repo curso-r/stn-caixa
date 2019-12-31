@@ -12,7 +12,10 @@ biblio-style: apalike
 link-citations: yes
 github-repo: curso-r/stn-caixa
 description: "STN-Caixa"
+header-includes:
+  - \AtBeginDocument{\renewcommand{\chaptername}{Capítulo}}
 ---
+
 
 # Introdução
 

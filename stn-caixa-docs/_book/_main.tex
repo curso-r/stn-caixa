@@ -84,7 +84,7 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2019-12-29}
+    \date{2019-12-31}
 
 \usepackage{booktabs}
 \usepackage{amsthm}
@@ -483,39 +483,83 @@ Para responder as questões (a) e (b) sobre disponibilidades líquidas das UGs, 
   Gráficos das séries temporais das disponibilidades líquidas de cada UG e Fonte de Recurso.
 \item
   Gráficos das séries temporais das disponibilidades líquidas consolidadas por UG.
-\item
-  Indicadores de disponibilidades líquidas negativas para as UGs:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    Proporção do tempo do período analisado com disponibilidade negativa.
-  \item
-    Duração da disponibilidade negativa atual.
-  \end{itemize}
 \end{itemize}
+
+Aplicativo: \href{https://rseis.shinyapps.io/explorador_disponibilidades_liquidas}{Explorador das séries temporais das disponibilidades líquidas}
+
+\begin{itemize}
+\tightlist
+\item
+  Indicador de disponibilidade líquida acumulante para as UGs.
+\end{itemize}
+
+\hypertarget{indicador-disponibilidade-liquida-acumulante-por-ug}{%
+\subsection{Indicador disponibilidade líquida acumulante por UG}\label{indicador-disponibilidade-liquida-acumulante-por-ug}}
+
+\textbf{1) Disponibilidades Líquidas Acumulantes:} Indicador que apresenta valor alto quando uma UG apresenta disponibilidade líquida que apenas cresce com o passar do tempo para uma determinada fonte de recurso.
+
+\begin{figure}
+\centering
+\includegraphics{03-quadro-historico_files/figure-latex/unnamed-chunk-2-1.pdf}
+\caption{\label{fig:unnamed-chunk-2}Disponibilidade líquida por fonte de recursos do CONSELHO ADMINISTRATIVO DE DEFESA ECONÔMICA. A fonte RECURSOS NÃO-FINANCEIROS DIRETAMENTE ARRECADADOS (linha verde) é um exemplo de disponibilidade líquida acumulante.}
+\end{figure}
+
+Definição do indicador: \(P_1 + P_2\)
+
+em que
+
+\[
+P_1 = \frac{1}{N}\sum I(y_i > y_{i - 1})
+\]
+
+e \textbf{para quando a disponibilidade diminui}
+
+\[
+P_2 = \frac{1}{N_{y_i < y_{i - 1}}}\sum I(|y_i -y_{i - 1}| < \sigma)
+\]
+
+Em outras palavras, o indicador aponta curvas crescentes (\(P_1\)) permitindo pequenas perturbações (\(P_2\)).
+
+Abaixo estão as UGs com os maiores valores do indicador, e suas respectivas fontes de recursos:
+
+\begin{tabular}{l|l|r}
+\hline
+UG & Fonte de Recursos & Indicador\\
+\hline
+CONSELHO ADMINISTRATIVO DE DEFESA ECONOMICA & RECURSOS NAO-FINANCEIROS DIRETAM. ARRECADADOS & 1.23\\
+\hline
+SUPERINTENDENCIA REG. POL. RODV. FEDERAL-BA & RECURSOS DIVERSOS & 1.20\\
+\hline
+FUNDO NACIONAL ANTIDROGAS & RECURSOS NAO-FINANCEIROS DIRETAM. ARRECADADOS & 1.19\\
+\hline
+SUPERINTENDENCIA REG. POL. RODV. FEDERAL-GO & RECURSOS DIVERSOS & 1.14\\
+\hline
+SUPERINTENDENCIA REG. POL. RODV. FEDERAL-SC & RECURSOS DIVERSOS & 1.11\\
+\hline
+DEPARTAMENTO PENITENCIARIO NACIONAL & RECURSOS NAO-FINANCEIROS DIRETAM. ARRECADADOS & 1.10\\
+\hline
+SUPERINTENDENCIA REG. POL. RODV. FEDERAL-RO & RECURSOS DIVERSOS & 1.10\\
+\hline
+SUPERINTENDENCIA REG. POL. RODV. FEDERAL-RO & RECURSOS DIVERSOS & 1.09\\
+\hline
+SUPERINTENDENCIA REG. POL. RODV. FEDERAL-PR & RECURSOS NAO-FINANCEIROS DIRETAM. ARRECADADOS & 1.07\\
+\hline
+\end{tabular}
 
 \hypertarget{classificacoes-orcamentarias-e-financeiras}{%
 \section{Classificações Orçamentárias e Financeiras}\label{classificacoes-orcamentarias-e-financeiras}}
 
-\begin{enumerate}
-\def\labelenumi{(\alph{enumi})}
-\setcounter{enumi}{2}
+Destino das fontes de recursos e suas respectivas funções.
+
+\includegraphics{03-quadro-historico_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+\begin{itemize}
 \tightlist
 \item
-  Despesas e Vinculações
-\end{enumerate}
-
-\hypertarget{disponibilidades-liquidas-por-vinculacao}{%
-\section{Disponibilidades Líquidas por Vinculação}\label{disponibilidades-liquidas-por-vinculacao}}
-
-\begin{enumerate}
-\def\labelenumi{(\alph{enumi})}
-\setcounter{enumi}{3}
-\tightlist
+  Todas as fontes de recursos são repartidas entre \textbf{previdência social} e \textbf{segurança pública};
 \item
-  revisitamos\ldots{}
-\end{enumerate}
+  Porém, se a função for \textbf{INSS - EPU CUSTEIO}, o recurso é destinado a Previdência social.
+\end{itemize}
 
 \hypertarget{comportamento-do-caixa-por-movimentacao}{%
 \section{Comportamento do Caixa por Movimentação}\label{comportamento-do-caixa-por-movimentacao}}
@@ -530,8 +574,52 @@ Para responder as questões (a) e (b) sobre disponibilidades líquidas das UGs, 
   Gráfico dos tempos entre duas movimentações de grande porte por UG e por Órgão.
 \end{itemize}
 
+Aplicativo: \href{https://rseis.shinyapps.io/explorador_disponibilidades_liquidas}{Explorador das séries temporais das disponibilidades líquidas}
+
 \hypertarget{quadro-analitico-preditivo}{%
 \chapter{Quadro analítico preditivo}\label{quadro-analitico-preditivo}}
+
+\hypertarget{fontes-de-recursos-que-tendem-a-acumular-recurso}{%
+\section{Fontes de recursos que tendem a acumular recurso}\label{fontes-de-recursos-que-tendem-a-acumular-recurso}}
+
+\includegraphics{04-quadro-preditivo_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+A tendência é que as fontes de recursos
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{destinados às atividades com fins de seguridade social},
+\item
+  \textbf{não financeiros diretamente arrecadados} e
+\item
+  \textbf{ordinários}
+\end{itemize}
+
+tenham perfil recursos de acumulantes enquanto que as fontes de recursos
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{de consessões e permissões},
+  -\textbf{livres da seguridade social},
+\item
+  \textbf{fundo social parcialmente destinados à educação pública e saúde},
+\item
+  \textbf{destinados a manutenção e desenvolvimento do ensino} e
+\item
+  \textbf{de alienação de bens e direito do patrimônio público}
+\end{itemize}
+
+tendem a não acumularem.
+
+\hypertarget{previsao-de-disponibilidade-liquida}{%
+\section{Previsão de disponibilidade líquida}\label{previsao-de-disponibilidade-liquida}}
+
+Construímos modelos de séries temporais para previsão de disponibilidade líquida para cada fonte de recursos e UGs.
+O desempenho dos modelos foi avaliado para os períodos de 1 semana, 1 mês, 6 meses e 1 ano.
+
+Foi construída uma calculadora em Shiny para consultar as previsões e resultados de cada um dos cenários.
 
 \hypertarget{referencias}{%
 \chapter*{Referências}\label{referencias}}

@@ -84,53 +84,7 @@ grafico_linhas <- function(data, log = FALSE) {
     )
 }
 
-# disponibilidades_liquidas_diarias <- inner_join(
-#   lim_saque %>%
-#     group_by(
-#       NO_DIA_COMPLETO,
-#       NO_UG,
-#       NO_ORGAO,
-#       # NO_ITEM_INFORMACAO,
-#       NO_FONTE_RECURSO
-#     ) %>%
-#     summarise(
-#       saldo_diario = sum(SALDORITEMINFORMAO)
-#     ),
-#   obrigacoes %>%
-#     rename(
-#       NO_ORGAO = NO_ORGAO...16
-#     ) %>%
-#     group_by(
-#       NO_DIA_COMPLETO,
-#       NO_UG,
-#       NO_ORGAO,
-#       # NO_ITEM_INFORMACAO,
-#       NO_FONTE_RECURSO
-#     ) %>%
-#     summarise(
-#       obrigacoes_a_pagar_diario = sum(SALDORITEMINFORMAO)
-#     )
-# ) %>%
-#   mutate(
-#     disponibilidade_liquida = saldo_diario - obrigacoes_a_pagar_diario
-#   ) %>%
-#   filter(
-#     !str_detect(NO_DIA_COMPLETO , "-09/00/")
-#   ) %>%
-#   ungroup %>%
-#   mutate(
-#     NO_DIA_COMPLETO = dmy(NO_DIA_COMPLETO)
-#   ) %>%
-#   padr::pad(group = c("NO_UG", "NO_ORGAO", "NO_FONTE_RECURSO")) %>%
-#   mutate(
-#     ano = year(NO_DIA_COMPLETO),
-#     mes = month(NO_DIA_COMPLETO),
-#     dia = day(NO_DIA_COMPLETO),
-#     paded = !is.na(saldo_diario)
-#   ) %>%
-#   tidyr::fill(saldo_diario, obrigacoes_a_pagar_diario, disponibilidade_liquida) 
-# write_rds(disponibilidades_liquidas_diarias, path = "apps/explorador_disponibilidades_liquidas/disponibilidades_liquidas_diarias.rds")
-# disponibilidades_liquidas_diarias <- read_rds("disponibilidades_liquidas_diarias.rds")
+disponibilidades_liquidas_diarias <- read_rds("disponibilidades_liquidas_diarias.rds")
 
 sumario_por_ug <- disponibilidades_liquidas_diarias %>%
   filter(!paded) %>%

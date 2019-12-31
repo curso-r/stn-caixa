@@ -1,7 +1,7 @@
 --- 
 title: "Documentação do projeto 'Execução Orçamentária e Financeira do Governo Federal' (\"Projeto Caixa\")"
 author: "R6 Estatística e Treinamentos LTDA"
-date: "2019-12-29"
+date: "2019-12-31"
 site: bookdown::bookdown_site
 output: 
   bookdown::gitbook:
@@ -12,7 +12,10 @@ biblio-style: apalike
 link-citations: yes
 github-repo: curso-r/stn-caixa
 description: "STN-Caixa"
+header-includes:
+  - \AtBeginDocument{\renewcommand{\chaptername}{Capítulo}}
 ---
+
 
 # Introdução
 

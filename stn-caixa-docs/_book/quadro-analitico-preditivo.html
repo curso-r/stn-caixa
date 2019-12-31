@@ -24,7 +24,7 @@
 <meta name="author" content="R6 Estatística e Treinamentos LTDA" />
 
 
-<meta name="date" content="2019-12-29" />
+<meta name="date" content="2019-12-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -87,12 +87,16 @@
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html"><i class="fa fa-check"></i><b>3</b> Quadro analítico histórico</a><ul>
-<li class="chapter" data-level="3.1" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#disponibilidades-liquidas"><i class="fa fa-check"></i><b>3.1</b> Disponibilidades Líquidas</a></li>
-<li class="chapter" data-level="3.2" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#classificacoes-orcamentarias-e-financeiras"><i class="fa fa-check"></i><b>3.2</b> Classificações Orçamentárias e Financeiras</a></li>
-<li class="chapter" data-level="3.3" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#disponibilidades-liquidas-por-vinculacao"><i class="fa fa-check"></i><b>3.3</b> Disponibilidades Líquidas por Vinculação</a></li>
-<li class="chapter" data-level="3.4" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#comportamento-do-caixa-por-movimentacao"><i class="fa fa-check"></i><b>3.4</b> Comportamento do Caixa por Movimentação</a></li>
+<li class="chapter" data-level="3.1" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#disponibilidades-liquidas"><i class="fa fa-check"></i><b>3.1</b> Disponibilidades Líquidas</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#indicador-disponibilidade-liquida-acumulante-por-ug"><i class="fa fa-check"></i><b>3.1.1</b> Indicador disponibilidade líquida acumulante por UG</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="quadro-analitico-preditivo.html"><a href="quadro-analitico-preditivo.html"><i class="fa fa-check"></i><b>4</b> Quadro analítico preditivo</a></li>
+<li class="chapter" data-level="3.2" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#classificacoes-orcamentarias-e-financeiras"><i class="fa fa-check"></i><b>3.2</b> Classificações Orçamentárias e Financeiras</a></li>
+<li class="chapter" data-level="3.3" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#comportamento-do-caixa-por-movimentacao"><i class="fa fa-check"></i><b>3.3</b> Comportamento do Caixa por Movimentação</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="quadro-analitico-preditivo.html"><a href="quadro-analitico-preditivo.html"><i class="fa fa-check"></i><b>4</b> Quadro analítico preditivo</a><ul>
+<li class="chapter" data-level="4.1" data-path="quadro-analitico-preditivo.html"><a href="quadro-analitico-preditivo.html#fontes-de-recursos-que-tendem-a-acumular-recurso"><i class="fa fa-check"></i><b>4.1</b> Fontes de recursos que tendem a acumular recurso</a></li>
+<li class="chapter" data-level="4.2" data-path="quadro-analitico-preditivo.html"><a href="quadro-analitico-preditivo.html#previsao-de-disponibilidade-liquida"><i class="fa fa-check"></i><b>4.2</b> Previsão de disponibilidade líquida</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referências</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado com bookdown</a></li>
@@ -116,7 +120,32 @@
             <section class="normal" id="section-">
 <div id="quadro-analitico-preditivo" class="section level1">
 <h1><span class="header-section-number">Capítulo 4</span> Quadro analítico preditivo</h1>
+<div id="fontes-de-recursos-que-tendem-a-acumular-recurso" class="section level2">
+<h2><span class="header-section-number">4.1</span> Fontes de recursos que tendem a acumular recurso</h2>
+<p><img src="04-quadro-preditivo_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>A tendência é que as fontes de recursos</p>
+<ul>
+<li><strong>destinados às atividades com fins de seguridade social</strong>,</li>
+<li><strong>não financeiros diretamente arrecadados</strong> e</li>
+<li><strong>ordinários</strong></li>
+</ul>
+<p>tenham perfil recursos de acumulantes enquanto que as fontes de recursos</p>
+<ul>
+<li><strong>de consessões e permissões</strong>,
+-<strong>livres da seguridade social</strong>,</li>
+<li><strong>fundo social parcialmente destinados à educação pública e saúde</strong>,</li>
+<li><strong>destinados a manutenção e desenvolvimento do ensino</strong> e</li>
+<li><strong>de alienação de bens e direito do patrimônio público</strong></li>
+</ul>
+<p>tendem a não acumularem.</p>
+</div>
+<div id="previsao-de-disponibilidade-liquida" class="section level2">
+<h2><span class="header-section-number">4.2</span> Previsão de disponibilidade líquida</h2>
+<p>Construímos modelos de séries temporais para previsão de disponibilidade líquida para cada fonte de recursos e UGs.
+O desempenho dos modelos foi avaliado para os períodos de 1 semana, 1 mês, 6 meses e 1 ano.</p>
+<p>Foi construída uma calculadora em Shiny para consultar as previsões e resultados de cada um dos cenários.</p>
 
+</div>
 </div>
             </section>
 

@@ -24,7 +24,7 @@
 <meta name="author" content="R6 Estatística e Treinamentos LTDA" />
 
 
-<meta name="date" content="2019-12-29" />
+<meta name="date" content="2019-12-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -87,12 +87,16 @@
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html"><i class="fa fa-check"></i><b>3</b> Quadro analítico histórico</a><ul>
-<li class="chapter" data-level="3.1" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#disponibilidades-liquidas"><i class="fa fa-check"></i><b>3.1</b> Disponibilidades Líquidas</a></li>
-<li class="chapter" data-level="3.2" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#classificacoes-orcamentarias-e-financeiras"><i class="fa fa-check"></i><b>3.2</b> Classificações Orçamentárias e Financeiras</a></li>
-<li class="chapter" data-level="3.3" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#disponibilidades-liquidas-por-vinculacao"><i class="fa fa-check"></i><b>3.3</b> Disponibilidades Líquidas por Vinculação</a></li>
-<li class="chapter" data-level="3.4" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#comportamento-do-caixa-por-movimentacao"><i class="fa fa-check"></i><b>3.4</b> Comportamento do Caixa por Movimentação</a></li>
+<li class="chapter" data-level="3.1" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#disponibilidades-liquidas"><i class="fa fa-check"></i><b>3.1</b> Disponibilidades Líquidas</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#indicador-disponibilidade-liquida-acumulante-por-ug"><i class="fa fa-check"></i><b>3.1.1</b> Indicador disponibilidade líquida acumulante por UG</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="quadro-analitico-preditivo.html"><a href="quadro-analitico-preditivo.html"><i class="fa fa-check"></i><b>4</b> Quadro analítico preditivo</a></li>
+<li class="chapter" data-level="3.2" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#classificacoes-orcamentarias-e-financeiras"><i class="fa fa-check"></i><b>3.2</b> Classificações Orçamentárias e Financeiras</a></li>
+<li class="chapter" data-level="3.3" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#comportamento-do-caixa-por-movimentacao"><i class="fa fa-check"></i><b>3.3</b> Comportamento do Caixa por Movimentação</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="quadro-analitico-preditivo.html"><a href="quadro-analitico-preditivo.html"><i class="fa fa-check"></i><b>4</b> Quadro analítico preditivo</a><ul>
+<li class="chapter" data-level="4.1" data-path="quadro-analitico-preditivo.html"><a href="quadro-analitico-preditivo.html#fontes-de-recursos-que-tendem-a-acumular-recurso"><i class="fa fa-check"></i><b>4.1</b> Fontes de recursos que tendem a acumular recurso</a></li>
+<li class="chapter" data-level="4.2" data-path="quadro-analitico-preditivo.html"><a href="quadro-analitico-preditivo.html#previsao-de-disponibilidade-liquida"><i class="fa fa-check"></i><b>4.2</b> Previsão de disponibilidade líquida</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referências</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado com bookdown</a></li>
@@ -122,32 +126,106 @@
 <ul>
 <li>Gráficos das séries temporais das disponibilidades líquidas de cada UG e Fonte de Recurso.</li>
 <li>Gráficos das séries temporais das disponibilidades líquidas consolidadas por UG.</li>
-<li>Indicadores de disponibilidades líquidas negativas para as UGs:
-<ul>
-<li>Proporção do tempo do período analisado com disponibilidade negativa.</li>
-<li>Duração da disponibilidade negativa atual.</li>
-</ul></li>
 </ul>
+<p>Aplicativo: <a href="https://rseis.shinyapps.io/explorador_disponibilidades_liquidas">Explorador das séries temporais das disponibilidades líquidas</a></p>
+<ul>
+<li>Indicador de disponibilidade líquida acumulante para as UGs.</li>
+</ul>
+<div id="indicador-disponibilidade-liquida-acumulante-por-ug" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Indicador disponibilidade líquida acumulante por UG</h3>
+<p><strong>1) Disponibilidades Líquidas Acumulantes:</strong> Indicador que apresenta valor alto quando uma UG apresenta disponibilidade líquida que apenas cresce com o passar do tempo para uma determinada fonte de recurso.</p>
+<div class="figure"><span id="fig:unnamed-chunk-2"></span>
+<img src="03-quadro-historico_files/figure-html/unnamed-chunk-2-1.png" alt="Disponibilidade líquida por fonte de recursos do CONSELHO ADMINISTRATIVO DE DEFESA ECONÔMICA. A fonte RECURSOS NÃO-FINANCEIROS DIRETAMENTE ARRECADADOS (linha verde) é um exemplo de disponibilidade líquida acumulante." width="960" />
+<p class="caption">
+Figure 3.1: Disponibilidade líquida por fonte de recursos do CONSELHO ADMINISTRATIVO DE DEFESA ECONÔMICA. A fonte RECURSOS NÃO-FINANCEIROS DIRETAMENTE ARRECADADOS (linha verde) é um exemplo de disponibilidade líquida acumulante.
+</p>
+</div>
+<p>Definição do indicador: <span class="math inline">\(P_1 + P_2\)</span></p>
+<p>em que</p>
+<p><span class="math display">\[
+P_1 = \frac{1}{N}\sum I(y_i &gt; y_{i - 1})
+\]</span></p>
+<p>e <strong>para quando a disponibilidade diminui</strong></p>
+<p><span class="math display">\[
+P_2 = \frac{1}{N_{y_i &lt; y_{i - 1}}}\sum I(|y_i -y_{i - 1}| &lt; \sigma)
+\]</span></p>
+<p>Em outras palavras, o indicador aponta curvas crescentes (<span class="math inline">\(P_1\)</span>) permitindo pequenas perturbações (<span class="math inline">\(P_2\)</span>).</p>
+<p>Abaixo estão as UGs com os maiores valores do indicador, e suas respectivas fontes de recursos:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">UG</th>
+<th align="left">Fonte de Recursos</th>
+<th align="right">Indicador</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">CONSELHO ADMINISTRATIVO DE DEFESA ECONOMICA</td>
+<td align="left">RECURSOS NAO-FINANCEIROS DIRETAM. ARRECADADOS</td>
+<td align="right">1.23</td>
+</tr>
+<tr class="even">
+<td align="left">SUPERINTENDENCIA REG. POL. RODV. FEDERAL-BA</td>
+<td align="left">RECURSOS DIVERSOS</td>
+<td align="right">1.20</td>
+</tr>
+<tr class="odd">
+<td align="left">FUNDO NACIONAL ANTIDROGAS</td>
+<td align="left">RECURSOS NAO-FINANCEIROS DIRETAM. ARRECADADOS</td>
+<td align="right">1.19</td>
+</tr>
+<tr class="even">
+<td align="left">SUPERINTENDENCIA REG. POL. RODV. FEDERAL-GO</td>
+<td align="left">RECURSOS DIVERSOS</td>
+<td align="right">1.14</td>
+</tr>
+<tr class="odd">
+<td align="left">SUPERINTENDENCIA REG. POL. RODV. FEDERAL-SC</td>
+<td align="left">RECURSOS DIVERSOS</td>
+<td align="right">1.11</td>
+</tr>
+<tr class="even">
+<td align="left">DEPARTAMENTO PENITENCIARIO NACIONAL</td>
+<td align="left">RECURSOS NAO-FINANCEIROS DIRETAM. ARRECADADOS</td>
+<td align="right">1.10</td>
+</tr>
+<tr class="odd">
+<td align="left">SUPERINTENDENCIA REG. POL. RODV. FEDERAL-RO</td>
+<td align="left">RECURSOS DIVERSOS</td>
+<td align="right">1.10</td>
+</tr>
+<tr class="even">
+<td align="left">SUPERINTENDENCIA REG. POL. RODV. FEDERAL-RO</td>
+<td align="left">RECURSOS DIVERSOS</td>
+<td align="right">1.09</td>
+</tr>
+<tr class="odd">
+<td align="left">SUPERINTENDENCIA REG. POL. RODV. FEDERAL-PR</td>
+<td align="left">RECURSOS NAO-FINANCEIROS DIRETAM. ARRECADADOS</td>
+<td align="right">1.07</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div id="classificacoes-orcamentarias-e-financeiras" class="section level2">
 <h2><span class="header-section-number">3.2</span> Classificações Orçamentárias e Financeiras</h2>
-<ol start="3" style="list-style-type: lower-alpha">
-<li>Despesas e Vinculações</li>
-</ol>
-</div>
-<div id="disponibilidades-liquidas-por-vinculacao" class="section level2">
-<h2><span class="header-section-number">3.3</span> Disponibilidades Líquidas por Vinculação</h2>
-<ol start="4" style="list-style-type: lower-alpha">
-<li>revisitamos…</li>
-</ol>
+<p>Destino das fontes de recursos e suas respectivas funções.</p>
+<p><img src="03-quadro-historico_files/figure-html/unnamed-chunk-4-1.png" width="1152" /></p>
+<ul>
+<li>Todas as fontes de recursos são repartidas entre <strong>previdência social</strong> e <strong>segurança pública</strong>;</li>
+<li>Porém, se a função for <strong>INSS - EPU CUSTEIO</strong>, o recurso é destinado a Previdência social.</li>
+</ul>
 </div>
 <div id="comportamento-do-caixa-por-movimentacao" class="section level2">
-<h2><span class="header-section-number">3.4</span> Comportamento do Caixa por Movimentação</h2>
+<h2><span class="header-section-number">3.3</span> Comportamento do Caixa por Movimentação</h2>
 <ul>
 <li>Gráficos das séries temporais dos saldos e obrigações de cada UG e Fonte de Recurso.</li>
 <li>Gráficos das séries temporais dos saldos e obrigações consolidados por UG.</li>
 <li>Gráfico dos tempos entre duas movimentações de grande porte por UG e por Órgão.</li>
 </ul>
+<p>Aplicativo: <a href="https://rseis.shinyapps.io/explorador_disponibilidades_liquidas">Explorador das séries temporais das disponibilidades líquidas</a></p>
 
 </div>
 </div>
@@ -202,6 +280,19 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

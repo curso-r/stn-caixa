@@ -1,9 +1,9 @@
 library(lubridate)
 library(tidyverse)
 
-obrigacoes <- read_rds("data/obrigacoes.rds")
-pagamentos <- read_rds("data/pagamentos.rds")
-lim_saque  <- read_rds("data/lim_saque.rds") 
+obrigacoes <- read_rds("../data/obrigacoes.rds")
+pagamentos <- read_rds("../data/pagamentos.rds")
+lim_saque  <- read_rds("../data/lim_saque.rds") 
 
 
 # saldos diários ----------------------------------------------------------
@@ -47,6 +47,7 @@ saldos_diarios <- lim_saque %>%
   ) %>%
   ungroup()
 
+saveRDS(saldos_diarios, file = "../data/saldos_diarios.rds")
 
 # obrigações a pagar diárias ----------------------------------------------
 obrigacoes_a_pagar_diarias <- obrigacoes %>%
@@ -181,8 +182,8 @@ disponibilidades_liquidas_diarias <- saldos_diarios %>%
     disponibilidade_liquida = saldo_diario_acumulado - obrigacoes_a_pagar_diario_acumulado
   )
 
-saveRDS(disponibilidades_liquidas_diarias, file = "data/disponibilidades_liquidas_diarias.rds")
-saveRDS(disponibilidades_liquidas_diarias, file = "apps/explorador_disponibilidades_liquidas_v2/disponibilidades_liquidas_diarias.rds")
+saveRDS(disponibilidades_liquidas_diarias, file = "../data/disponibilidades_liquidas_diarias.rds")
+saveRDS(disponibilidades_liquidas_diarias, file = "../apps/explorador_disponibilidades_liquidas_v2/disponibilidades_liquidas_diarias.rds")
 
 
 # disponibilidades líquidas diárias visão UG ------------------------------
@@ -222,6 +223,9 @@ indicadores <- disponibilidades_liquidas_diarias %>%
     disponibilidade_estritamente_crescente = mean(diff(disponibilidade_liquida)  > 0) + mean(abs(diff(disponibilidade_liquida)[diff(disponibilidade_liquida) < 0]) < sd(disponibilidade_liquida)/100)
   ) %>%
   arrange(desc(disponibilidade_estritamente_crescente))
+
+saveRDS(indicadores, file = "../apps/explorador_disponibilidades_liquidas/indicadores.rds")
+saveRDS(indicadores, file = "../data/indicadores.rds")
 
 ##################
 # checando se o 01/01/2018 bate com as contas de 2017 de uma certa NO_UG para uma certa fonte NO_FONTE
