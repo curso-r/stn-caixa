@@ -65,7 +65,6 @@ library(tidyverse)
 ## Dados
 
 ```{r}
-
 obrigacoes <- read_rds("../data/obrigacoes.rds")
 pagamentos <- read_rds("../data/pagamentos.rds")
 lim_saque  <- read_rds("../data/lim_saque.rds") 

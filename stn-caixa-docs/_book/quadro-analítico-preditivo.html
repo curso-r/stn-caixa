@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Capítulo 4 Quadro analítico preditivo | Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)</title>
   <meta name="description" content="STN-Caixa" />
-  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Capítulo 4 Quadro analítico preditivo | Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="R6 Estatística e Treinamentos LTDA" />
 
 
-<meta name="date" content="2019-12-27" />
+<meta name="date" content="2020-01-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -40,9 +40,6 @@
 <link href="book_assets/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="book_assets/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="book_assets/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-<link href="book_assets/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
-
 
 
 
@@ -89,8 +86,17 @@
 <li class="chapter" data-level="2.7.3" data-path="validação-e-compreensão-dos-dados.html"><a href="validação-e-compreensão-dos-dados.html#limimtes-de-saque-por-tipo-de-documento"><i class="fa fa-check"></i><b>2.7.3</b> Limimtes de Saque Por Tipo De Documento</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="quadro-analítico-histórico.html"><a href="quadro-analítico-histórico.html"><i class="fa fa-check"></i><b>3</b> Quadro analítico histórico</a></li>
-<li class="chapter" data-level="4" data-path="quadro-analítico-preditivo.html"><a href="quadro-analítico-preditivo.html"><i class="fa fa-check"></i><b>4</b> Quadro analítico preditivo</a></li>
+<li class="chapter" data-level="3" data-path="quadro-analítico-histórico.html"><a href="quadro-analítico-histórico.html"><i class="fa fa-check"></i><b>3</b> Quadro analítico histórico</a><ul>
+<li class="chapter" data-level="3.1" data-path="quadro-analítico-histórico.html"><a href="quadro-analítico-histórico.html#disponibilidades-líquidas"><i class="fa fa-check"></i><b>3.1</b> Disponibilidades Líquidas</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="quadro-analítico-histórico.html"><a href="quadro-analítico-histórico.html#indicador-disponibilidade-líquida-acumulante-por-ug"><i class="fa fa-check"></i><b>3.1.1</b> Indicador disponibilidade líquida acumulante por UG</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="quadro-analítico-histórico.html"><a href="quadro-analítico-histórico.html#classificações-orçamentárias-e-financeiras"><i class="fa fa-check"></i><b>3.2</b> Classificações Orçamentárias e Financeiras</a></li>
+<li class="chapter" data-level="3.3" data-path="quadro-analítico-histórico.html"><a href="quadro-analítico-histórico.html#comportamento-do-caixa-por-movimentação"><i class="fa fa-check"></i><b>3.3</b> Comportamento do Caixa por Movimentação</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="quadro-analítico-preditivo.html"><a href="quadro-analítico-preditivo.html"><i class="fa fa-check"></i><b>4</b> Quadro analítico preditivo</a><ul>
+<li class="chapter" data-level="4.1" data-path="quadro-analítico-preditivo.html"><a href="quadro-analítico-preditivo.html#fontes-de-recursos-que-tendem-a-acumular-recurso"><i class="fa fa-check"></i><b>4.1</b> Fontes de recursos que tendem a acumular recurso</a></li>
+<li class="chapter" data-level="4.2" data-path="quadro-analítico-preditivo.html"><a href="quadro-analítico-preditivo.html#previsão-de-disponibilidade-líquida"><i class="fa fa-check"></i><b>4.2</b> Previsão de disponibilidade líquida</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="referências.html"><a href="referências.html"><i class="fa fa-check"></i>Referências</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado com bookdown</a></li>
@@ -114,7 +120,32 @@
             <section class="normal" id="section-">
 <div id="quadro-analítico-preditivo" class="section level1">
 <h1><span class="header-section-number">Capítulo 4</span> Quadro analítico preditivo</h1>
+<div id="fontes-de-recursos-que-tendem-a-acumular-recurso" class="section level2">
+<h2><span class="header-section-number">4.1</span> Fontes de recursos que tendem a acumular recurso</h2>
+<p><img src="04-quadro-preditivo_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>A tendência é que as fontes de recursos</p>
+<ul>
+<li><strong>destinados às atividades com fins de seguridade social</strong>,</li>
+<li><strong>não financeiros diretamente arrecadados</strong> e</li>
+<li><strong>ordinários</strong></li>
+</ul>
+<p>tenham perfil recursos de acumulantes enquanto que as fontes de recursos</p>
+<ul>
+<li><strong>de consessões e permissões</strong>,
+-<strong>livres da seguridade social</strong>,</li>
+<li><strong>fundo social parcialmente destinados à educação pública e saúde</strong>,</li>
+<li><strong>destinados a manutenção e desenvolvimento do ensino</strong> e</li>
+<li><strong>de alienação de bens e direito do patrimônio público</strong></li>
+</ul>
+<p>tendem a não acumularem.</p>
+</div>
+<div id="previsão-de-disponibilidade-líquida" class="section level2">
+<h2><span class="header-section-number">4.2</span> Previsão de disponibilidade líquida</h2>
+<p>Construímos modelos de séries temporais para previsão de disponibilidade líquida para cada fonte de recursos e UGs.
+O desempenho dos modelos foi avaliado para os períodos de 1 semana, 1 mês, 6 meses e 1 ano.</p>
+<p>Foi construída uma calculadora em Shiny para consultar as previsões e resultados de cada um dos cenários.</p>
 
+</div>
 </div>
             </section>
 
@@ -127,13 +158,11 @@
   </div>
 <script src="book_assets/gitbook-2.6.7/js/app.min.js"></script>
 <script src="book_assets/gitbook-2.6.7/js/lunr.js"></script>
-<script src="book_assets/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="book_assets/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="book_assets/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="book_assets/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="book_assets/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="book_assets/gitbook-2.6.7/js/jquery.highlight.js"></script>
-<script src="book_assets/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -169,6 +198,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

@@ -5,7 +5,6 @@ obrigacoes <- read_rds("../data/obrigacoes.rds")
 pagamentos <- read_rds("../data/pagamentos.rds")
 lim_saque  <- read_rds("../data/lim_saque.rds") 
 
-
 # saldos diários ----------------------------------------------------------
 saldos_diarios <- lim_saque %>%
   group_by(
@@ -208,24 +207,6 @@ disponibilidades_liquidas_diarias_visao_ug <- disponibilidades_liquidas_diarias 
 saveRDS(disponibilidades_liquidas_diarias_visao_ug, file = "data/disponibilidades_liquidas_diarias_visao_ug.rds")
 saveRDS(disponibilidades_liquidas_diarias_visao_ug, file = "apps/explorador_disponibilidades_liquidas_v2/disponibilidades_liquidas_diarias_visao_ug.rds")
 
-
-# indicador de disponibilidade liquida positiva ---------------------------
-indicadores <- disponibilidades_liquidas_diarias %>%
-  group_by(
-    ID_ANO_LANC,
-    NO_UG,
-    NO_ORGAO,
-    NO_FONTE_RECURSO
-  ) %>%
-  summarise(
-    proporcao_de_disponibilidade_liquida_negativa = mean(disponibilidade_liquida < 0),
-    dias_no_periodo = n(),
-    disponibilidade_estritamente_crescente = mean(diff(disponibilidade_liquida)  > 0) + mean(abs(diff(disponibilidade_liquida)[diff(disponibilidade_liquida) < 0]) < sd(disponibilidade_liquida)/100)
-  ) %>%
-  arrange(desc(disponibilidade_estritamente_crescente))
-
-saveRDS(indicadores, file = "../apps/explorador_disponibilidades_liquidas/indicadores.rds")
-saveRDS(indicadores, file = "../data/indicadores.rds")
 
 ##################
 # checando se o 01/01/2018 bate com as contas de 2017 de uma certa NO_UG para uma certa fonte NO_FONTE

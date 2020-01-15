@@ -85,6 +85,7 @@ grafico_linhas <- function(data, log = FALSE) {
 }
 
 disponibilidades_liquidas_diarias <- read_rds("disponibilidades_liquidas_diarias.rds")
+indicadores <- read_rds("indicadores.rds")
 
 sumario_por_ug <- disponibilidades_liquidas_diarias %>%
   filter(!paded) %>%
