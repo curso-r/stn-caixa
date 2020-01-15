@@ -1,0 +1,10 @@
+# Quadro analítico histórico 
+
+
+
+
+
+
+
+
+

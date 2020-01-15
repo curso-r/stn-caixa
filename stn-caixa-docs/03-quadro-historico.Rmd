@@ -7,6 +7,7 @@ knitr::opts_chunk$set(
   warning = FALSE, 
   eval = TRUE
 )
+library(ggaluvial)
 library(tidyverse)
 ```
 
