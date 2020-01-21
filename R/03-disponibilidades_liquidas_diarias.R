@@ -1,9 +1,9 @@
 library(lubridate)
 library(tidyverse)
 
-obrigacoes <- read_rds("../data/obrigacoes.rds")
-pagamentos <- read_rds("../data/pagamentos.rds")
-lim_saque  <- read_rds("../data/lim_saque.rds") 
+obrigacoes <- read_rds("data/obrigacoes.rds")
+pagamentos <- read_rds("data/pagamentos.rds")
+lim_saque  <- read_rds("data/lim_saque.rds") 
 
 # saldos diários ----------------------------------------------------------
 saldos_diarios <- lim_saque %>%
@@ -46,7 +46,7 @@ saldos_diarios <- lim_saque %>%
   ) %>%
   ungroup()
 
-saveRDS(saldos_diarios, file = "../data/saldos_diarios.rds")
+saveRDS(saldos_diarios, file = "data/saldos_diarios.rds")
 
 # obrigações a pagar diárias ----------------------------------------------
 obrigacoes_a_pagar_diarias <- obrigacoes %>%
@@ -92,6 +92,7 @@ obrigacoes_a_pagar_diarias <- obrigacoes %>%
   ) %>%
   ungroup()
 
+saveRDS(obrigacoes_a_pagar_diarias, file = "data/obrigacoes_a_pagar_diarias.rds")
 
 # obrigações a pagar diárias ----------------------------------------------
 pagamentos_diarios <- pagamentos %>%
@@ -137,6 +138,7 @@ pagamentos_diarios <- pagamentos %>%
   ) %>%
   ungroup()
 
+saveRDS(pagamentos_diarios, file = "data/pagamentos_diarios.rds")
 
 # disponibilidades líquidas diárias ---------------------------------------
 disponibilidades_liquidas_diarias <- saldos_diarios %>%
@@ -181,8 +183,8 @@ disponibilidades_liquidas_diarias <- saldos_diarios %>%
     disponibilidade_liquida = saldo_diario_acumulado - obrigacoes_a_pagar_diario_acumulado
   )
 
-saveRDS(disponibilidades_liquidas_diarias, file = "../data/disponibilidades_liquidas_diarias.rds")
-saveRDS(disponibilidades_liquidas_diarias, file = "../apps/explorador_disponibilidades_liquidas_v2/disponibilidades_liquidas_diarias.rds")
+saveRDS(disponibilidades_liquidas_diarias, file = "data/disponibilidades_liquidas_diarias.rds")
+saveRDS(disponibilidades_liquidas_diarias, file = "apps/explorador_disponibilidades_liquidas_v2/disponibilidades_liquidas_diarias.rds")
 
 
 # disponibilidades líquidas diárias visão UG ------------------------------

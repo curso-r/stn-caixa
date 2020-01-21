@@ -1,6 +1,13 @@
 library(tidyverse)
+library(trelliscopejs)
+
+trinta_e_uns_de_dezembro <- tibble(
+  NO_DIA_COMPLETO_dmy = as.Date(c("2017-12-31", "2018-12-31", "2019-12-31"))
+)
+
 
 disponibilidades_liquidas_diarias <- read_rds("data/disponibilidades_liquidas_diarias.rds")
+obrigacoes_a_pagar_diarias <- read_rds("data/obrigacoes_a_pagar_diarias.rds")
 
 # indicador de disponibilidade liquida ---------------------------
 indicadores <- disponibilidades_liquidas_diarias %>%
@@ -13,7 +20,8 @@ indicadores <- disponibilidades_liquidas_diarias %>%
   summarise(
     proporcao_de_disponibilidade_liquida_negativa = mean(disponibilidade_liquida < 0),
     dias_no_periodo = n(),
-    disponibilidade_estritamente_crescente = mean(diff(disponibilidade_liquida)  > 0) + mean(abs(diff(disponibilidade_liquida)[diff(disponibilidade_liquida) < 0]) < sd(disponibilidade_liquida)/100),
+    disponibilidade_estritamente_crescente = mean(diff(disponibilidade_liquida)  > 0) + mean(abs(diff(disponibilidade_liquida)[diff(disponibilidade_liquida) < 0]) < (sd(disponibilidade_liquida) + 0.001)/100),
+    disponibilidade_liquida_cte  = sd(disponibilidade_liquida) <= 0.00000001,
     integral = sum(disponibilidade_liquida),
     soma_dos_gastos = sum(pagamento_diario),
     soma_dos_gastos = if_else(abs(soma_dos_gastos) < 10, 10, soma_dos_gastos),
@@ -25,29 +33,46 @@ saveRDS(indicadores, file = "apps/explorador_disponibilidades_liquidas/indicador
 saveRDS(indicadores, file = "data/indicadores.rds")
 
 
-# graficos ----------------------------------------------------------------
-##
+# Um gráfico ----------------------------------------------------------------
 disponibilidades_liquidas_diarias %>%
   filter(
-    NO_ORGAO == "DEPARTAMENTO DE POLICIA RODOVIARIA FEDERAL/MJ",
-    NO_FONTE_RECURSO == "TX/MUL.P/PODER DE POLICIA E MUL.PROV.PROC.JUD"
+    str_detect(NO_ORGAO, "EPARTAMENTO DE POLICIA RODOVIARIA FEDERAL/MJ"),
+    str_detect(NO_UG, "COORDENACAO-GERAL DE PLA") ,
+    str_detect(NO_FONTE_RECURSO, "RECURSOS DIVERSOS")
   ) %>%
-  ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida, colour = NO_UG)) +
-  geom_line()
+  ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
+  geom_line(aes(colour = NO_FONTE_RECURSO, group = NO_UG))
 
+
+
+View(disponibilidades_liquidas_diarias)
+
+View(disponibilidades_liquidas_diarias %>%
+       filter(
+         str_detect(NO_ORGAO, "EPARTAMENTO DE POLICIA RODOVIARIA FEDERAL/MJ"),
+         str_detect(NO_UG, "COORDENACAO-GERAL DE PLA") ,
+         str_detect(NO_FONTE_RECURSO, "RECURSOS DIVERSOS")
+       ))
+
+
+
+
+# gráfico -----------------------------------------------------------------
 ##
 orgaos_sorteados <- indicadores  %>%
+  arrange(desc(disponibilidade_estritamente_crescente)) %>%
   ungroup %>%
-  distinct(NO_ORGAO) %>%
-  sample_n(1) 
+  distinct(NO_ORGAO, NO_FONTE_RECURSO) %>%
+  head(6) 
 
 ##
 log_neg <- function(x) {
   sign(x) * log1p(abs(x))
 }
 
-##
-indicadores  %>%
+# visao FONTE ---------------------------------------------------------------
+## sumarios
+ind <- indicadores  %>%
   ungroup %>%
   filter(
     NO_ORGAO %in% orgaos_sorteados$NO_ORGAO
@@ -56,11 +81,95 @@ indicadores  %>%
     integral_sobre_media_dos_gastos_log = sign(integral_sobre_media_dos_gastos) * log1p(abs(integral_sobre_media_dos_gastos))
   ) %>%
   ggplot(aes(x = integral_sobre_media_dos_gastos_log, y = NO_FONTE_RECURSO, colour = NO_FONTE_RECURSO)) +
-  geom_jitter(aes(size = log_neg(integral))) +
+  geom_point(size = 4, alpha = 0.5, show.legend = FALSE) +
   geom_hline(yintercept = 0, colour = "red") +
-  # labs(title = orgaos_sorteados$NO_ORGAO, subtitle = orgaos_sorteados$NO_FONTE_RECURSO) +
-  geom_vline(xintercept = 0, colour = "red")
-  
+  geom_vline(xintercept = 0, colour = "red") +
+  theme_minimal()
+
+plotly::ggplotly(ind) %>% plotly::hide_legend()
+
+## series
+ts <- disponibilidades_liquidas_diarias  %>%
+  ungroup %>%
+  semi_join(orgaos_sorteados) %>%
+  ggplot(aes(y = disponibilidade_liquida, x = NO_DIA_COMPLETO_dmy)) +
+  geom_line(aes(group = NO_UG, colour = NO_FONTE_RECURSO), show.legend = FALSE) +
+  facet_wrap(~NO_FONTE_RECURSO + NO_ORGAO, scales = "free_y", ncol = 4) +
+  geom_vline(data = trinta_e_uns_de_dezembro, aes(xintercept = NO_DIA_COMPLETO_dmy), colour = "purple", linetype = "dashed", size = 0.2) +
+  theme_minimal()
+
+plotly::ggplotly(ts) %>% plotly::hide_legend()
+
+
+
+
+
+
+
+
+
+
+
+
+# visao UG ---------------------------------------------------------------
+## sumarios
+ind <- indicadores  %>%
+  ungroup %>%
+  filter(
+    NO_ORGAO %in% orgaos_sorteados$NO_ORGAO
+  ) %>%
+  mutate(
+    integral_sobre_media_dos_gastos_log = sign(integral_sobre_media_dos_gastos) * log1p(abs(integral_sobre_media_dos_gastos))
+  ) %>%
+  ggplot(aes(x = integral_sobre_media_dos_gastos_log, y = NO_UG, colour = NO_FONTE_RECURSO)) +
+  # geom_jitter(aes(size = log_neg(integral))) +
+  geom_point(size = 4, alpha = 0.5, show.legend = FALSE) +
+  geom_hline(yintercept = 0, colour = "red") +
+  geom_vline(xintercept = 0, colour = "red") +
+  theme_minimal()
+
+plotly::ggplotly(ind) %>% plotly::hide_legend()
+
+
+## series
+ts <- disponibilidades_liquidas_diarias  %>%
+  ungroup %>%
+  filter(
+    NO_ORGAO %in% orgaos_sorteados$NO_ORGAO
+  ) %>%
+  filter(
+    NO_UG %in% sample(unique(NO_UG), 2)
+  ) %>%
+  ggplot(aes(y = disponibilidade_liquida, x = NO_DIA_COMPLETO_dmy)) +
+  geom_line(aes(group = NO_FONTE_RECURSO, colour = NO_FONTE_RECURSO)) +
+  facet_wrap(~NO_UG, scales = "free_y", ncol = 4) +
+  geom_vline(data = trinta_e_uns_de_dezembro, aes(xintercept = NO_DIA_COMPLETO_dmy), colour = "purple", linetype = "dashed", size = 0.2) +
+  theme_minimal()
+
+plotly::ggplotly(ts) %>% plotly::hide_legend()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ###
 fonte = "RECURSOS FINANCEIROS DIRETAMENTE ARRECADADOS"
 orgao = "MINISTERIO DA JUSTICA E SEGURANCA PUBLICA"
@@ -89,12 +198,6 @@ disponibilidades_liquidas_diarias %>%
   geom_vline(data = trinta_e_uns_de_dezembro, aes(xintercept = NO_DIA_COMPLETO_dmy), colour = "purple", linetype = "dashed", size = 0.2) +
   facet_wrap(~NO_UG, scale = "free_y")
 
-
-library(trelliscopejs)
-
-trinta_e_uns_de_dezembro <- tibble(
-  NO_DIA_COMPLETO_dmy = as.Date(c("2017-12-31", "2018-12-31", "2019-12-31"))
-)
 
 ### Um gráfico por fonte. Cada curva é uma UG
 indicadores %>% 
