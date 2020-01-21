@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)</title>
+  <title>Referências | Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)</title>
   <meta name="description" content="STN-Caixa" />
   <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)" />
+  <meta property="og:title" content="Referências | Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="curso-r/stn-caixa" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)" />
+  <meta name="twitter:title" content="Referências | Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)" />
   
   <meta name="twitter:description" content="STN-Caixa" />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
+<link rel="prev" href="quadro-analitico-preditivo.html">
 
-<link rel="next" href="validacao-e-compreensao-dos-dados.html">
 <script src="book_assets/jquery-2.2.3/jquery.min.js"></script>
 <link href="book_assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="book_assets/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -122,87 +122,38 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)</h1>
-<p class="author"><em>R6 Estatística e Treinamentos LTDA</em></p>
-<p class="date"><em>2020-01-21</em></p>
-</div>
-<div id="introducao" class="section level1">
-<h1><span class="header-section-number">Capítulo 1</span> Introdução</h1>
-<p>O objetivo deste projeto é analisar o comportamento do caixa e das obrigações financeiras dos órgãos federais, com a finalidade de fornecer informações para a gestão da programação financeira por parte do Tesouro Nacional, além de identificar oportunidades de melhorias nesse processo, e possivelmente fundamentar a criação de indicadores para avaliação da gestão financeira das unidades do Governo Federal.</p>
-<p>Elencamos aqui alguns aspectos importantes do projeto.</p>
-<div id="questoes-investigadas" class="section level2">
-<h2><span class="header-section-number">1.1</span> Questões investigadas</h2>
-<p>De início, analisamos o perfil das despesas e receitas das unidades do Governo Federal, começando com os órgãos do Ministério da Justiça (que já possui um sistema de acompanhamento de despesas bem estruturado).</p>
-<p>A análise procurou compatibilizar as informações orçamentárias com as informações financeiras. Chamamos de <em>classificadores orçamentários</em>: Função, Subfunção, Programa, Ação, Grupo de Despesa, Modalidade de Aplicação, Elemento de Despesa, Indicador de Resultado EOF, Indicador de Exceção Decreto. Como <em>classificadores financeiros</em>, nos referimos, essencialmente, à Vinculação de Pagamento.</p>
-<p>A <em>Fonte de Recurso</em> é um classificador comum a esses dois contextos, orçamentário e financeiro.</p>
-<p>Com esse escopo em mente, em parceria com a equipe do GT-CEAD, as seguintes questões foram abordadas neste projeto:</p>
-<ol style="list-style-type: lower-alpha">
-<li><p>Qual o comportamento do caixa e das obrigações a pagar (e da disponibilidade líquida) no período analisado<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>?</p></li>
-<li><p>Existem casos em que unidades de um mesmo órgão permanecem com disponibilidade líquida negativa, enquanto outras unidades desse mesmo órgão encontram-se com disponibilidade positiva? E se considerar a fonte de recursos, há casos em que o órgão passa por períodos com disponibilidade negativa em uma fonte enquanto há recursos disponíveis em outra fonte? E se considerar as duas situações conjuntamente<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>?</p></li>
-<li><p>Como as classificações orçamentárias se relacionam com as classificações financeiras? Especificamente, é possível identificar certos tipos de despesas que são sempre (ou frequentemente) pagas com recursos de determinadas vinculações?</p></li>
-<li><p>Caso seja possível a identificação mencionada em (c), as questões (a) e (b) seriam revisitadas para estimar a disponibilidade líquida para cada vinculação, considerando as classificações orçamentárias das obrigações. Nesse cenário, existem unidades com saldo total suficiente para cobrir todas as suas obrigações, porém com insuficiência em algumas vinculações?</p></li>
-<li><p>Qual o comportamento do caixa das unidades em termos de movimentações?</p></li>
-<li><p>Qual o intervalo entre duas operações<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> de grande porte?</p></li>
-</ol>
-<p>Para responder essas perguntas, utilizamos ferramentas descritivas e de modelagem preditiva, descritas nos Capítulos 3 e 4, respectivamente.</p>
-</div>
-<div id="as-bases-de-dados" class="section level2">
-<h2><span class="header-section-number">1.2</span> As bases de dados</h2>
-<!-- Algumas ideias, a serem testadas: -->
-<!-- * analisar as despesas pagas, pelos classificadores, pelo número da nota de empenho e pelo número do documento de pagamento; e relacionar documento de pagamento x nota de empenho x vinculação de pagamento pelo campo "inscrição" do documento de pagamento. -->
-<!-- * analisar as despesas pagas, pelos classificadores, pelo número da nota de empenho e pelo número do documento de pagamento; e tentar compatibilizar com as informações dos pagamentos efetuados, por vinculação de pagamento e número do documento de pegamento. -->
-<!-- * Mais simples: parecido com o anterior, a partir da tabela com as despesas pagas detalhadas pelos classificadores orçamentários, empenho e documento de pagamento, buscar a _vinculação de pagamento_ de uma tabela com toda a movimentação do limite de saque detalhada por documento. Assim, quando a movimentação do limite de saque for um pagamento, o documento correspondente, um documento de pagamento, pode ser usado como chave para relacionar as duas tabelas. -->
-<p>Para responder as questões levantadas no item anterior, os dados do SIAFI foram divididos em três bases de dados:</p>
+<div id="referencias" class="section level1 unnumbered">
+<h1>Referências</h1>
 <ul>
-<li><ol style="list-style-type: decimal">
-<li>base de movimentações diárias do limite de saque;</li>
-</ol></li>
-<li><ol start="2" style="list-style-type: decimal">
-<li>base de pagamentos diários;</li>
-</ol></li>
-<li><ol start="3" style="list-style-type: decimal">
-<li>base de movimentações diárias nas obrigações a pagar.</li>
-</ol></li>
+<li>NatGep migration waves</li>
 </ul>
-<p>Com as Tabelas 1 e 3, calculamos a <em>disponibilidade líquida diária</em> a partir da subtração entre os saldos diários do caixa (Tabela 1) e as obrigações a pagar (Tabela 3), para cada unidade gestora ou órgão, e para cada fonte de recursos.</p>
-<p>Com as Tabelas 1 e 2, relacionamos no contexto dos pagamentos, as informações orçamentrárias (Tabela 2) com os vínculos de pagamento (Tabela 1).</p>
-<p>Finalmente com a Tabela 1, analisamos as movimentações para tipo de documento, obtendo um histórico das movimentações de cada órgão e cada Unidade Gestora.</p>
-<p>Na primeira etapa do projeto, essas bases foram estudadas e validadas. Bases auxiliares também foram construídas para facilitar as análises subsequentes. A documentação dessa etapa se encontra no Capítulo 2.</p>
-</div>
-<div id="analise-descritiva" class="section level2">
-<h2><span class="header-section-number">1.3</span> Análise descritiva</h2>
-<p>Dada a riqueza de informações e granularidade das bases de dados, todos os resultados descritivos foram construídos em uma aplicação online, que permite a manipulação das visualizações a partir de filtros e seletores.</p>
-<p>O aplicativo pode ser acessado a partir do seguinte link: <a href="https://rseis.shinyapps.io/explorador_disponibilidades_liquidas_v2/" class="uri">https://rseis.shinyapps.io/explorador_disponibilidades_liquidas_v2/</a></p>
-<p>O código-fonte e manutenção do aplicativo foram repassados à equipe do GT-CEAD ao fim do projeto.</p>
-<p>Um resumo dos principais resultados se encontra no Capítulo 3.</p>
-</div>
-<div id="analise-preditiva" class="section level2">
-<h2><span class="header-section-number">1.4</span> Análise preditiva</h2>
-<p>Os modelos utilizados neste projeto consideraram os métodos em estado da arte dentro do contexto de modelagem preditiva, como florestas aleatórias, o algorítmo XGBoost e redes neurais.</p>
-<p>A descrição dos modelos ajustados e seus resultados se encontram no Capítulo 4.</p>
-</div>
-<div id="oficina-de-repasses-e-implementacao-dos-produtos" class="section level2">
-<h2><span class="header-section-number">1.5</span> Oficina de repasses e implementação dos produtos</h2>
-<p>A última etapa do projeto consistiu de uma oficina de repasses, realizada presencialmente no GT-CEAD, no Tesouro Nacional, em Brasília. Nessa oficina, foi discutida a teoria por trás dos métodos aplicados, tal como apresentada neste relatório. Também foram apresentados e explicados os scripts em linguagem de programação R utilizados para implementar os modelos.</p>
+<p><img src="natgeo.jpg" /></p>
+<p><a href="https://twitter.com/aLucasLopez/status/1153646875427385344?s=20" class="uri">https://twitter.com/aLucasLopez/status/1153646875427385344?s=20</a></p>
+<ul>
+<li><p><a href="https://vallandingham.me/bubble_charts_with_d3v4.html">Diagrama de bolhas em D3 do Jim Vallandingham</a>.</p></li>
+<li><p><a href="https://www.nature.com/articles/s41598-017-13448-3" class="uri">https://www.nature.com/articles/s41598-017-13448-3</a></p></li>
+<li><p><a href="https://github.com/gm-spacagna/deep-ttf/" class="uri">https://github.com/gm-spacagna/deep-ttf/</a></p></li>
+</ul>
 
 </div>
-</div>
-<div class="footnotes">
-<hr />
-<ol start="1">
-<li id="fn1"><p>Por órgão, por unidade e por fonte de recursos.<a href="index.html#fnref1" class="footnote-back">↩</a></p></li>
-<li id="fn2"><p>Ou seja, uma unidade de um mesmo órgão fica com disponibilidade negativa em uma fonte, enquanto outra unidade desse mesmo órgão possui disponibilidade positiva nessa mesma fonte.<a href="index.html#fnref2" class="footnote-back">↩</a></p></li>
-<li id="fn3"><p>Uma despesa alta seguida de um recebimento de recursos também alto.<a href="index.html#fnref3" class="footnote-back">↩</a></p></li>
-</ol>
-</div>
+
+
+
+
+
+
+
+
+
+
+
             </section>
 
           </div>
         </div>
       </div>
+<a href="quadro-analitico-preditivo.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-<a href="validacao-e-compreensao-dos-dados.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="book_assets/gitbook-2.6.7/js/app.min.js"></script>
@@ -232,7 +183,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/99-references.Rmd",
 "text": "Edit"
 },
 "history": {
