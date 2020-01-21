@@ -24,7 +24,7 @@
 <meta name="author" content="R6 Estatística e Treinamentos LTDA" />
 
 
-<meta name="date" content="2019-12-31" />
+<meta name="date" content="2020-01-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -88,10 +88,14 @@
 </ul></li>
 <li class="chapter" data-level="3" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html"><i class="fa fa-check"></i><b>3</b> Quadro analítico histórico</a><ul>
 <li class="chapter" data-level="3.1" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#disponibilidades-liquidas"><i class="fa fa-check"></i><b>3.1</b> Disponibilidades Líquidas</a><ul>
-<li class="chapter" data-level="3.1.1" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#indicador-disponibilidade-liquida-acumulante-por-ug"><i class="fa fa-check"></i><b>3.1.1</b> Indicador disponibilidade líquida acumulante por UG</a></li>
+<li class="chapter" data-level="3.1.1" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#indicador-de-acumulacao-de-disponibilidade-liquida-i_adl"><i class="fa fa-check"></i><b>3.1.1</b> Indicador de acumulação de disponibilidade líquida (<span class="math inline">\(I_{ADL}\)</span>)</a></li>
+<li class="chapter" data-level="3.1.2" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#definicao"><i class="fa fa-check"></i><b>3.1.2</b> Definição</a></li>
+<li class="chapter" data-level="3.1.3" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#exemplos"><i class="fa fa-check"></i><b>3.1.3</b> Exemplos</a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#classificacoes-orcamentarias-e-financeiras"><i class="fa fa-check"></i><b>3.2</b> Classificações Orçamentárias e Financeiras</a></li>
-<li class="chapter" data-level="3.3" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#comportamento-do-caixa-por-movimentacao"><i class="fa fa-check"></i><b>3.3</b> Comportamento do Caixa por Movimentação</a></li>
+<li class="chapter" data-level="3.2" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#indicador-de-persistencia-de-saldo-positivo-i_psp"><i class="fa fa-check"></i><b>3.2</b> Indicador de persistência de saldo positivo (<span class="math inline">\(I_{PSP}\)</span>)</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#definicao-1"><i class="fa fa-check"></i><b>3.2.1</b> Definição</a></li>
+<li class="chapter" data-level="3.2.2" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#exemplos-1"><i class="fa fa-check"></i><b>3.2.2</b> Exemplos</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="quadro-analitico-preditivo.html"><a href="quadro-analitico-preditivo.html"><i class="fa fa-check"></i><b>4</b> Quadro analítico preditivo</a><ul>
 <li class="chapter" data-level="4.1" data-path="quadro-analitico-preditivo.html"><a href="quadro-analitico-preditivo.html#fontes-de-recursos-que-tendem-a-acumular-recurso"><i class="fa fa-check"></i><b>4.1</b> Fontes de recursos que tendem a acumular recurso</a></li>
@@ -122,25 +126,20 @@
 <h1><span class="header-section-number">Capítulo 3</span> Quadro analítico histórico</h1>
 <div id="disponibilidades-liquidas" class="section level2">
 <h2><span class="header-section-number">3.1</span> Disponibilidades Líquidas</h2>
-<p>Para responder as questões (a) e (b) sobre disponibilidades líquidas das UGs, elaboramos:</p>
+<p>Para responder a questão (a)[a. Qual o comportamento do caixa e das obrigações a pagar (e da disponibilidade líquida) no período analisado?] sobre disponibilidades líquidas das UGs e as respectivas fontes de recursos, elaboramos os seguintes indicadores:</p>
 <ul>
-<li>Gráficos das séries temporais das disponibilidades líquidas de cada UG e Fonte de Recurso.</li>
-<li>Gráficos das séries temporais das disponibilidades líquidas consolidadas por UG.</li>
+<li><p><strong>Indicador de acumulação de disponibilidade líquida:</strong> acusa potencial problema de UGs que estariam recebendo recursos de fontes que já apresentava valores acumulados.</p></li>
+<li><p><strong>Indicador de persistência de saldo positivo:</strong> acusa potencial problema de recurso estacionado por longo período.</p></li>
 </ul>
-<p>Aplicativo: <a href="https://rseis.shinyapps.io/explorador_disponibilidades_liquidas">Explorador das séries temporais das disponibilidades líquidas</a></p>
-<ul>
-<li>Indicador de disponibilidade líquida acumulante para as UGs.</li>
-</ul>
-<div id="indicador-disponibilidade-liquida-acumulante-por-ug" class="section level3">
-<h3><span class="header-section-number">3.1.1</span> Indicador disponibilidade líquida acumulante por UG</h3>
-<p><strong>1) Disponibilidades Líquidas Acumulantes:</strong> Indicador que apresenta valor alto quando uma UG apresenta disponibilidade líquida que apenas cresce com o passar do tempo para uma determinada fonte de recurso.</p>
-<div class="figure"><span id="fig:unnamed-chunk-2"></span>
-<img src="03-quadro-historico_files/figure-html/unnamed-chunk-2-1.png" alt="Disponibilidade líquida por fonte de recursos do CONSELHO ADMINISTRATIVO DE DEFESA ECONÔMICA. A fonte RECURSOS NÃO-FINANCEIROS DIRETAMENTE ARRECADADOS (linha verde) é um exemplo de disponibilidade líquida acumulante." width="960" />
-<p class="caption">
-Figure 3.1: Disponibilidade líquida por fonte de recursos do CONSELHO ADMINISTRATIVO DE DEFESA ECONÔMICA. A fonte RECURSOS NÃO-FINANCEIROS DIRETAMENTE ARRECADADOS (linha verde) é um exemplo de disponibilidade líquida acumulante.
-</p>
+<p>Anexo ao relatório, a tabela <strong>“indicadores.csv”</strong> contém a lista de todas as UGs e fontes de recursos e seus respectivos valores dos indicadores.</p>
+<div id="indicador-de-acumulacao-de-disponibilidade-liquida-i_adl" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Indicador de acumulação de disponibilidade líquida (<span class="math inline">\(I_{ADL}\)</span>)</h3>
+<p>Indicador que apresenta valor alto quando uma UG apresenta disponibilidade líquida que apenas cresce com o passar do tempo para uma determinada fonte de recurso.</p>
 </div>
-<p>Definição do indicador: <span class="math inline">\(P_1 + P_2\)</span></p>
+<div id="definicao" class="section level3">
+<h3><span class="header-section-number">3.1.2</span> Definição</h3>
+<p>Seja <span class="math inline">\(y_i\)</span> a disponibilidade líquida no dia <span class="math inline">\(i\)</span>,</p>
+<p><span class="math inline">\(I_{ADL} = P_1 + P_2\)</span></p>
 <p>em que</p>
 <p><span class="math display">\[
 P_1 = \frac{1}{N}\sum I(y_i &gt; y_{i - 1})
@@ -150,83 +149,90 @@ P_1 = \frac{1}{N}\sum I(y_i &gt; y_{i - 1})
 P_2 = \frac{1}{N_{y_i &lt; y_{i - 1}}}\sum I(|y_i -y_{i - 1}| &lt; \sigma)
 \]</span></p>
 <p>Em outras palavras, o indicador aponta curvas crescentes (<span class="math inline">\(P_1\)</span>) permitindo pequenas perturbações (<span class="math inline">\(P_2\)</span>).</p>
-<p>Abaixo estão as UGs com os maiores valores do indicador, e suas respectivas fontes de recursos:</p>
+</div>
+<div id="exemplos" class="section level3">
+<h3><span class="header-section-number">3.1.3</span> Exemplos</h3>
+<p>Abaixo estão as três curvas com os maiores valores de <span class="math inline">\(I_{ADL}\)</span>:</p>
 <table>
 <thead>
 <tr class="header">
-<th align="left">UG</th>
+<th align="left">Órgão</th>
 <th align="left">Fonte de Recursos</th>
-<th align="right">Indicador</th>
+<th align="left">UG</th>
+<th align="right">IADL</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td align="left">CONSELHO ADMINISTRATIVO DE DEFESA ECONOMICA</td>
 <td align="left">RECURSOS NAO-FINANCEIROS DIRETAM. ARRECADADOS</td>
-<td align="right">1.23</td>
+<td align="left">CONSELHO ADMINISTRATIVO DE DEFESA ECONOMICA</td>
+<td align="right">1.26</td>
 </tr>
 <tr class="even">
-<td align="left">SUPERINTENDENCIA REG. POL. RODV. FEDERAL-BA</td>
-<td align="left">RECURSOS DIVERSOS</td>
-<td align="right">1.20</td>
-</tr>
-<tr class="odd">
 <td align="left">FUNDO NACIONAL ANTIDROGAS</td>
 <td align="left">RECURSOS NAO-FINANCEIROS DIRETAM. ARRECADADOS</td>
-<td align="right">1.19</td>
-</tr>
-<tr class="even">
-<td align="left">SUPERINTENDENCIA REG. POL. RODV. FEDERAL-GO</td>
-<td align="left">RECURSOS DIVERSOS</td>
-<td align="right">1.14</td>
+<td align="left">FUNDO NACIONAL ANTIDROGAS</td>
+<td align="right">1.21</td>
 </tr>
 <tr class="odd">
-<td align="left">SUPERINTENDENCIA REG. POL. RODV. FEDERAL-SC</td>
+<td align="left">DEPARTAMENTO DE POLICIA RODOVIARIA FEDERAL/MJ</td>
 <td align="left">RECURSOS DIVERSOS</td>
-<td align="right">1.11</td>
-</tr>
-<tr class="even">
-<td align="left">DEPARTAMENTO PENITENCIARIO NACIONAL</td>
-<td align="left">RECURSOS NAO-FINANCEIROS DIRETAM. ARRECADADOS</td>
-<td align="right">1.10</td>
-</tr>
-<tr class="odd">
-<td align="left">SUPERINTENDENCIA REG. POL. RODV. FEDERAL-RO</td>
-<td align="left">RECURSOS DIVERSOS</td>
-<td align="right">1.10</td>
-</tr>
-<tr class="even">
-<td align="left">SUPERINTENDENCIA REG. POL. RODV. FEDERAL-RO</td>
-<td align="left">RECURSOS DIVERSOS</td>
-<td align="right">1.09</td>
-</tr>
-<tr class="odd">
-<td align="left">SUPERINTENDENCIA REG. POL. RODV. FEDERAL-PR</td>
-<td align="left">RECURSOS NAO-FINANCEIROS DIRETAM. ARRECADADOS</td>
-<td align="right">1.07</td>
+<td align="left">SUPERINTENDENCIA REG. POL. RODV. FEDERAL-BA</td>
+<td align="right">1.15</td>
 </tr>
 </tbody>
 </table>
+<p><img src="03-quadro-historico_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 </div>
-<div id="classificacoes-orcamentarias-e-financeiras" class="section level2">
-<h2><span class="header-section-number">3.2</span> Classificações Orçamentárias e Financeiras</h2>
-<p>Destino das fontes de recursos e suas respectivas funções.</p>
-<p><img src="03-quadro-historico_files/figure-html/unnamed-chunk-4-1.png" width="1152" /></p>
-<ul>
-<li>Todas as fontes de recursos são repartidas entre <strong>previdência social</strong> e <strong>segurança pública</strong>;</li>
-<li>Porém, se a função for <strong>INSS - EPU CUSTEIO</strong>, o recurso é destinado a Previdência social.</li>
-</ul>
+<div id="indicador-de-persistencia-de-saldo-positivo-i_psp" class="section level2">
+<h2><span class="header-section-number">3.2</span> Indicador de persistência de saldo positivo (<span class="math inline">\(I_{PSP}\)</span>)</h2>
+<p>Indicador com valores altos para as curvas que apresentarem saldos positivos por longa duração de tempo no acumulado do período analisado.</p>
+<div id="definicao-1" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> Definição</h3>
+<p>Área sob a curva de disponibilidade líquida ponderada pela soma de todas as obrigações pagas.</p>
+<p>Seja <span class="math inline">\(y_i\)</span> a disponibilidade líquida no dia <span class="math inline">\(i\)</span> e <span class="math inline">\(o_i\)</span> as obrigações pagas no dia <span class="math inline">\(i\)</span>,</p>
+<p><span class="math display">\[
+I_{PSP} = \frac{\sum y_i}{\sum o_i}
+\]</span></p>
 </div>
-<div id="comportamento-do-caixa-por-movimentacao" class="section level2">
-<h2><span class="header-section-number">3.3</span> Comportamento do Caixa por Movimentação</h2>
-<ul>
-<li>Gráficos das séries temporais dos saldos e obrigações de cada UG e Fonte de Recurso.</li>
-<li>Gráficos das séries temporais dos saldos e obrigações consolidados por UG.</li>
-<li>Gráfico dos tempos entre duas movimentações de grande porte por UG e por Órgão.</li>
-</ul>
-<p>Aplicativo: <a href="https://rseis.shinyapps.io/explorador_disponibilidades_liquidas">Explorador das séries temporais das disponibilidades líquidas</a></p>
+<div id="exemplos-1" class="section level3">
+<h3><span class="header-section-number">3.2.2</span> Exemplos</h3>
+<p>Abaixo estão as três curvas com os maiores valores de <span class="math inline">\(I_{PSP}\)</span>:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Órgão</th>
+<th align="left">Fonte de Recursos</th>
+<th align="left">UG</th>
+<th align="right">IPSP</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">MINISTERIO DA JUSTICA E SEGURANCA PUBLICA</td>
+<td align="left">RECURSOS ORDINARIOS</td>
+<td align="left">COORDENACAO-GERAL DE ORCAMENTO E FINANCAS-MJ</td>
+<td align="right">0.48</td>
+</tr>
+<tr class="even">
+<td align="left">DEPARTAMENTO DE POLICIA FEDERAL</td>
+<td align="left">RECURSOS NAO-FINANCEIROS DIRETAM. ARRECADADOS</td>
+<td align="left">COORDENACAO DE ORCAMENTO E FINANCAS - COF/DPF</td>
+<td align="right">0.93</td>
+</tr>
+<tr class="odd">
+<td align="left">MINISTERIO DA JUSTICA E SEGURANCA PUBLICA</td>
+<td align="left">CONTRIB.PATRONAL P/PLANO DE SEGURID.SOC.SERV.</td>
+<td align="left">COORDENACAO-GERAL DE ORCAMENTO E FINANCAS-MJ</td>
+<td align="right">0.91</td>
+</tr>
+</tbody>
+</table>
+<p><img src="03-quadro-historico_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 
+</div>
 </div>
 </div>
             </section>
