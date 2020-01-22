@@ -156,10 +156,12 @@ disponibilidades_liquidas_diarias <- saldos_diarios %>%
     by = c("ID_ANO_LANC", "NO_DIA_COMPLETO", "NO_UG", "NO_ORGAO", "NO_FONTE_RECURSO", "NO_DIA_COMPLETO_dmy"),
     suffix = c("_saldos", "_obrigacoes")
   ) %>%
+  dplyr::group_by(NO_UG, NO_ORGAO, NO_FONTE_RECURSO) %>%
   tidyr::fill(obrigacoes_a_pagar_diario_acumulado) %>%
   mutate(
+    obrigacoes_a_pagar_diario_acumulado = coalesce(obrigacoes_a_pagar_diario, 0),
     obrigacoes_a_pagar_diario = coalesce(obrigacoes_a_pagar_diario, 0)
-  ) %>%
+  )%>%
   left_join(
     pagamentos_diarios %>% 
       select(
@@ -174,8 +176,10 @@ disponibilidades_liquidas_diarias <- saldos_diarios %>%
     by = c("ID_ANO_LANC", "NO_DIA_COMPLETO", "NO_UG", "NO_ORGAO", "NO_FONTE_RECURSO", "NO_DIA_COMPLETO_dmy"),
     suffix = c("", "_pagamentos")
   ) %>%
+  dplyr::group_by(NO_UG, NO_ORGAO, NO_FONTE_RECURSO) %>%
   tidyr::fill(pagamento_diario_acumulado) %>%
   mutate(
+    pagamento_diario_acumulado = coalesce(pagamento_diario_acumulado, 0),
     pagamento_diario = coalesce(pagamento_diario, 0)
   ) %>%
   arrange(NO_DIA_COMPLETO_dmy) %>%
