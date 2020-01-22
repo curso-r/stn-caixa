@@ -1,4 +1,4 @@
-# Quadro analítico histórico 
+# Disponibilidades Líquidas
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(
@@ -22,9 +22,6 @@ trinta_e_uns_de_dezembro <- tibble(
 
 ```
 
-
-## Disponibilidades Líquidas
-
 Para responder a questão (a)[a. Qual o comportamento do caixa e das obrigações a pagar (e da disponibilidade líquida) no período analisado?] sobre disponibilidades líquidas das UGs e as respectivas fontes de recursos, elaboramos os seguintes indicadores:
 
 - **Indicador de acumulação de disponibilidade líquida:** acusa potencial problema de UGs que estariam recebendo recursos de fontes que já apresentava valores acumulados.
@@ -41,7 +38,7 @@ indicadores %>%
 ```
 
 
-### Indicador de acumulação de disponibilidade líquida ($I_{ADL}$)
+## Indicador de acumulação de disponibilidade líquida ($I_{ADL}$)
 
 Indicador que apresenta valor alto quando uma UG apresenta disponibilidade líquida que apenas cresce com o passar do tempo para uma determinada fonte de recurso.
 
