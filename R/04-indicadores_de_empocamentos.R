@@ -6,8 +6,9 @@ trinta_e_uns_de_dezembro <- tibble(
 )
 
 
-disponibilidades_liquidas_diarias <- read_rds("data/disponibilidades_liquidas_diarias.rds")
-obrigacoes_a_pagar_diarias <- read_rds("data/obrigacoes_a_pagar_diarias.rds")
+disponibilidades_liquidas_diarias <- read_rds("../data/disponibilidades_liquidas_diarias.rds")
+obrigacoes_a_pagar_diarias <- read_rds("../data/obrigacoes_a_pagar_diarias.rds")
+indicadores <- read_rds("../data/indicadores.rds")
 
 # indicador de disponibilidade liquida ---------------------------
 indicadores <- disponibilidades_liquidas_diarias %>%
@@ -63,7 +64,7 @@ orgaos_sorteados <- indicadores  %>%
   arrange(desc(disponibilidade_estritamente_crescente)) %>%
   ungroup %>%
   distinct(NO_ORGAO, NO_FONTE_RECURSO) %>%
-  head(6) 
+  head(3) 
 
 ##
 log_neg <- function(x) {

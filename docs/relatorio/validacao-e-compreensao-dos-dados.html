@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 2 Validação e Compreensão dos Dados | Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)</title>
+  <meta name="description" content="STN-Caixa" />
+  <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 2 Validação e Compreensão dos Dados | Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="STN-Caixa" />
+  <meta name="github-repo" content="curso-r/stn-caixa" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 2 Validação e Compreensão dos Dados | Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)" />
+  
+  <meta name="twitter:description" content="STN-Caixa" />
+  
+
+<meta name="author" content="R6 Estatística e Treinamentos LTDA" />
+
+
+<meta name="date" content="2020-01-21" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html">
+<link rel="next" href="quadro-analitico-historico.html">
+<script src="book_assets/jquery-2.2.3/jquery.min.js"></script>
+<link href="book_assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Relatório de análise de dados</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introdução</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#questoes-investigadas"><i class="fa fa-check"></i><b>1.1</b> Questões investigadas</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#as-bases-de-dados"><i class="fa fa-check"></i><b>1.2</b> As bases de dados</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#analise-descritiva"><i class="fa fa-check"></i><b>1.3</b> Análise descritiva</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#analise-preditiva"><i class="fa fa-check"></i><b>1.4</b> Análise preditiva</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#oficina-de-repasses-e-implementacao-dos-produtos"><i class="fa fa-check"></i><b>1.5</b> Oficina de repasses e implementação dos produtos</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="validacao-e-compreensao-dos-dados.html"><a href="validacao-e-compreensao-dos-dados.html"><i class="fa fa-check"></i><b>2</b> Validação e Compreensão dos Dados</a><ul>
+<li class="chapter" data-level="2.1" data-path="validacao-e-compreensao-dos-dados.html"><a href="validacao-e-compreensao-dos-dados.html#introducao-1"><i class="fa fa-check"></i><b>2.1</b> Introdução</a></li>
+<li class="chapter" data-level="2.2" data-path="validacao-e-compreensao-dos-dados.html"><a href="validacao-e-compreensao-dos-dados.html#questoes-elementares"><i class="fa fa-check"></i><b>2.2</b> Questões elementares</a></li>
+<li class="chapter" data-level="2.3" data-path="validacao-e-compreensao-dos-dados.html"><a href="validacao-e-compreensao-dos-dados.html#bases-de-dados-levantadas-para-enderecar-as-questoes"><i class="fa fa-check"></i><b>2.3</b> Bases de dados levantadas para endereçar as questões</a></li>
+<li class="chapter" data-level="2.4" data-path="validacao-e-compreensao-dos-dados.html"><a href="validacao-e-compreensao-dos-dados.html#base-1-movimentacoes-diarias-do-limite-de-saque"><i class="fa fa-check"></i><b>2.4</b> Base 1: Movimentações diárias do Limite de Saque</a></li>
+<li class="chapter" data-level="2.5" data-path="validacao-e-compreensao-dos-dados.html"><a href="validacao-e-compreensao-dos-dados.html#base-2-pagamentos-diarios"><i class="fa fa-check"></i><b>2.5</b> Base 2: Pagamentos diários</a></li>
+<li class="chapter" data-level="2.6" data-path="validacao-e-compreensao-dos-dados.html"><a href="validacao-e-compreensao-dos-dados.html#base-3-movimentacoes-diarias-em-obrigacoes-a-pagar"><i class="fa fa-check"></i><b>2.6</b> Base 3: Movimentações diárias em obrigações a pagar</a></li>
+<li class="chapter" data-level="2.7" data-path="validacao-e-compreensao-dos-dados.html"><a href="validacao-e-compreensao-dos-dados.html#tabelas-derivadas"><i class="fa fa-check"></i><b>2.7</b> Tabelas Derivadas</a><ul>
+<li class="chapter" data-level="2.7.1" data-path="validacao-e-compreensao-dos-dados.html"><a href="validacao-e-compreensao-dos-dados.html#disponibilidades-liquidas-diarias"><i class="fa fa-check"></i><b>2.7.1</b> Disponibilidades líquidas Diárias</a></li>
+<li class="chapter" data-level="2.7.2" data-path="validacao-e-compreensao-dos-dados.html"><a href="validacao-e-compreensao-dos-dados.html#vinculacao-de-pagamentos"><i class="fa fa-check"></i><b>2.7.2</b> Vinculação de Pagamentos</a></li>
+<li class="chapter" data-level="2.7.3" data-path="validacao-e-compreensao-dos-dados.html"><a href="validacao-e-compreensao-dos-dados.html#limimtes-de-saque-por-tipo-de-documento"><i class="fa fa-check"></i><b>2.7.3</b> Limimtes de Saque Por Tipo De Documento</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html"><i class="fa fa-check"></i><b>3</b> Quadro analítico histórico</a><ul>
+<li class="chapter" data-level="3.1" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#disponibilidades-liquidas"><i class="fa fa-check"></i><b>3.1</b> Disponibilidades Líquidas</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#indicador-de-acumulacao-de-disponibilidade-liquida-i_adl"><i class="fa fa-check"></i><b>3.1.1</b> Indicador de acumulação de disponibilidade líquida (<span class="math inline">\(I_{ADL}\)</span>)</a></li>
+<li class="chapter" data-level="3.1.2" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#definicao"><i class="fa fa-check"></i><b>3.1.2</b> Definição</a></li>
+<li class="chapter" data-level="3.1.3" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#exemplos"><i class="fa fa-check"></i><b>3.1.3</b> Exemplos</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#indicador-de-persistencia-de-saldo-positivo-i_psp"><i class="fa fa-check"></i><b>3.2</b> Indicador de persistência de saldo positivo (<span class="math inline">\(I_{PSP}\)</span>)</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#definicao-1"><i class="fa fa-check"></i><b>3.2.1</b> Definição</a></li>
+<li class="chapter" data-level="3.2.2" data-path="quadro-analitico-historico.html"><a href="quadro-analitico-historico.html#exemplos-1"><i class="fa fa-check"></i><b>3.2.2</b> Exemplos</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="quadro-analitico-preditivo.html"><a href="quadro-analitico-preditivo.html"><i class="fa fa-check"></i><b>4</b> Quadro analítico preditivo</a><ul>
+<li class="chapter" data-level="4.1" data-path="quadro-analitico-preditivo.html"><a href="quadro-analitico-preditivo.html#fontes-de-recursos-que-tendem-a-acumular-recurso"><i class="fa fa-check"></i><b>4.1</b> Fontes de recursos que tendem a acumular recurso</a></li>
+<li class="chapter" data-level="4.2" data-path="quadro-analitico-preditivo.html"><a href="quadro-analitico-preditivo.html#previsao-de-disponibilidade-liquida"><i class="fa fa-check"></i><b>4.2</b> Previsão de disponibilidade líquida</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i>Referências</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado com bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="validacao-e-compreensao-dos-dados" class="section level1">
+<h1><span class="header-section-number">Capítulo 2</span> Validação e Compreensão dos Dados</h1>
+<div id="introducao-1" class="section level2">
+<h2><span class="header-section-number">2.1</span> Introdução</h2>
+<p>A base de dados do SIAFI concentra as informações geradas pelo processo de execução orçamentária e programação financeira do Governo Federal. Este projeto tem como objetivo gerar conhecimento sobre o comportamento do caixa e das obrigações financeiras dos órgãos federais para fins de gestão da programação financeira por parte do Tesouro Nacional, além de identificar oportunidades de melhorias nesse processo e, possivelmente, fundamentar a criação de indicadores para avaliação da gestão financeira das unidades do Governo Federal.</p>
+<p>Este é o primeiro dos quatro relatórios que irão compor o projeto e descreve o processo de conhecimento, ajuste e preparo das bases de dados para análises subsequentes.</p>
+</div>
+<div id="questoes-elementares" class="section level2">
+<h2><span class="header-section-number">2.2</span> Questões elementares</h2>
+<p>Para nortear as análises das próximas etapas, nessa primeira fase de conhecimento do problema e da base, foram levantadas as seguintes questões:</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Qual o comportamento do caixa e das obrigações a pagar (e da disponibilidade líquida) no período analisado<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>?</p></li>
+<li><p>Existem casos em que unidades de um mesmo órgão permanecem com disponibilidade líquida negativa, enquanto outras unidades desse mesmo órgão encontram-se com disponibilidade positiva? E se considerar a fonte de recursos, há casos em que o órgão passa por períodos com disponibilidade negativa em uma fonte enquanto há recursos disponíveis em outra fonte? E se considerar as duas situações conjuntamente<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>?</p></li>
+<li><p>Como as classificações orçamentárias se relacionam com as classificações financeiras? Especificamente, é possível identificar certos tipos de despesas que são sempre (ou frequentemente) pagas com recursos de determinadas vinculações?</p></li>
+<li><p>Caso seja possível a identificação mencionada em (c), as questões (a) e (b) seriam revisitadas para estimar a disponibilidade líquida para cada vinculação, considerando as classificações orçamentárias das obrigações. Nesse cenário, existem unidades com saldo total suficiente para cobrir todas as suas obrigações, porém com insuficiência em algumas vinculações?</p></li>
+<li><p>Qual o comportamento do caixa das unidades em termos de movimentações?</p></li>
+<li><p>Qual o intervalo entre duas operações<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> de grande porte?</p></li>
+</ol>
+</div>
+<div id="bases-de-dados-levantadas-para-enderecar-as-questoes" class="section level2">
+<h2><span class="header-section-number">2.3</span> Bases de dados levantadas para endereçar as questões</h2>
+<p>O perfil das despesas do <strong>Ministério da Justiça</strong> será utilizado como ponto de partida das análises descritivas e exploratórias. A escolha deste órgão foi em virtude do seu excelente sistema de acompanhamento das despesas.</p>
+<p>Ao todo, três bases foram extraídas:</p>
+<ul>
+<li><code>lim_saque</code> com as movimentações de limites de saque;</li>
+<li><code>obrigacoes</code> com as movimentações de obrigações a pagar; e</li>
+<li><code>pagamentos</code> com as movimentações de pagamentos;</li>
+</ul>
+<p>A partir destas, outras três tabelas derivadas foram construídas. As descrições detalhadas estão na seção seguinte.</p>
+<ul>
+<li><p><code>disponibilidades_liquidas_diarias</code> com as informações diárias de <strong>saldo disponível</strong> e <strong>obrigações a pagar</strong> de cada UG para cada fonte de recursos;</p></li>
+<li><p><code>vinculacao_de_pagamentos</code> com informações diárias pareadas de <strong>pagamentos</strong>, <strong>saldo disponível</strong> e <strong>vinculações de pagamentos</strong> de cada documento;</p></li>
+<li><p><code>lim_saque_por_tipo_de_documento</code> com as informações diárias de <strong>saldo disponível</strong> por tipo de documento (e.g. NS, OB, PF, etc.).</p></li>
+</ul>
+<p>Verificou-se que as extrações <strong>encontram-se prontas para análise</strong> e com replicações em formatos <code>.rds</code> para serem leitas pelo software R. Abaixo estão listados os seus respectivos campos.</p>
+</div>
+<div id="base-1-movimentacoes-diarias-do-limite-de-saque" class="section level2">
+<h2><span class="header-section-number">2.4</span> Base 1: Movimentações diárias do Limite de Saque</h2>
+<p><strong>Filtro:</strong> item de informação “LIMITES DE SAQUE”.</p>
+<p><strong>Campos:</strong></p>
+<ul>
+<li>Órgão Máximo</li>
+<li>Órgão</li>
+<li>UG</li>
+<li><strong>Vinculação de Pagamento</strong></li>
+<li>Fonte de Recursos Detalhada</li>
+<li>Fonte de Recursos</li>
+<li>Documento Lançamento</li>
+<li>Movimento / Valor Financeiro</li>
+</ul>
+</div>
+<div id="base-2-pagamentos-diarios" class="section level2">
+<h2><span class="header-section-number">2.5</span> Base 2: Pagamentos diários</h2>
+<p><strong>Filtro:</strong> item de informação “PAGAMENTOS TOTAIS”.</p>
+<p><strong>Campos:</strong></p>
+<ul>
+<li>Órgão Máximo</li>
+<li>Órgão</li>
+<li>UG</li>
+<li>Fonte de Recursos Detalhada</li>
+<li>Fonte de Recursos</li>
+<li><strong>Função</strong></li>
+<li><strong>Subfunção</strong></li>
+<li><strong>Programa</strong></li>
+<li><strong>Ação</strong></li>
+<li><strong>Grupo de Despesa</strong></li>
+<li><strong>Modalidade de Aplicação</strong></li>
+<li><strong>Elemento de Despesa</strong></li>
+<li><strong>Indicador de Resultado EOF</strong> (indica se a despesa é primária ou financeira, entre outras coisas)</li>
+<li><strong>Indicador de Exceção Decreto</strong></li>
+<li><strong>Ano do Empenho</strong></li>
+<li><strong>Empenho</strong></li>
+<li><strong>Órgão Máximo da UO</strong></li>
+<li>Documento Lançamento</li>
+<li>Movimento / Valor Financeiro</li>
+</ul>
+</div>
+<div id="base-3-movimentacoes-diarias-em-obrigacoes-a-pagar" class="section level2">
+<h2><span class="header-section-number">2.6</span> Base 3: Movimentações diárias em obrigações a pagar</h2>
+<p><strong>Filtro:</strong> item de informação “VALORES LIQUIDADOS A PAGAR (EXERCICIO + RP)”.</p>
+<p><strong>Campos:</strong></p>
+<ul>
+<li>Órgão Máximo</li>
+<li>Órgão</li>
+<li>UG</li>
+<li>Fonte Detalhada</li>
+<li>Fonte (posições 3 e 4 da fonte detalhada – exemplo: se a fonte detalhada é: <code>0100123456</code>, a fonte será <code>00</code>)</li>
+<li><strong>Função</strong></li>
+<li><strong>Subfunção</strong></li>
+<li><strong>Programa</strong></li>
+<li><strong>Ação</strong></li>
+<li><strong>Grupo de Despesa</strong></li>
+<li><strong>Modalidade de Aplicação</strong></li>
+<li><strong>Elemento de Despesa</strong></li>
+<li><strong>Indicador de Resultado EOF</strong> (indica se a despesa é primária ou financeira, entre outras coisas)</li>
+<li><strong>Indicador de Exceção Decreto</strong></li>
+<li><strong>Ano do Empenho</strong></li>
+<li><strong>Empenho</strong></li>
+<li><strong>Órgão Máximo da UO</strong></li>
+<li>Movimento / Valor Financeiro</li>
+</ul>
+</div>
+<div id="tabelas-derivadas" class="section level2">
+<h2><span class="header-section-number">2.7</span> Tabelas Derivadas</h2>
+<div id="disponibilidades-liquidas-diarias" class="section level3">
+<h3><span class="header-section-number">2.7.1</span> Disponibilidades líquidas Diárias</h3>
+<ul>
+<li><p>Informações diárias de <strong>saldo disponível</strong> e <strong>obrigações a pagar</strong> de cada UG para cada fonte de recursos.</p></li>
+<li><p>Útil para as questões <strong>a</strong>, <strong>c</strong> e <strong>e</strong>.</p></li>
+<li><p>Cruzamento entre as bases <code>lim_saque</code> e <code>obrigacoes</code> pelas chaves <code>NO_DIA_COMPLETO</code>, <code>NO_FONTE_RECURSO</code> e <code>NO_UG</code>.</p></li>
+<li><p>Observações: 352.037</p></li>
+<li><p>Campos: 11</p></li>
+</ul>
+<pre><code>* NO_DIA_COMPLETO         `&lt;date&gt; 2017-08-22, 2017-08-23, 2017-08-24, 2017-08…`
+* NO_UG                   `&lt;chr&gt; &quot;ACADEMIA NACIONAL DA POLICIA RODOV. FEDERAL…`
+* NO_ORGAO                `&lt;chr&gt; &quot;DEPARTAMENTO DE POLICIA RODOVIARIA FEDERAL/…`
+* NO_FONTE_RECURSO        `&lt;chr&gt; &quot;RECEITAS DE CONCURSOS DE PROGNOSTICOS&quot;, &quot;RE…`
+* saldo_diario            `&lt;dbl&gt; -2779.98, -5654.96, -7356.26, -5601.60, -560…`
+* obrigacoes_a_pagar      `&lt;dbl&gt; 0.000000e+00, 0.000000e+00, 0.000000e+00, 0.…`
+* disponibilidade_liquida `&lt;dbl&gt; -2779.98, -5654.96, -7356.26, -5601.60, -560…`
+* ano                     `&lt;dbl&gt; 2017, 2017, 2017, 2017, 2017, 2017, 2017, 20…`
+* mes                     `&lt;dbl&gt; 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9,…`
+* dia                     `&lt;int&gt; 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 1, 2…`
+* paded                   `&lt;lgl&gt; TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, …`</code></pre>
+</div>
+<div id="vinculacao-de-pagamentos" class="section level3">
+<h3><span class="header-section-number">2.7.2</span> Vinculação de Pagamentos</h3>
+<ul>
+<li><p>Informações diárias pareadas de <strong>pagamentos</strong>, <strong>saldo disponível</strong> e <strong>vinculações de pagamentos</strong> de cada documento.</p></li>
+<li><p>Útil para as questões <strong>b</strong>, <strong>c</strong> e <strong>e</strong>.</p></li>
+<li><p>Cruzamento entre as bases <code>lim_saque</code> e <code>pagamentos</code> pelas chaves <code>NO_DIA_COMPLETO</code> e <code>ID_DOCUMENTO</code>.</p></li>
+<li><p>Observações: 1.005.187</p></li>
+<li><p>Campos: 7</p></li>
+</ul>
+<pre><code>* NO_DIA_COMPLETO         `&lt;chr&gt; &quot;01/02/2017&quot;, &quot;01/02/2017&quot;, &quot;01/02/2017&quot;, &quot;0…`
+* ID_DOCUMENTO            `&lt;chr&gt; &quot;194003192082017OB800016&quot;, &quot;194003192082017O…`
+* pagamento               `&lt;dbl&gt; 20.79, 724.21, 8000.00, 76.95, -15188.99, -9…`
+* NO_VINCULACAO_PAGAMENTO `&lt;chr&gt; &quot;CUSTEIO/INVESTIMENTO - RESUL.PRIM = 2&quot;, &quot;CU…`
+* vinculacoes_distintas   `&lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…`
+* saldo_diario            `&lt;dbl&gt; -20.79, -724.21, -8000.00, -76.95, 15188.99,…`
+* pagamento_por_saldo     `&lt;dbl&gt; -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, …`</code></pre>
+</div>
+<div id="limimtes-de-saque-por-tipo-de-documento" class="section level3">
+<h3><span class="header-section-number">2.7.3</span> Limimtes de Saque Por Tipo De Documento</h3>
+<ul>
+<li><p>Informações diárias de <strong>saldo disponível</strong> por tipo de documento. Os tipos de documentos são: <code>DF</code>, <code>DR</code>, <code>GF</code>, <code>GP</code>, <code>GR</code>, <code>NL</code>, <code>NS</code>, <code>OB</code>, <code>PF</code> e <code>RA</code>.</p></li>
+<li><p>Útil para a questão <strong>d</strong>.</p></li>
+<li><p>Derivada da base <code>lim_saque</code>.</p></li>
+<li><p>Observações: 254.667</p></li>
+<li><p>Campos: 7</p></li>
+</ul>
+<pre><code>* tipo_de_documento  `&lt;chr&gt; &quot;DF&quot;, &quot;DF&quot;, &quot;DF&quot;, &quot;DF&quot;, &quot;DF&quot;, &quot;DF&quot;, &quot;DF&quot;, &quot;DF&quot;, &quot;…`
+* NO_DIA_COMPLETO    `&lt;chr&gt; &quot;01/02/2017&quot;, &quot;01/02/2017&quot;, &quot;01/02/2017&quot;, &quot;01/02/…`
+* NO_UG              `&lt;chr&gt; &quot;COORD. REG. NOROESTE DO MATO GROSSO/MT&quot;, &quot;COORDE…`
+* NO_ORGAO           `&lt;chr&gt; &quot;FUNDACAO NACIONAL DO INDIO&quot;, &quot;DEPARTAMENTO DE PO…`
+* NO_ITEM_INFORMACAO `&lt;chr&gt; &quot;LIMITES DE SAQUE (OFSS, DIVIDA, BACEN E PREV)&quot;, …`
+* NO_FONTE_RECURSO   `&lt;chr&gt; &quot;RECURSOS ORDINARIOS&quot;, &quot;RECURSOS ORDINARIOS&quot;, &quot;TX…`
+* saldo_diario       `&lt;dbl&gt; -35.47, -2089.65, -3644.19, -12.01, -14.94, -31.3…`</code></pre>
+
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="4">
+<li id="fn4"><p>Por órgão, por unidade e por fonte de recursos.<a href="validacao-e-compreensao-dos-dados.html#fnref4" class="footnote-back">↩</a></p></li>
+<li id="fn5"><p>Ou seja, uma unidade de um mesmo órgão fica com disponibilidade negativa em uma fonte, enquanto outra unidade desse mesmo órgão possui disponibilidade positiva nessa mesma fonte.<a href="validacao-e-compreensao-dos-dados.html#fnref5" class="footnote-back">↩</a></p></li>
+<li id="fn6"><p>Uma despesa alta seguida de um recebimento de recursos também alto.<a href="validacao-e-compreensao-dos-dados.html#fnref6" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="quadro-analitico-historico.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="book_assets/gitbook-2.6.7/js/app.min.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/lunr.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/02-validacao-compreensao.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
