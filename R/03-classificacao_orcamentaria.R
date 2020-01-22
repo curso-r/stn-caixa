@@ -53,8 +53,8 @@ saldos_diarios_por_documento <- lim_saque %>%
   ) %>%
   ungroup()
 
-saveRDS(saldos_diarios_por_documento, file = "../data/saldos_diarios_por_documento.rds")
-saveRDS(saldos_diarios_por_documento, file = "../apps/explorador_disponibilidades_liquidas_v2/saldos_diarios_por_documento.rds")
+saveRDS(saldos_diarios_por_documento, file = "data/saldos_diarios_por_documento.rds")
+saveRDS(saldos_diarios_por_documento, file = "apps/explorador_disponibilidades_liquidas_v2/saldos_diarios_por_documento.rds")
 
 
 
@@ -86,8 +86,8 @@ pagamentos_por_documento <- pagamentos %>%
     pagamento = sum(SALDORITEMINFORMAO)
   )
 
-saveRDS(pagamentos_por_documento, file = "../data/pagamentos_por_documento.rds")
-saveRDS(pagamentos_por_documento, file = "../apps/explorador_disponibilidades_liquidas_v2/pagamentos_por_documento.rds")
+saveRDS(pagamentos_por_documento, file = "data/pagamentos_por_documento.rds")
+saveRDS(pagamentos_por_documento, file = "apps/explorador_disponibilidades_liquidas_v2/pagamentos_por_documento.rds")
 
 
 
@@ -104,8 +104,8 @@ vinculacao_de_pagamentos <- left_join(
   )
 
 
-saveRDS(vinculacao_de_pagamentos, file = "../data/vinculacao_de_pagamentos.rds")
-saveRDS(vinculacao_de_pagamentos, file = "../apps/explorador_disponibilidades_liquidas_v2/vinculacao_de_pagamentos.rds")
+saveRDS(vinculacao_de_pagamentos, file = "data/vinculacao_de_pagamentos.rds")
+saveRDS(vinculacao_de_pagamentos, file = "apps/explorador_disponibilidades_liquidas_v2/vinculacao_de_pagamentos.rds")
 
 
 
