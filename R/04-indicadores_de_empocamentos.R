@@ -6,9 +6,9 @@ trinta_e_uns_de_dezembro <- tibble(
 )
 
 
-disponibilidades_liquidas_diarias <- read_rds("../data/disponibilidades_liquidas_diarias.rds")
-obrigacoes_a_pagar_diarias <- read_rds("../data/obrigacoes_a_pagar_diarias.rds")
-indicadores <- read_rds("../data/indicadores.rds")
+disponibilidades_liquidas_diarias <- read_rds("data/disponibilidades_liquidas_diarias.rds")
+obrigacoes_a_pagar_diarias <- read_rds("data/obrigacoes_a_pagar_diarias.rds")
+indicadores <- read_rds("data/indicadores.rds")
 
 # indicador de disponibilidade liquida ---------------------------
 indicadores <- disponibilidades_liquidas_diarias %>%
