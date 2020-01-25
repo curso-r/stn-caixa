@@ -29,7 +29,12 @@ indicadores <- disponibilidades_liquidas_diarias %>%
     soma_dos_gastos = if_else(abs(soma_dos_gastos) < 10, 10, soma_dos_gastos),
     integral_sobre_media_dos_gastos = integral/soma_dos_gastos
   ) %>%
-  arrange(desc(integral_sobre_media_dos_gastos))
+  arrange(desc(integral_sobre_media_dos_gastos)) %>%
+  mutate(
+    id = paste0(NO_ORGAO, NO_UG, NO_FONTE_RECURSO),
+    id = map_chr(id, digest::sha1)
+  ) %>%
+  select(id, everything())
 
 saveRDS(indicadores, file = "apps/explorador_disponibilidades_liquidas/indicadores.rds")
 saveRDS(indicadores, file = "data/indicadores.rds")
@@ -47,6 +52,7 @@ ts_das_disponibilidades_liquidas <- disponibilidades_liquidas_diarias %>%
     indicadores
   )
 
+saveRDS(ts_das_disponibilidades_liquidas, file = "apps/app_para_rotular_as_series_temporais_das_disponibilidades_liquidas/ts_das_disponibilidades_liquidas.rds")
 saveRDS(ts_das_disponibilidades_liquidas, file = "data/ts_das_disponibilidades_liquidas.rds")
 
 
