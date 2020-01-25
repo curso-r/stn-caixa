@@ -24,7 +24,7 @@ indicadores <- disponibilidades_liquidas_diarias %>%
     disponibilidade_mais_recente = disponibilidade_liquida[which(NO_DIA_COMPLETO_dmy == max(NO_DIA_COMPLETO_dmy))][1],
     disponibilidade_estritamente_crescente = mean(diff(disponibilidade_liquida)  > 0) + mean(abs(diff(disponibilidade_liquida)[diff(disponibilidade_liquida) < 0]) < (sd(disponibilidade_liquida) + 0.001)/100),
     disponibilidade_liquida_cte  = sd(disponibilidade_liquida) <= 0.00000001,
-    integral = sum(disponibilidade_liquida),
+    integral = mean(disponibilidade_liquida),
     soma_dos_gastos = sum(pagamento_diario),
     soma_dos_gastos = if_else(abs(soma_dos_gastos) < 10, 10, soma_dos_gastos),
     integral_sobre_media_dos_gastos = integral/soma_dos_gastos

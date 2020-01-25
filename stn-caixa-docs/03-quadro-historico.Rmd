@@ -146,3 +146,27 @@ disponibilidades_liquidas_diarias  %>%
   ylim(c(0, NA))
 
 ```
+
+## Distribuição dos indicadores
+
+Vamos analisar a distribuição dos indicadores em alguns níveis.
+
+### Ug/Fonte
+
+- gráfico de jitter
+- alguma descricao em texto do tipo 30% das UG/Fonte tem valor acima de x que é considerado alto...
+- histograma
+- alguns exemplos de cada faixa
+
+### UG
+
+- gráfico de jitter
+- histograma
+- alguns exemplos de cada faixa
+
+### Fonte
+
+- gráfico de jitter
+- histograma
+- alguns exemplos de cada faixa
+- destacar a fonte 'recursos ordinários'
