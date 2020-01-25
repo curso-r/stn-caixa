@@ -6,9 +6,9 @@ trinta_e_uns_de_dezembro <- tibble(
 )
 
 
-disponibilidades_liquidas_diarias <- read_rds("../data/disponibilidades_liquidas_diarias.rds")
-obrigacoes_a_pagar_diarias <- read_rds("../data/obrigacoes_a_pagar_diarias.rds")
-indicadores <- read_rds("../data/indicadores.rds")
+disponibilidades_liquidas_diarias <- read_rds("data/disponibilidades_liquidas_diarias.rds")
+obrigacoes_a_pagar_diarias <- read_rds("data/obrigacoes_a_pagar_diarias.rds")
+indicadores <- read_rds("data/indicadores.rds")
 
 # indicador de disponibilidade liquida ---------------------------
 indicadores <- disponibilidades_liquidas_diarias %>%
@@ -21,6 +21,7 @@ indicadores <- disponibilidades_liquidas_diarias %>%
   summarise(
     proporcao_de_disponibilidade_liquida_negativa = mean(disponibilidade_liquida < 0),
     dias_no_periodo = n(),
+    disponibilidade_mais_recente = disponibilidade_liquida[which(NO_DIA_COMPLETO_dmy == max(NO_DIA_COMPLETO_dmy))][1],
     disponibilidade_estritamente_crescente = mean(diff(disponibilidade_liquida)  > 0) + mean(abs(diff(disponibilidade_liquida)[diff(disponibilidade_liquida) < 0]) < (sd(disponibilidade_liquida) + 0.001)/100),
     disponibilidade_liquida_cte  = sd(disponibilidade_liquida) <= 0.00000001,
     integral = sum(disponibilidade_liquida),
@@ -32,6 +33,21 @@ indicadores <- disponibilidades_liquidas_diarias %>%
 
 saveRDS(indicadores, file = "apps/explorador_disponibilidades_liquidas/indicadores.rds")
 saveRDS(indicadores, file = "data/indicadores.rds")
+
+# ts_das_disponibilidades_liquidas (series temporais nested para o grafico de sparklines) ------
+ts_das_disponibilidades_liquidas <- disponibilidades_liquidas_diarias %>%
+  group_by(
+    # ID_ANO_LANC,
+    NO_UG,
+    NO_ORGAO,
+    NO_FONTE_RECURSO
+  ) %>%
+  nest_legacy(.key = "serie_temporal") %>%
+  left_join(
+    indicadores
+  )
+
+saveRDS(ts_das_disponibilidades_liquidas, file = "data/ts_das_disponibilidades_liquidas.rds")
 
 
 # Um gráfico ----------------------------------------------------------------
