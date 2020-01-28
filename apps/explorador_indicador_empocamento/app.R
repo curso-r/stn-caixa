@@ -28,17 +28,20 @@ server <- function(input, output, session) {
   output$dispersao <- plotly::renderPlotly({
     
     p <- indicadores %>% 
-      ggplot(aes(y = "UG/FONTE", x = integral_sobre_media_dos_gastos, label = paste(NO_UG, NO_FONTE_RECURSO, sep = "/"))) +
+      ggplot(aes(y = "UG/FONTE", x = integral_sobre_media_dos_gastos, 
+                 text = sprintf("Indicador: %f\nUG: %s\nFONTE RECURSO: %s", 
+                                integral_sobre_media_dos_gastos, NO_UG, NO_FONTE_RECURSO))) +
       geom_jitter(size = 0.1) +
-      labs(y = NULL) +
+      labs(y = NULL, x = "Indicador") +
       scale_x_continuous(
         trans = scales::trans_new("log101p", log_neg, inv),
         breaks = c(-1, 0, 0.25, 0.5, 10^(0:8)),
-        labels = scales::percent
-      )
+        labels = scales::percent_format(accuracy = 1),
+      ) +
+      theme(axis.text.x = element_text(angle = -90, size = 5))
     
     
-    p <- plotly::ggplotly(p)
+    p <- plotly::ggplotly(p, tooltip = "text")
     plotly::event_register(p, 'plotly_click')
 
     p
