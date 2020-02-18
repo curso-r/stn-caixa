@@ -1,9 +1,6 @@
-# Quadro analítico histórico 
+# Disponibilidades Líquidas
 
 
-
-
-## Disponibilidades Líquidas
 
 Para responder a questão (a)[a. Qual o comportamento do caixa e das obrigações a pagar (e da disponibilidade líquida) no período analisado?] sobre disponibilidades líquidas das UGs e as respectivas fontes de recursos, elaboramos os seguintes indicadores:
 
@@ -16,7 +13,7 @@ Anexo ao relatório, a tabela **"indicadores.csv"** contém a lista de todas as 
 
 
 
-### Indicador de acumulação de disponibilidade líquida ($I_{ADL}$)
+## Indicador de acumulação de disponibilidade líquida ($I_{ADL}$)
 
 Indicador que apresenta valor alto quando uma UG apresenta disponibilidade líquida que apenas cresce com o passar do tempo para uma determinada fonte de recurso.
 
@@ -76,6 +73,89 @@ Abaixo estão as três curvas com os maiores valores de $I_{PSP}$:
 ------------------------------------------  ----------------------------------------------  ----------------------------------------------  -----
 MINISTERIO DA JUSTICA E SEGURANCA PUBLICA   RECURSOS ORDINARIOS                             COORDENACAO-GERAL DE ORCAMENTO E FINANCAS-MJ     0.48
 DEPARTAMENTO DE POLICIA FEDERAL             RECURSOS NAO-FINANCEIROS DIRETAM. ARRECADADOS   COORDENACAO DE ORCAMENTO E FINANCAS - COF/DPF    0.93
-MINISTERIO DA JUSTICA E SEGURANCA PUBLICA   CONTRIB.PATRONAL P/PLANO DE SEGURID.SOC.SERV.   COORDENACAO-GERAL DE ORCAMENTO E FINANCAS-MJ     0.91
+MINISTERIO DA JUSTICA E SEGURANCA PUBLICA   RECURSOS NAO-FINANCEIROS DIRETAM. ARRECADADOS   SECRETARIA NACIONAL DO CONSUMIDOR - SENACON       NaN
 
 <img src="03-quadro-historico_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+
+## Distribuição dos indicadores
+
+Vamos analisar a distribuição dos indicadores em alguns níveis.
+
+### Ug/Fonte
+
+- gráfico de jitter
+- alguma descricao em texto do tipo 30% das UG/Fonte tem valor acima de x que é considerado alto...
+- histograma
+- alguns exemplos de cada faixa
+
+### UG
+
+- gráfico de jitter
+- histograma
+- alguns exemplos de cada faixa
+
+### Fonte
+
+- gráfico de jitter
+- histograma
+- alguns exemplos de cada faixa
+- destacar a fonte 'recursos ordinários'
+
+## Indicador de Valor Nominal (R$)
+
+O valor nominal indica o montante que a UG possui disponível em caixa. Quanto maior o excedente de caixa de uma UG, maior a tendência ao empoçamento.
+
+### Definição
+
+O indicador de valor nominal no mês $t$ é definido simplesmente pela disponibilidade líquida no fim do período.
+
+$$IVN_t = DisponibilidadeLíquida_t$$
+### Exemplos
+
+### Distribuição
+
+## Indicador de disponibilidade líquida projetada por 12 meses
+
+A disponibilidade líquida mostra o caixa atual de uma UG considerando os pagamentos que foram aprovados até aquele mês (mesmo que ainda não tenham sido realizados). Para ser mais conservador consideramos neste índice os pagamentos que seriam aprovados até os próximos 12 meses - assim sendo, uma UG que ternha valores positivos neste indicador tinha no momento $t$ um excedente de caixa maior do que o que ela precisaria nos próximos 12 meses.
+
+### Definição
+
+O indicador é definido da seguinte maneira:
+
+$$IDL_{12m} = DisponibilidadeBruta_t - \sum_{i=t}^{t+12}Pagamentos_i$$
+
+### Exemplos
+### Distribuição
+
+## Indicador de Tempo
+
+Este indicador considera o tempo que uma UG permanece com disponibilidade líquida positiva. Quando uma UG permanece por muito tempo com disponibilidade positiva isso pode indicar que existe *empoçamento*.
+
+### Definição
+
+O indicador é definido por:
+
+$$IT = \sum I(DisponibilidadeLíquida_t > 0)$$
+
+### Exemplos
+### Distribuição
+
+## Indicador de Variação da Disponibilidade Líquida
+
+A taxa de variação da Disponibilidade Líquida com relação ao mesmo período do ano anterior tem como objetivo encontrar UG's que tiveram aumento no excedente de caixa, podendo indicar que existe *empoçamento*.
+
+### Definição
+
+O indicador é definido por:
+
+$$IVDL_t = \prod_{i=1}^{12}(1 + T_i)^{1/12}$$
+
+Em que:
+
+$$T_i = \frac{DisponibilidadeLíquida_i}{DisponibilidadeLíquida_{i-12}}$$
+
+### Exemplos
+
+### Distribuição
+
+
