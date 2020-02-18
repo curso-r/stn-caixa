@@ -6,3 +6,4 @@ data/
 data-raw/
 disponibilidades_liquidas_diarias.rds
 disponibilidades_liquidas_diarias_visao_ug.rds
+.DS_Store
