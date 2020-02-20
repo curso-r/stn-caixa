@@ -2,10 +2,17 @@
 # de tempo.
 # Vamos usar 1 ano de histórico em geral.
 
+# Para simplificar a análise vamos calcular o índice apenas para aquelas combinacoes UG/FOnte
+# que possuem pelo menos 365 dias de histórico.
+
 library(tidyverse)
 
 disponibilidades_liquidas_diarias <- read_rds("data/disponibilidades_liquidas_diarias.rds")
-obrigacoes_a_pagar_diarias <- read_rds("data/obrigacoes_a_pagar_diarias.rds")
+
+disponibilidades_liquidas_diarias <- disponibilidades_liquidas_diarias %>% 
+  group_by(NO_UG, NO_FONTE_RECURSO) %>% 
+  filter(n() >= 365) %>% 
+  ungroup()
 
 calc_disponibilidade_estritamente_crescente <- function(disponibilidade_liquida, dias_no_periodo, NO_DIA_COMPLETO_dmy) {
   proporcao_de_disponibilidade_liquida_negativa <- mean(disponibilidade_liquida < 0)
@@ -34,9 +41,30 @@ calc_indicador_tempo <- function(disponibilidades_liquida) {
   sum(disponibilidades_liquida > 0)/length(disponibilidades_liquida)
 }
 
+calc_iadl <- function(disponibilidade_liquida, lag_disponibilidade_liquida) {
+  
+  disp_positiva <- disponibilidade_liquida[disponibilidade_liquida>0]
+  
+  if (length(disp_positiva) == 0)
+    disp_positiva <- 0
+  
+  disp_positiva_media <- mean(disp_positiva)
+  
+  dif <- disponibilidade_liquida - lag_disponibilidade_liquida
+  # dif < 0 significa débito.
+  # sempre vai ter pelo menos 1 NA.
+  debitos <- sum(abs(dif[dif < 0]), na.rm = TRUE)
+  # numero menor que 1 fica ruim pq pode explodir tudo
+  debitos <- ifelse(debitos < 1, 1, debitos)
+  
+  disp_positiva_media/debitos
+}
+
 calcular_indices <- function(df) {
+  
   df %>%
     summarise(
+      n = n(),
       integral_sobre_media_dos_gastos = calc_indicador_integral_sobre_media_dos_gastos(
         disponibilidade_liquida = disponibilidade_liquida, 
         pagamento_diario = pagamento_diario
@@ -45,6 +73,10 @@ calcular_indices <- function(df) {
         disponibilidade_liquida = disponibilidade_liquida,
         dias_no_periodo = n(),
         NO_DIA_COMPLETO_dmy = NO_DIA_COMPLETO_dmy
+      ),
+      iadl = calc_iadl(
+        disponibilidade_liquida,
+        lag(disponibilidade_liquida, 1, order_by = NO_DIA_COMPLETO_dmy)
       ),
       valor_nominal = calc_indicador_valor_nominal(disponibilidade_liquida),
       valor_nominal_conservador = calc_indicador_valor_nominal_conservador(disponibilidade_liquida, pagamento_diario),
@@ -83,5 +115,18 @@ indices_no_tempo_ug <- slider::slide_dfr(
   .step = 1
 )
 
-saveRDS(indices_no_tempo_ug_fonte, "data/indices_no_tempo_ug_fonte.rds")
-saveRDS(indices_no_tempo_ug, "data/indices_no_tempo_ug.rds")
+indices_ug_fonte <- indices_no_tempo_ug_fonte %>% 
+  filter(n > 365) %>% 
+  group_by(NO_UG, NO_FONTE_RECURSO) %>% 
+  filter(dia == max(dia))
+
+indices_ug <- indices_no_tempo_ug %>% 
+  filter(n > 365) %>% 
+  group_by(NO_UG) %>% 
+  filter(dia == max(dia))
+  
+
+saveRDS(ungroup(indices_no_tempo_ug_fonte), "data/indices_no_tempo_ug_fonte.rds")
+saveRDS(ungroup(indices_no_tempo_ug), "data/indices_no_tempo_ug.rds")
+saveRDS(ungroup(indices_ug), "data/indices_ug.rds")
+saveRDS(ungroup(indices_ug_fonte), "data/indices_ug_fonte.rds")

@@ -43,6 +43,8 @@ Uma vez que o índice é calculado em janelas de 1 ano, quando mostrarmos a dist
 
 Note que estamos avaliando a combinação UG/FONTE o que totaliza 601 no banco de dados analisado.
 
+#### IADL maior do que 1
+
 Em primeiro lugar avaliamos aquelas combinações UG e Fonte que possuem  IADL mairo do que 1. O índice ser maior do que 1 significa que a disponibilidade líquida média diária foi maior do que tudo que foi gasto durante o ano inteiro. Em geral, quando o IADL é maior do que 1, é por que nenhuma despesa aconteceu durante ano e aquela combinação possuia disponibilidade líquida positiva.
 
 
@@ -59,11 +61,15 @@ Veja que esses casos são os mais clássicos de empoçamento pois existe disponi
 
 Esses podem não ser os casos interessantes de empoçamento mas, nas próximas análises vamos combinar este índice com a disponibilidade líquida média diária para poder encontrar empoçamentos com valores mais altos.
 
+#### Distribuição do IADL
+
 No gráfico abaixo podemos visualizar um historama da distribuição do IADL.
 Cada barra mostra a quantidade de combinações UG e Fonte que possuem aquele valor do IADL.
 Podemos verificar que a maioria das combinações possui valor do IADL muito ptóximo de 0.
 
 <img src="04-indices_files/figure-html/unnamed-chunk-5-1.png" width="672" />
+
+#### IADL próximo de zero
 
 Vamos observar agora alguns exemplos de combinações que possuem IADL bem próximo de zero. 
 Lembre-se que próximo de zero significa que não há empoçamento.
@@ -71,6 +77,15 @@ Lembre-se que próximo de zero significa que não há empoçamento.
 <img src="04-indices_files/figure-html/unnamed-chunk-6-1.png" width="672" />
 
 Mais uma vez esses podem não ser os casos mais interessantes de empoçamento, pois, são aqueles em que a disponibilidade líquida é negativa durante todo período. No entanto, isso mostra que o indicador consegue capturar quando não existe empoçamento.
+
+#### Mais exemplos
+
+O gráfico a seguir mostra exemplos de combinações UG/Fonte que estão próximas
+de cada quantil da distribuição do IADL. Podemos verificar por esse gráfico que o IADL parece ser uma medida razoável para quantificar o empoçamento.
+
+<img src="04-indices_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+Com as análises anteriores mostramos que o IADL parece ser uma medida razoável para quantificar o empoçamento. A seguir vamos apresentar um indicador que será útil para a classificação do tipo de empoçamento.
+
 
 
 

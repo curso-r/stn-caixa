@@ -194,6 +194,8 @@ Em que <span class="math inline">\(dl_i\)</span> é a disponibilidade líquida n
 <h3><span class="header-section-number">4.1.2</span> Distribuição</h3>
 <p>Uma vez que o índice é calculado em janelas de 1 ano, quando mostrarmos a distribuição por UG, iremos avaliar apenas o valor do índice no último dia em que foi possível calculá-lo para aquela combinação UG/Fonte. Isso pode não ser exatamente o último dia de histórico da base de dados pois uma combinação UG/Fonte pode parar de existir ao longo do tempo.</p>
 <p>Note que estamos avaliando a combinação UG/FONTE o que totaliza 601 no banco de dados analisado.</p>
+<div id="iadl-maior-do-que-1" class="section level4">
+<h4><span class="header-section-number">4.1.2.1</span> IADL maior do que 1</h4>
 <p>Em primeiro lugar avaliamos aquelas combinações UG e Fonte que possuem IADL mairo do que 1. O índice ser maior do que 1 significa que a disponibilidade líquida média diária foi maior do que tudo que foi gasto durante o ano inteiro. Em geral, quando o IADL é maior do que 1, é por que nenhuma despesa aconteceu durante ano e aquela combinação possuia disponibilidade líquida positiva.</p>
 <table>
 <thead>
@@ -217,15 +219,29 @@ Em que <span class="math inline">\(dl_i\)</span> é a disponibilidade líquida n
 <p><img src="04-indices_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>Veja que esses casos são os mais clássicos de empoçamento pois existe disponibilidade líquida positiva e nenhum gasto. Esses são casos anteriormente chamamos de <em>empoçamento total</em>.</p>
 <p>Esses podem não ser os casos interessantes de empoçamento mas, nas próximas análises vamos combinar este índice com a disponibilidade líquida média diária para poder encontrar empoçamentos com valores mais altos.</p>
+</div>
+<div id="distribuição-do-iadl" class="section level4">
+<h4><span class="header-section-number">4.1.2.2</span> Distribuição do IADL</h4>
 <p>No gráfico abaixo podemos visualizar um historama da distribuição do IADL.
 Cada barra mostra a quantidade de combinações UG e Fonte que possuem aquele valor do IADL.
 Podemos verificar que a maioria das combinações possui valor do IADL muito ptóximo de 0.</p>
 <p><img src="04-indices_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="iadl-próximo-de-zero" class="section level4">
+<h4><span class="header-section-number">4.1.2.3</span> IADL próximo de zero</h4>
 <p>Vamos observar agora alguns exemplos de combinações que possuem IADL bem próximo de zero.
 Lembre-se que próximo de zero significa que não há empoçamento.</p>
 <p><img src="04-indices_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>Mais uma vez esses podem não ser os casos mais interessantes de empoçamento, pois, são aqueles em que a disponibilidade líquida é negativa durante todo período. No entanto, isso mostra que o indicador consegue capturar quando não existe empoçamento.</p>
+</div>
+<div id="mais-exemplos" class="section level4">
+<h4><span class="header-section-number">4.1.2.4</span> Mais exemplos</h4>
+<p>O gráfico a seguir mostra exemplos de combinações UG/Fonte que estão próximas
+de cada quantil da distribuição do IADL. Podemos verificar por esse gráfico que o IADL parece ser uma medida razoável para quantificar o empoçamento.</p>
+<p><img src="04-indices_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+Com as análises anteriores mostramos que o IADL parece ser uma medida razoável para quantificar o empoçamento. A seguir vamos apresentar um indicador que será útil para a classificação do tipo de empoçamento.</p>
 
+</div>
 </div>
 </div>
 </div>

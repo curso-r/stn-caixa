@@ -78,6 +78,8 @@ Uma vez que o índice é calculado em janelas de 1 ano, quando mostrarmos a dist
 
 Note que estamos avaliando a combinação UG/FONTE o que totaliza `r nrow(indices_ug_fonte)` no banco de dados analisado.
 
+#### IADL maior do que 1
+
 Em primeiro lugar avaliamos aquelas combinações UG e Fonte que possuem  IADL mairo do que 1. O índice ser maior do que 1 significa que a disponibilidade líquida média diária foi maior do que tudo que foi gasto durante o ano inteiro. Em geral, quando o IADL é maior do que 1, é por que nenhuma despesa aconteceu durante ano e aquela combinação possuia disponibilidade líquida positiva.
 
 ```{r, results = "asis"}
@@ -122,6 +124,8 @@ Veja que esses casos são os mais clássicos de empoçamento pois existe disponi
 
 Esses podem não ser os casos interessantes de empoçamento mas, nas próximas análises vamos combinar este índice com a disponibilidade líquida média diária para poder encontrar empoçamentos com valores mais altos.
 
+#### Distribuição do IADL
+
 No gráfico abaixo podemos visualizar um historama da distribuição do IADL.
 Cada barra mostra a quantidade de combinações UG e Fonte que possuem aquele valor do IADL.
 Podemos verificar que a maioria das combinações possui valor do IADL muito ptóximo de 0.
@@ -133,6 +137,8 @@ indices_ug_fonte %>%
   labs(y = "", x = "IADL", fill = "IADL > 1") +
   scale_fill_manual(values = c(sim = "red", `não` = "black"))
 ```
+
+#### IADL próximo de zero
 
 Vamos observar agora alguns exemplos de combinações que possuem IADL bem próximo de zero. 
 Lembre-se que próximo de zero significa que não há empoçamento.
@@ -173,6 +179,47 @@ indices_ug_fonte %>%
 ```
 
 Mais uma vez esses podem não ser os casos mais interessantes de empoçamento, pois, são aqueles em que a disponibilidade líquida é negativa durante todo período. No entanto, isso mostra que o indicador consegue capturar quando não existe empoçamento.
+
+#### Mais exemplos
+
+O gráfico a seguir mostra exemplos de combinações UG/Fonte que estão próximas
+de cada quantil da distribuição do IADL. Podemos verificar por esse gráfico que o IADL parece ser uma medida razoável para quantificar o empoçamento.
+
+```{r,fig.height=25}
+graficos <- map(
+  c(0, 0.05, 0.15, 0.25, 0.5, 0.75, 0.85, 0.95, 1), function(i) {
+    q <- quantile(indices_ug_fonte$iadl, i)
+    indices_ug_fonte %>% 
+      ungroup() %>% 
+      filter(row_number(abs(iadl - q)) <= 2) %>%  
+      left_join(disponibilidades_liquidas_diarias) %>% 
+      filter(
+        NO_DIA_COMPLETO_dmy <= dia,
+        NO_DIA_COMPLETO_dmy >= dia - days(365)
+      ) %>% 
+      ungroup() %>%
+      mutate(
+        NO_UG = str_wrap(NO_UG, 35),
+        NO_FONTE_RECURSO = str_wrap(NO_FONTE_RECURSO, 35)
+      ) %>% 
+      ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
+      geom_line() +
+      geom_area(alpha = 0.1) +
+      facet_wrap(~NO_UG + NO_FONTE_RECURSO, 
+                 scales = "free", ncol = 2) +
+      scale_y_continuous(labels = em_milhoes) +
+      labs(
+        y = "Disponibilidade Líquida (R$)",
+        x = "Data"
+      ) +
+      ggtitle(paste("UG/Fonte com próximos do quantil", scales::percent(i)), "do IADL") +
+      expand_limits(y = 0)
+  }
+)
+patchwork::wrap_plots(graficos) + patchwork::plot_layout(ncol = 1)
+```
+Com as análises anteriores mostramos que o IADL parece ser uma medida razoável para quantificar o empoçamento. A seguir vamos apresentar um indicador que será útil para a classificação do tipo de empoçamento.
+
 
 
 
