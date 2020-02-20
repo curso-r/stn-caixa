@@ -1,7 +1,7 @@
 --- 
 title: "Documentação do projeto 'Execução Orçamentária e Financeira do Governo Federal' (\"Projeto Caixa\")"
 author: "R6 Estatística e Treinamentos LTDA"
-date: "2020-01-21"
+date: "2020-02-20"
 site: bookdown::bookdown_site
 output: 
   bookdown::gitbook:
