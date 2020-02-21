@@ -1,0 +1,216 @@
+# Empoçamento
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE, 
+  message = FALSE, 
+  warning = FALSE, 
+  eval = TRUE
+)
+library(ggalluvial)
+library(tidyverse)
+theme_set(theme_minimal(12))
+
+disponibilidades_liquidas_diarias <- read_rds("../data/disponibilidades_liquidas_diarias.rds")
+obrigacoes_a_pagar_diarias <- read_rds("../data/obrigacoes_a_pagar_diarias.rds")
+indicadores<- read_rds("../data/indicadores.rds")
+indicadores_no_tempo_ug <- read_rds("../data/indices_no_tempo_ug.rds")
+indicadores_no_tempo_ug_fonte <- read_rds("../data/indices_no_tempo_ug_fonte.rds")
+```
+
+## O que é empoçamento?
+
+Uma UG que gere seus recursos de forma saudável tende a manter a sua disponibilidade líquida próxima de do zero. Como por exemplo a *COORDENACAO DE ADMINISTRACAO-COAD/DLOG/DPF* com relação à fonte de recursos *REC.VINC.APLIC.POLITICAS PUBLICAS ESPECIFICA* conforme observamos no gráfico abaixo:
+
+```{r}
+em_milhao <- function(x) {
+  paste0(round(x/1e6, 1), "M")
+}
+
+#637
+disponibilidades_liquidas_diarias %>% 
+  filter(
+    NO_UG == "COORDENACAO DE ADMINISTRACAO-COAD/DLOG/DPF",
+    NO_FONTE_RECURSO == "REC.VINC.APLIC.POLITICAS PUBLICAS ESPECIFICAS"
+  ) %>% 
+  ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
+  geom_line() +
+  geom_area(alpha = 0.1) +
+  scale_y_continuous(labels = em_milhao) +
+  labs(y = "Disponibilidade Líquida (R$)", x = "Data") +
+  ggtitle(
+    "COORDENACAO DE ADMINISTRACAO-COAD/DLOG/DPF",
+    subtitle = "REC.VINC.APLIC.POLITICAS PUBLICAS ESPECIFICAS"
+  )
+
+```
+
+Não acumular verbas dentro da disponibilidade de uma UG é importante para as atividades do Tesouro Nacional. No entanto, por diversos motivos é possível que UG's/Fontes acumulem disponibilidade líquida. Esse acúmulo de disponibilidade líquida é comunmente chamado de empoçamento.
+
+A definição de *empoçamento* é bem abrangente e pode indicar diversas características relacionadas ao manejo de verbas. Neste capítulo descrevemos diversas formas de *empoçamento* encontradas e que devem ser tratadas de formas diferentes.
+
+## Empoçamento total
+
+Este é o exemplo mais simples de empoçamento, no qual uma combinação de UG/FONTE acumula recursos indeterminadamente e com poucos gastos.
+
+Vamos usar como exemplo a UG: *COORDENACAO DE ORCAMENTO E FINANCAS - COF/DPF*
+e sua respectiva fonte de recursos *REC.PROP.DECOR.ALIEN.BENS E DIR.DO PATR.PUB.*:
+
+```{r}
+em_milhao <- function(x) {
+  paste0(trunc(x/1e6), "M")
+}
+
+disponibilidades_liquidas_diarias %>% 
+  filter(
+    NO_UG == "COORDENACAO DE ORCAMENTO E FINANCAS - COF/DPF",
+    NO_FONTE_RECURSO == "REC.PROP.DECOR.ALIEN.BENS E DIR.DO PATR.PUB."
+  ) %>% 
+  ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
+  geom_line() +
+  geom_area(alpha = 0.1) +
+  coord_cartesian(ylim = c(0, 20e6)) +
+  scale_y_continuous(labels = em_milhao) +
+  labs(y = "Disponibilidade Líquida (R$)", x = "Data") +
+  ggtitle(
+    "COORDENACAO DE ORCAMENTO E FINANCAS - COF/DPF",
+    subtitle = "REC.PROP.DECOR.ALIEN.BENS E DIR.DO PATR.PUB."
+  )
+```
+
+Neste exemplo chamamos de empoçamento total pois uma grande quantidade de dinheiro é acumulada de forma crescente, sem que exista gastos de qualquer forma.
+
+Outros exemplos deste comportamento podem ser observados no gráfico abaixo.
+
+```{r}
+d <- bind_rows(
+  disponibilidades_liquidas_diarias %>% 
+    filter(
+      NO_UG == "SUPERINTENDENCIA REG. POL. RODV. FEDERAL-SC",
+      NO_FONTE_RECURSO == "RECURSOS DIVERSOS"
+    ),
+  disponibilidades_liquidas_diarias %>% 
+    filter(
+      NO_UG == "FUNDACAO NACIONAL DO INDIO - U.O.",
+      NO_FONTE_RECURSO == "RECURSOS NAO-FINANCEIROS DIRETAM. ARRECADADOS"
+    ),
+  disponibilidades_liquidas_diarias %>% 
+    filter(
+      NO_UG == "SUPERINTENDENCIA REG. POL. RODV. FEDERAL-GO",
+      NO_FONTE_RECURSO == "RECURSOS DIVERSOS"
+    ),
+  disponibilidades_liquidas_diarias %>% 
+    filter(
+      NO_UG == "SUPERINTENDENCIA REG. POL. RODV. FEDERAL-AL",
+      NO_FONTE_RECURSO == "RECURSOS DIVERSOS"
+    )
+)
+
+em_milhao2 <- function(x) {
+  paste0(round(x/1e6, 1), "M")
+}
+
+d %>% 
+  ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
+  geom_line() +
+  geom_area(alpha = 0.1) +
+  scale_y_continuous(labels = em_milhao2) +
+  labs(y = "Disponibilidade Líquida (R$)", x = "Data") +
+  facet_wrap(~stringr::str_wrap(paste(NO_UG, "/", NO_FONTE_RECURSO), width = 30), scales = "free")
+```
+
+## Empoçamento temporário
+
+O *empoçamento temporário* acontece quando uma UG/FONTE acumula dinheiro após receber uma grande quantia, mas depois de um certo tempo a disponibilidade líquida volta a um patamar normal.
+
+Um exemplo é o que aconteceu com a *COORDENACAO-GERAL DE ORCAMENTO E FINANCAS-MJ* e a fonte de recursos *REC.DEST.AS ATIVIDADES-FINS SEGURIDADE SOCIAL*.
+
+```{r}
+disponibilidades_liquidas_diarias %>% 
+  filter(
+    NO_UG == "COORDENACAO-GERAL DE ORCAMENTO E FINANCAS-MJ",
+    NO_FONTE_RECURSO == "REC.DEST.AS ATIVIDADES-FINS SEGURIDADE SOCIAL"
+  ) %>% 
+  ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
+  geom_line() +
+  geom_area(alpha = 0.1) +
+  scale_y_continuous(labels = em_milhao) +
+  labs(y = "Disponibilidade Líquida (R$)", x = "Data") +
+  ggtitle(
+    "COORDENACAO-GERAL DE ORCAMENTO E FINANCAS-MJ",
+    subtitle = "REC.DEST.AS ATIVIDADES-FINS SEGURIDADE SOCIAL"
+  )
+```
+
+No exemplo, vemos que a UG/FONTE possui o comportamento desejado de disponibilidade líquida durante todo o ano, no entanto, no início de 2019 recebeu uma verba alta e demorou alguns meses para conseguir despender o dinheiro.
+
+Outros exemplos deste comportamento podem ser observados no gráfico abaixo.
+
+```{r}
+d <- bind_rows(
+  disponibilidades_liquidas_diarias %>% 
+    filter(
+      NO_UG == "SECRETARIA NACIONAL DE SEG. PUBLICA - SENASP",
+      NO_FONTE_RECURSO == "RECURSOS DIVERSOS"
+    ),
+  disponibilidades_liquidas_diarias %>% 
+    filter(
+      NO_UG == "FUNDO NACIONAL DE SEGURANCA PUBLICA - FNSP",
+      NO_FONTE_RECURSO == "RECURSOS DIVERSOS"
+    ),
+  disponibilidades_liquidas_diarias %>% 
+    filter(
+      NO_UG == "DEPARTAMENTO PENITENCIARIO NACIONAL",
+      NO_FONTE_RECURSO == "TX/MUL.P/PODER DE POLICIA E MUL.PROV.PROC.JUD"
+    ),
+  disponibilidades_liquidas_diarias %>% 
+    filter(
+      NO_UG == "FUNDO NACIONAL ANTIDROGAS",
+      NO_FONTE_RECURSO == "RECURSOS DIVERSOS"
+    )
+)
+d %>% 
+  ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
+  geom_line() +
+  geom_area(alpha = 0.1) +
+  scale_y_continuous(labels = em_milhao2) +
+  labs(y = "Disponibilidade Líquida (R$)", x = "Data") +
+  facet_wrap(~stringr::str_wrap(paste(NO_UG, "/", NO_FONTE_RECURSO), width = 30), scales = "free")
+```
+
+Veja que o empoçamento temporário pode acontecer diversas vezes durante o período. O que caracteriza de fato este comportamento é a UG não ter tendência a aumentar a disponibilidade líquida ao longo do tempo como acontece com o que chamamos de *empoçamento total*.
+
+## Empoçamento natural
+
+Chamamos de empoçamento natural aqueles casos em que a UG/FONTE mantém gastos de alto valor constantemente e muitas vezes até atinge disponibilidade negativa. No entanto, como os valores manejados são muito grandes isso pode ter um efeito forte.
+
+Esse tipo de empoçamento não ocorre com muita frequência pois depende de UG/FONTE que fazem movimentações grandes de verba.
+
+Um exemplo pode ser observado na *COORDENACAO DE ORCAMENTO E FINANCAS - COF/DPF* com a fote de recursos *TX/MUL.P/PODER DE POLICIA E MUL.PROV.PROC.JUD*:
+
+```{r}
+disponibilidades_liquidas_diarias %>% 
+  filter(
+    NO_UG == "COORDENACAO DE ORCAMENTO E FINANCAS - COF/DPF",
+    NO_FONTE_RECURSO == "TX/MUL.P/PODER DE POLICIA E MUL.PROV.PROC.JUD"
+  ) %>% 
+  ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
+  geom_line() +
+  geom_area(alpha = 0.1) +
+  scale_y_continuous(labels = em_milhao) +
+  labs(y = "Disponibilidade Líquida (R$)", x = "Data")
+
+```
+
+Veja que esta UG/FONTE sempre recebe montantes grandes mas também repassa valores grandes, porém como a frequência é muito alta ela acaba acumulando recursos.
+
+Estes casos são mais difíceis de identificar e também se assemelham bastante ao comportamento do *epoçamento temporário*, no sentido de que são *empoçamentos temporários* que acontecem um em sequência do outro.
+
+## Conclusão
+
+Existe um comportamento ideal para a gestão de recursos dentro das UG's no entando este padrão, por diversos motivos pode não ser seguido.
+
+Quando existe de acúmulo de disponibilidade líquida dentro de uma UG/FONTE dizemos que existe *empoçamento*. Existem algumas formas de empoçamento com características diferentes que foram descritas neste capítulo.
+
+No próximo capítulo vamos avaliar indicadores que nos auxiliam à identificar a forma de empoçamento bem como a sua itensidade. Senndo assim, poderemos ordenar as UG's/Fontes de acordo com a sua gestão de verbas, assim auxiliando o Tesouro Nacional a identificar e corrigir entraves nesta gestão.
+

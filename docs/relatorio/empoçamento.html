@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)</title>
+  <title>Capítulo 3 Empoçamento | Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)</title>
   <meta name="description" content="STN-Caixa" />
   <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)" />
+  <meta property="og:title" content="Capítulo 3 Empoçamento | Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="curso-r/stn-caixa" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)" />
+  <meta name="twitter:title" content="Capítulo 3 Empoçamento | Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)" />
   
   <meta name="twitter:description" content="STN-Caixa" />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="validação-e-compreensão-dos-dados.html"/>
+<link rel="prev" href="validação-e-compreensão-dos-dados.html"/>
+<link rel="next" href="índices-de-empoçamento.html"/>
 <script src="book_assets/jquery-2.2.3/jquery.min.js"></script>
 <link href="book_assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="book_assets/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -161,69 +161,49 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)</h1>
-<p class="author"><em>R6 Estatística e Treinamentos LTDA</em></p>
-<p class="date"><em>2020-02-20</em></p>
+<div id="empoçamento" class="section level1">
+<h1><span class="header-section-number">Capítulo 3</span> Empoçamento</h1>
+<div id="o-que-é-empoçamento" class="section level2">
+<h2><span class="header-section-number">3.1</span> O que é empoçamento?</h2>
+<p>Uma UG que gere seus recursos de forma saudável tende a manter a sua disponibilidade líquida próxima de do zero. Como por exemplo a <em>COORDENACAO DE ADMINISTRACAO-COAD/DLOG/DPF</em> com relação à fonte de recursos <em>REC.VINC.APLIC.POLITICAS PUBLICAS ESPECIFICA</em> conforme observamos no gráfico abaixo:</p>
+<p><img src="03-empocamento_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Não acumular verbas dentro da disponibilidade de uma UG é importante para as atividades do Tesouro Nacional. No entanto, por diversos motivos é possível que UG’s/Fontes acumulem disponibilidade líquida. Esse acúmulo de disponibilidade líquida é comunmente chamado de empoçamento.</p>
+<p>A definição de <em>empoçamento</em> é bem abrangente e pode indicar diversas características relacionadas ao manejo de verbas. Neste capítulo descrevemos diversas formas de <em>empoçamento</em> encontradas e que devem ser tratadas de formas diferentes.</p>
 </div>
-<div id="introdução" class="section level1">
-<h1><span class="header-section-number">Capítulo 1</span> Introdução</h1>
-<p>O objetivo deste projeto é analisar o comportamento do caixa e das obrigações financeiras dos órgãos federais, com a finalidade de fornecer informações para a gestão da programação financeira por parte do Tesouro Nacional, além de identificar oportunidades de melhorias nesse processo, e possivelmente fundamentar a criação de indicadores para avaliação da gestão financeira das unidades do Governo Federal.</p>
-<p>Elencamos aqui alguns aspectos importantes do projeto.</p>
-<div id="questões-investigadas" class="section level2">
-<h2><span class="header-section-number">1.1</span> Questões investigadas</h2>
-<p>De início, analisamos o perfil das despesas e receitas das unidades do Governo Federal, começando com os órgãos do Ministério da Justiça (que já possui um sistema de acompanhamento de despesas bem estruturado).</p>
-<p>A análise procurou compatibilizar as informações orçamentárias com as informações financeiras. Chamamos de <em>classificadores orçamentários</em>: Função, Subfunção, Programa, Ação, Grupo de Despesa, Modalidade de Aplicação, Elemento de Despesa, Indicador de Resultado EOF, Indicador de Exceção Decreto. Como <em>classificadores financeiros</em>, nos referimos, essencialmente, à Vinculação de Pagamento.</p>
-<p>A <em>Fonte de Recurso</em> é um classificador comum a esses dois contextos, orçamentário e financeiro.</p>
-<p>Com esse escopo em mente, em parceria com a equipe do GT-CEAD, as seguintes questões foram abordadas neste projeto:</p>
-<ol style="list-style-type: lower-alpha">
-<li><p>Qual o comportamento do caixa e das obrigações a pagar (e da disponibilidade líquida) no período analisado<a href="referências.html#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>?</p></li>
-<li><p>Existem casos em que unidades de um mesmo órgão permanecem com disponibilidade líquida negativa, enquanto outras unidades desse mesmo órgão encontram-se com disponibilidade positiva? E se considerar a fonte de recursos, há casos em que o órgão passa por períodos com disponibilidade negativa em uma fonte enquanto há recursos disponíveis em outra fonte? E se considerar as duas situações conjuntamente<a href="referências.html#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>?</p></li>
-<li><p>Como as classificações orçamentárias se relacionam com as classificações financeiras? Especificamente, é possível identificar certos tipos de despesas que são sempre (ou frequentemente) pagas com recursos de determinadas vinculações?</p></li>
-<li><p>Caso seja possível a identificação mencionada em (c), as questões (a) e (b) seriam revisitadas para estimar a disponibilidade líquida para cada vinculação, considerando as classificações orçamentárias das obrigações. Nesse cenário, existem unidades com saldo total suficiente para cobrir todas as suas obrigações, porém com insuficiência em algumas vinculações?</p></li>
-<li><p>Qual o comportamento do caixa das unidades em termos de movimentações?</p></li>
-<li><p>Qual o intervalo entre duas operações<a href="referências.html#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> de grande porte?</p></li>
-</ol>
-<p>Para responder essas perguntas, utilizamos ferramentas descritivas e de modelagem preditiva, descritas nos Capítulos 3 e 4, respectivamente.</p>
+<div id="empoçamento-total" class="section level2">
+<h2><span class="header-section-number">3.2</span> Empoçamento total</h2>
+<p>Este é o exemplo mais simples de empoçamento, no qual uma combinação de UG/FONTE acumula recursos indeterminadamente e com poucos gastos.</p>
+<p>Vamos usar como exemplo a UG: <em>COORDENACAO DE ORCAMENTO E FINANCAS - COF/DPF</em>
+e sua respectiva fonte de recursos <em>REC.PROP.DECOR.ALIEN.BENS E DIR.DO PATR.PUB.</em>:</p>
+<p><img src="03-empocamento_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Neste exemplo chamamos de empoçamento total pois uma grande quantidade de dinheiro é acumulada de forma crescente, sem que exista gastos de qualquer forma.</p>
+<p>Outros exemplos deste comportamento podem ser observados no gráfico abaixo.</p>
+<p><img src="03-empocamento_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
-<div id="as-bases-de-dados" class="section level2">
-<h2><span class="header-section-number">1.2</span> As bases de dados</h2>
-<!-- Algumas ideias, a serem testadas: -->
-<!-- * analisar as despesas pagas, pelos classificadores, pelo número da nota de empenho e pelo número do documento de pagamento; e relacionar documento de pagamento x nota de empenho x vinculação de pagamento pelo campo "inscrição" do documento de pagamento. -->
-<!-- * analisar as despesas pagas, pelos classificadores, pelo número da nota de empenho e pelo número do documento de pagamento; e tentar compatibilizar com as informações dos pagamentos efetuados, por vinculação de pagamento e número do documento de pegamento. -->
-<!-- * Mais simples: parecido com o anterior, a partir da tabela com as despesas pagas detalhadas pelos classificadores orçamentários, empenho e documento de pagamento, buscar a _vinculação de pagamento_ de uma tabela com toda a movimentação do limite de saque detalhada por documento. Assim, quando a movimentação do limite de saque for um pagamento, o documento correspondente, um documento de pagamento, pode ser usado como chave para relacionar as duas tabelas. -->
-<p>Para responder as questões levantadas no item anterior, os dados do SIAFI foram divididos em três bases de dados:</p>
-<ul>
-<li><ol style="list-style-type: decimal">
-<li>base de movimentações diárias do limite de saque;</li>
-</ol></li>
-<li><ol start="2" style="list-style-type: decimal">
-<li>base de pagamentos diários;</li>
-</ol></li>
-<li><ol start="3" style="list-style-type: decimal">
-<li>base de movimentações diárias nas obrigações a pagar.</li>
-</ol></li>
-</ul>
-<p>Com as Tabelas 1 e 3, calculamos a <em>disponibilidade líquida diária</em> a partir da subtração entre os saldos diários do caixa (Tabela 1) e as obrigações a pagar (Tabela 3), para cada unidade gestora ou órgão, e para cada fonte de recursos.</p>
-<p>Com as Tabelas 1 e 2, relacionamos no contexto dos pagamentos, as informações orçamentrárias (Tabela 2) com os vínculos de pagamento (Tabela 1).</p>
-<p>Finalmente com a Tabela 1, analisamos as movimentações para tipo de documento, obtendo um histórico das movimentações de cada órgão e cada Unidade Gestora.</p>
-<p>Na primeira etapa do projeto, essas bases foram estudadas e validadas. Bases auxiliares também foram construídas para facilitar as análises subsequentes. A documentação dessa etapa se encontra no Capítulo 2.</p>
+<div id="empoçamento-temporário" class="section level2">
+<h2><span class="header-section-number">3.3</span> Empoçamento temporário</h2>
+<p>O <em>empoçamento temporário</em> acontece quando uma UG/FONTE acumula dinheiro após receber uma grande quantia, mas depois de um certo tempo a disponibilidade líquida volta a um patamar normal.</p>
+<p>Um exemplo é o que aconteceu com a <em>COORDENACAO-GERAL DE ORCAMENTO E FINANCAS-MJ</em> e a fonte de recursos <em>REC.DEST.AS ATIVIDADES-FINS SEGURIDADE SOCIAL</em>.</p>
+<p><img src="03-empocamento_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>No exemplo, vemos que a UG/FONTE possui o comportamento desejado de disponibilidade líquida durante todo o ano, no entanto, no início de 2019 recebeu uma verba alta e demorou alguns meses para conseguir despender o dinheiro.</p>
+<p>Outros exemplos deste comportamento podem ser observados no gráfico abaixo.</p>
+<p><img src="03-empocamento_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Veja que o empoçamento temporário pode acontecer diversas vezes durante o período. O que caracteriza de fato este comportamento é a UG não ter tendência a aumentar a disponibilidade líquida ao longo do tempo como acontece com o que chamamos de <em>empoçamento total</em>.</p>
 </div>
-<div id="análise-descritiva" class="section level2">
-<h2><span class="header-section-number">1.3</span> Análise descritiva</h2>
-<p>Dada a riqueza de informações e granularidade das bases de dados, todos os resultados descritivos foram construídos em uma aplicação online, que permite a manipulação das visualizações a partir de filtros e seletores.</p>
-<p>O aplicativo pode ser acessado a partir do seguinte link: <a href="https://rseis.shinyapps.io/explorador_disponibilidades_liquidas_v2/" class="uri">https://rseis.shinyapps.io/explorador_disponibilidades_liquidas_v2/</a></p>
-<p>O código-fonte e manutenção do aplicativo foram repassados à equipe do GT-CEAD ao fim do projeto.</p>
-<p>Um resumo dos principais resultados se encontra no Capítulo 3.</p>
+<div id="empoçamento-natural" class="section level2">
+<h2><span class="header-section-number">3.4</span> Empoçamento natural</h2>
+<p>Chamamos de empoçamento natural aqueles casos em que a UG/FONTE mantém gastos de alto valor constantemente e muitas vezes até atinge disponibilidade negativa. No entanto, como os valores manejados são muito grandes isso pode ter um efeito forte.</p>
+<p>Esse tipo de empoçamento não ocorre com muita frequência pois depende de UG/FONTE que fazem movimentações grandes de verba.</p>
+<p>Um exemplo pode ser observado na <em>COORDENACAO DE ORCAMENTO E FINANCAS - COF/DPF</em> com a fote de recursos <em>TX/MUL.P/PODER DE POLICIA E MUL.PROV.PROC.JUD</em>:</p>
+<p><img src="03-empocamento_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Veja que esta UG/FONTE sempre recebe montantes grandes mas também repassa valores grandes, porém como a frequência é muito alta ela acaba acumulando recursos.</p>
+<p>Estes casos são mais difíceis de identificar e também se assemelham bastante ao comportamento do <em>epoçamento temporário</em>, no sentido de que são <em>empoçamentos temporários</em> que acontecem um em sequência do outro.</p>
 </div>
-<div id="análise-preditiva" class="section level2">
-<h2><span class="header-section-number">1.4</span> Análise preditiva</h2>
-<p>Os modelos utilizados neste projeto consideraram os métodos em estado da arte dentro do contexto de modelagem preditiva, como florestas aleatórias, o algorítmo XGBoost e redes neurais.</p>
-<p>A descrição dos modelos ajustados e seus resultados se encontram no Capítulo 4.</p>
-</div>
-<div id="oficina-de-repasses-e-implementação-dos-produtos" class="section level2">
-<h2><span class="header-section-number">1.5</span> Oficina de repasses e implementação dos produtos</h2>
-<p>A última etapa do projeto consistiu de uma oficina de repasses, realizada presencialmente no GT-CEAD, no Tesouro Nacional, em Brasília. Nessa oficina, foi discutida a teoria por trás dos métodos aplicados, tal como apresentada neste relatório. Também foram apresentados e explicados os scripts em linguagem de programação R utilizados para implementar os modelos.</p>
+<div id="conclusão" class="section level2">
+<h2><span class="header-section-number">3.5</span> Conclusão</h2>
+<p>Existe um comportamento ideal para a gestão de recursos dentro das UG’s no entando este padrão, por diversos motivos pode não ser seguido.</p>
+<p>Quando existe de acúmulo de disponibilidade líquida dentro de uma UG/FONTE dizemos que existe <em>empoçamento</em>. Existem algumas formas de empoçamento com características diferentes que foram descritas neste capítulo.</p>
+<p>No próximo capítulo vamos avaliar indicadores que nos auxiliam à identificar a forma de empoçamento bem como a sua itensidade. Senndo assim, poderemos ordenar as UG’s/Fontes de acordo com a sua gestão de verbas, assim auxiliando o Tesouro Nacional a identificar e corrigir entraves nesta gestão.</p>
 
 </div>
 </div>
@@ -232,8 +212,8 @@
           </div>
         </div>
       </div>
-
-<a href="validação-e-compreensão-dos-dados.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="validação-e-compreensão-dos-dados.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="índices-de-empoçamento.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="book_assets/gitbook-2.6.7/js/app.min.js"></script>
@@ -265,7 +245,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/03-empocamento.Rmd",
 "text": "Edit"
 },
 "history": {

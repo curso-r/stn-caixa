@@ -20,6 +20,9 @@ trinta_e_uns_de_dezembro <- tibble(
   NO_DIA_COMPLETO_dmy = as.Date(c("2017-12-31", "2018-12-31", "2019-12-31"))
 )
 
+
+indicadores_no_tempo_ug <- read_rds("../data/indices_no_tempo_ug.rds")
+indicadores_no_tempo_ug_fonte <- read_rds("../data/indices_no_tempo_ug_fonte.rds")
 ```
 
 Para responder a questão (a)[a. Qual o comportamento do caixa e das obrigações a pagar (e da disponibilidade líquida) no período analisado?] sobre disponibilidades líquidas das UGs e as respectivas fontes de recursos, elaboramos os seguintes indicadores:
@@ -30,13 +33,16 @@ Para responder a questão (a)[a. Qual o comportamento do caixa e das obrigaçõe
 
 Anexo ao relatório, a tabela **"indicadores.csv"** contém a lista de todas as UGs e fontes de recursos e seus respectivos valores dos indicadores.
 
+O cálculo dos indicadores foi realizado utilizando uma janela annual completa, isto é, para cada data da base de dados observamos os 365 dias anteriores de movimentações para calcular o índice. 
+
+Calcular os indicadores desta forma permite a análise da evolução dos mesmos ao longo do tempo.
+
 ```{r, echo=FALSE}
 # salva o arquivo final dos indicadores
 indicadores %>%
   select(NO_ORGAO, NO_FONTE_RECURSO, NO_UG, IADL = disponibilidade_estritamente_crescente, IPSP = integral_sobre_media_dos_gastos) %>%
   write_csv("../data/indicadores.csv")
 ```
-
 
 ## Indicador de acumulação de disponibilidade líquida ($I_{ADL}$)
 
@@ -101,6 +107,8 @@ disponibilidades_liquidas_diarias  %>%
 
 Indicador com valores altos para as curvas que apresentarem saldos positivos por longa duração de tempo no acumulado do período analisado.
 
+Este indicador representa quantas vezes a disponibilidade líquida é maior do que todas as obrigações a pagar do ano. 
+
 ### Definição
 
 Área sob a curva de disponibilidade líquida ponderada pela soma de todas as obrigações pagas. 
@@ -108,7 +116,7 @@ Indicador com valores altos para as curvas que apresentarem saldos positivos por
 Seja $y_i$ a disponibilidade líquida no dia $i$ e $o_i$ as obrigações pagas no dia $i$,
 
 $$
-I_{PSP} = \frac{\sum y_i}{\sum o_i}
+I_{PSP} = \frac{\sum\frac{y_i}{n}}{\sum o_i}
 $$
 
 ### Exemplos
