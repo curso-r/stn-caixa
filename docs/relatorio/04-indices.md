@@ -86,7 +86,25 @@ de cada quantil da distribuição do IADL. Podemos verificar por esse gráfico q
 <img src="04-indices_files/figure-html/unnamed-chunk-7-1.png" width="672" />
 Com as análises anteriores mostramos que o IADL parece ser uma medida razoável para quantificar o empoçamento. A seguir vamos apresentar um indicador que será útil para a classificação do tipo de empoçamento.
 
+## Indicador de persistência de saldo positivo
 
+Este indicadore representa a proporção de dias no ano que uma combinação UG/Fonte teve disponibilidade líquida suficientemente
+positiva. A definição *suficientemente positiva* foi calculada com base na média diária de débitos. Portanto, se a disponibilidade líquida for maior que a média ddiária de débitos consideramos que a disponibilidade é suficientemente positiva.
+
+### Cálculo
+
+$$IPDL_i = \frac{1}{n}\sum_{i=i}^{365}(dl_{-i} > d_{-i})$$
+
+Em que $dl_i$ é a disponibilaidade líquida no dia $i$ e $d_i$ é o valor debitado no dia $i$.
+
+### Distribuição
+
+<img src="04-indices_files/figure-html/unnamed-chunk-8-1.png" width="672" />
+
+
+<img src="04-indices_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+
+<img src="04-indices_files/figure-html/unnamed-chunk-10-1.png" width="672" />
 
 
 

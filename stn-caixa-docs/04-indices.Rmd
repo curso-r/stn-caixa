@@ -220,7 +220,65 @@ patchwork::wrap_plots(graficos) + patchwork::plot_layout(ncol = 1)
 ```
 Com as análises anteriores mostramos que o IADL parece ser uma medida razoável para quantificar o empoçamento. A seguir vamos apresentar um indicador que será útil para a classificação do tipo de empoçamento.
 
+## Indicador de persistência de saldo positivo
 
+Este indicadore representa a proporção de dias no ano que uma combinação UG/Fonte teve disponibilidade líquida suficientemente
+positiva. A definição *suficientemente positiva* foi calculada com base na média diária de débitos. Portanto, se a disponibilidade líquida for maior que a média ddiária de débitos consideramos que a disponibilidade é suficientemente positiva.
+
+### Cálculo
+
+$$IPDL_i = \frac{1}{n}\sum_{i=i}^{365}(dl_{-i} > d_{-i})$$
+
+Em que $dl_i$ é a disponibilaidade líquida no dia $i$ e $d_i$ é o valor debitado no dia $i$.
+
+### Distribuição
+
+```{r}
+indices_ug_fonte %>% 
+  ggplot(aes(x = ipdl)) +
+  geom_histogram(binwidth = 0.02, fill = "black", color = "grey")
+```
+
+
+```{r, fig.height=25}
+graficos <- map(
+  c(0, 0.05, 0.15, 0.25, 0.5, 0.75, 0.85, 0.95, 1), function(i) {
+    q <- quantile(indices_ug_fonte$ipdl, i)
+    indices_ug_fonte %>% 
+      ungroup() %>% 
+      filter(row_number(abs(ipdl - q)) <= 2) %>%  
+      left_join(disponibilidades_liquidas_diarias) %>% 
+      filter(
+        NO_DIA_COMPLETO_dmy <= dia,
+        NO_DIA_COMPLETO_dmy >= dia - days(365)
+      ) %>% 
+      ungroup() %>%
+      mutate(
+        NO_UG = str_wrap(NO_UG, 35),
+        NO_FONTE_RECURSO = str_wrap(NO_FONTE_RECURSO, 35)
+      ) %>% 
+      ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
+      geom_line() +
+      geom_area(alpha = 0.1) +
+      facet_wrap(~NO_UG + NO_FONTE_RECURSO, 
+                 scales = "free", ncol = 2) +
+      scale_y_continuous(labels = em_milhoes) +
+      labs(
+        y = "Disponibilidade Líquida (R$)",
+        x = "Data"
+      ) +
+      ggtitle(paste("UG/Fonte com próximos do quantil", scales::percent(i)), "do IADL") +
+      expand_limits(y = 0)
+  }
+)
+patchwork::wrap_plots(graficos) + patchwork::plot_layout(ncol = 1)
+```
+
+```{r}
+indices_ug_fonte %>% 
+  ggplot(aes(x = ifelse(iadl>1, 1, iadl), y = ipdl)) +
+  geom_jitter()
+```
 
 
 
