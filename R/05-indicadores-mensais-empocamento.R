@@ -43,7 +43,7 @@ calc_indicador_tempo <- function(disponibilidades_liquida) {
 
 calc_iadl <- function(disponibilidade_liquida, lag_disponibilidade_liquida) {
   
-  disp_positiva <- disponibilidade_liquida[disponibilidade_liquida>0]
+  disp_positiva <- trunc(disponibilidade_liquida[disponibilidade_liquida>0])
   
   if (length(disp_positiva) == 0)
     disp_positiva <- 0
@@ -70,13 +70,14 @@ calc_dlp <- function(disponibilidade_liquida) {
 
 calc_ipdl <- function(disponibilidade_liquida, lag_disponibilidade_liquida) {
   
+  disponibilidade_liquida <- trunc(disponibilidade_liquida)
   dif <- disponibilidade_liquida - lag_disponibilidade_liquida
   # dif < 0 significa débito.
   # sempre vai ter pelo menos 1 NA.
   debitos <- mean(abs(dif[dif < 0]), na.rm = TRUE)
   debitos <- ifelse(is.nan(debitos) || debitos < 0, 0, debitos)
   
-  mean(disponibilidade_liquida -  debitos > 0)
+  mean(disponibilidade_liquida -  debitos*0.5 > 0)
 }
 
 calcular_indices <- function(df) {

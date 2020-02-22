@@ -161,10 +161,87 @@ A tabela a seguir apresenta a quantidade de combinações UG/Fonte em cada uma d
 
 Categoria IPDL                 #
 --------------------------  ----
-1. Sem empoçamento           156
-2. Empoçamento temporário    348
-3. Empoçamento natural        30
-4. Empoçamento total          67
+1. Sem empoçamento            32
+2. Empoçamento temporário    387
+3. Empoçamento natural        44
+4. Empoçamento total         138
+
+## IADL e IPDL
+
+Nests seção vamos avaliar a relação entre os indicadores criados. ''
+
+<img src="04-indices_files/figure-html/unnamed-chunk-14-1.png" width="672" />
+
+Note que não existe uma correlação forte entre os índices, o que é importgante uma vez que um deles pretende quantificar o empoçamento enquanto o outro possui o objetivo de classificá-lo.
+
+#### IADL = 1 e IPDL = 0
+
+Alguns casos chamam atenção pois apresentam IADL muito alto e IPDL baixo.
+Podemos visualizar essers casos no gráfico abaixo.
+
+Isso acontece quando o período de acúmulo foi muito pequeno mas com
+valores muito exorbitantes para aquela combinação UG/Fonte.
+
+<img src="04-indices_files/figure-html/unnamed-chunk-15-1.png" width="672" />
+
+O caso contrário, isto é, o caso em que o IADL = 0 e IPDL = 1 não acontece na base de dados.
+
+#### Mais exemplos
+
+Agora vamos mostrar alguns exemplos de outros casos que podem acontecer na nossa base de dados. Esses exemplos servem para criar uma sensibilidade do que a combinação do IADL com o IPDL podem nos ajudar a identificar.
+
+Veja que quando ambos os índices possuem o valor muito alto encontramos casos de empoçamento total com combinações de UG/Fonte que praticamennte não fizeram nenhum pagamento.
+
+<img src="04-indices_files/figure-html/unnamed-chunk-16-1.png" width="672" />
+
+Abaixo, quando o IPDL é 0.5 e o IADL é alto encontramos exemplos de empoçamento temporário com períodos mais longos ou com valores mais altos comparados aos gastos da Ug/Fonte.
+
+<img src="04-indices_files/figure-html/unnamed-chunk-17-1.png" width="672" />
+
+Quando o IPDL é baixo e o IADL é alto encontramos os casos típicos de empoçamento temporário.
+
+<img src="04-indices_files/figure-html/unnamed-chunk-18-1.png" width="672" />
+
+No gráfico abaixo encontramos casos de empoçamento total com intensidade moderada.
+
+<img src="04-indices_files/figure-html/unnamed-chunk-19-1.png" width="672" />
+Vemos abaixo exemplos de empoçamento total porém com intensidade ainda menor.
+
+<img src="04-indices_files/figure-html/unnamed-chunk-20-1.png" width="672" />
+
+Verificamos com os exemplos que os índices estão aparentemente conseguindo quantificar e classificar as combinações UG/Fonte de acordo com a intensidade e tipo de empoçamento.
+
+## Indicadores e Disponibilidade Líquida positiva
+
+Avaliamos também o comportamento dos indicadores de acordo com a disponibilidade líquida positiva média.
+
+### IADL
+
+Vemos que não existe também uma relação muito forte entre o IADL e a Disponibilidade líquida positiva média. Indicando que podemos usar a combinação dos dois para encontrar casos de empoçamento alto e que envolvem bastante dinheiro.
+
+<img src="04-indices_files/figure-html/unnamed-chunk-21-1.png" width="672" />
+
+No gráfico abaixo, ao invés de usarmos o valor absoluto da DLP usamos o percentil de cada observação, isso ajuda a evidenciar que não existe uma relação forte entre as duas medidas.
+
+<img src="04-indices_files/figure-html/unnamed-chunk-22-1.png" width="672" />
+
+### IPDL
+
+Também não há uma relação muito forte entre IPDL e DLP. 
+
+<img src="04-indices_files/figure-html/unnamed-chunk-23-1.png" width="672" />
+
+<img src="04-indices_files/figure-html/unnamed-chunk-24-1.png" width="672" />
+
+## Conclusão
+
+Com as análises apresentadas podemos verificar que o IADL e o IPDL cumprem as suas funções de quantificar a intensidade e classificar o tipo de empoçamento. 
+
+Em conjunto com a disponibilidade positiva média podemos encontrar as combinações de UG/Fonte que apresentam certos tipos e intensidades de empoçamento.
+
+Para auxiliar na exploração dos indicadores foi desenvolvido um app que está acessível pelo [link a seguir](https://rseis.shinyapps.io/explorador_indicador_empocamento/).
+
+
 
 
 

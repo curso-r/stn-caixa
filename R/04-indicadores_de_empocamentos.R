@@ -5,7 +5,6 @@ trinta_e_uns_de_dezembro <- tibble(
   NO_DIA_COMPLETO_dmy = as.Date(c("2017-12-31", "2018-12-31", "2019-12-31"))
 )
 
-
 disponibilidades_liquidas_diarias <- read_rds("data/disponibilidades_liquidas_diarias.rds")
 obrigacoes_a_pagar_diarias <- read_rds("data/obrigacoes_a_pagar_diarias.rds")
 indicadores <- read_rds("data/indicadores.rds")
