@@ -1,5 +1,6 @@
 library(tidyverse)
 library(trelliscopejs)
+library(lubridate)
 
 trinta_e_uns_de_dezembro <- tibble(
   NO_DIA_COMPLETO_dmy = as.Date(c("2017-12-31", "2018-12-31", "2019-12-31"))
@@ -40,6 +41,8 @@ saveRDS(indicadores, file = "apps/explorador_disponibilidades_liquidas/indicador
 saveRDS(indicadores, file = "data/indicadores.rds")
 
 # ts_das_disponibilidades_liquidas (series temporais nested para o grafico de sparklines) ------
+indicadores <- readRDS("data/indicadores.rds")
+set.seed(1)
 ts_das_disponibilidades_liquidas <- disponibilidades_liquidas_diarias %>%
   group_by(
     # ID_ANO_LANC,
@@ -48,6 +51,13 @@ ts_das_disponibilidades_liquidas <- disponibilidades_liquidas_diarias %>%
     NO_FONTE_RECURSO
   ) %>%
   nest_legacy(.key = "serie_temporal") %>%
+  mutate(
+    serie_temporal_random_crop = map(serie_temporal, ~ {
+        dia_min <- min(.x$NO_DIA_COMPLETO_dmy) + years(1)
+        dia_sorteado <- sample(unique(c(dia_min, .x$NO_DIA_COMPLETO_dmy[.x$NO_DIA_COMPLETO_dmy >= dia_min])), 1)
+        .x %>% filter(NO_DIA_COMPLETO_dmy %>% between(dia_sorteado - years(1), dia_sorteado))
+    })
+  ) %>%
   left_join(
     indicadores
   )
