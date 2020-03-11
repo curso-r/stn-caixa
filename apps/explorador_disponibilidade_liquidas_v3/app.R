@@ -8,7 +8,7 @@ library(shinydashboard)
 library(magrittr)
 library(shinyjs)
 library(shinycssloaders)
-ts_das_disponibilidades_liquidas_com_indicadores_final <- readRDS("ts_das_disponibilidades_liquidas_com_indicadores_final.rds")
+ts_das_disponibilidades_liquidas_com_indicadores_final <- readRDS("ts_das_disponibilidades_liquidas_com_indicadores_final.rds") %>% filter(n > 300)
 indicadores_disponiveis <- c(
   "integral_sobre_media_dos_gastos",
   "disponibilidade_estritamente_crescente",
@@ -89,7 +89,7 @@ server <- function(input, output, session) {
   })
   
   observeEvent(input$selected_row, {
-    id <- ts_das_disponibilidades_liquidas_com_indicadores_final %>% slice(input$selected_row)
+    id <- dados() %>% slice(input$selected_row)
     id_selecionado(id$id)
   })
   
@@ -99,7 +99,7 @@ server <- function(input, output, session) {
         x := !!rlang::sym(input$indice_x),
         y := !!rlang::sym(input$indice_y)
       ) %>% 
-      filter(near(x, input$dispersao_click$x), near(y, input$dispersao_click$y)) %>%
+      filter(near(x, input$dispersao_click$x, .Machine$double.eps^0.3), near(y, input$dispersao_click$y, .Machine$double.eps^0.3)) %>%
       slice(1)
     id_selecionado(id$id)
   })
