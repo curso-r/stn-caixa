@@ -1,8 +1,12 @@
-
+library(tidymodels)
+library(tidyverse)
 
 modelo <- read_rds("data/modelo.rds")
+ts_das_disponibilidades_liquidas_com_indicadores <- read_rds("data/ts_das_disponibilidades_liquidas_com_indicadores.rds")
+rotulos <- read_rds("data/rotulos.rds")
+
 # base com scores
-ts_das_disponibilidades_liquidas_com_indicadores_final <- ts_das_disponibilidades_liquidas %>%
+ts_das_disponibilidades_liquidas_com_indicadores_final <- ts_das_disponibilidades_liquidas_com_indicadores %>%
   mutate(
     n = map_dbl(serie_temporal, nrow),
     indicadores = map(serie_temporal_random_crop, calcular_indices)
