@@ -16,100 +16,16 @@ library(ranger)
 library(numbers)
 library(tictoc)
 
-calc_disponibilidade_estritamente_crescente <- function(disponibilidade_liquida, dias_no_periodo, NO_DIA_COMPLETO_dmy) {
-  proporcao_de_disponibilidade_liquida_negativa <- mean(disponibilidade_liquida < 0)
-  disponibilidade_mais_recente <- disponibilidade_liquida[which.max(NO_DIA_COMPLETO_dmy)]
-  p1 <- mean(diff(disponibilidade_liquida)  > 0)
-  p2 <- mean(abs(diff(disponibilidade_liquida)[diff(disponibilidade_liquida) < 0]) < (sd(disponibilidade_liquida) + 0.001)/100) 
-  ifelse(is.nan(p1), 0, p1) + ifelse(is.nan(p2), 0, p2)
-}
-
-calc_indicador_integral_sobre_media_dos_gastos <- function(disponibilidade_liquida, pagamento_diario) {
-  integral <- mean(disponibilidade_liquida)
-  soma_dos_gastos <- sum(pagamento_diario)
-  soma_dos_gastos <- if_else(abs(soma_dos_gastos) < 1, 1, soma_dos_gastos)
-  integral/soma_dos_gastos
-}
-
-calc_indicador_valor_nominal <- function(disponibilidade_liquida) {
-  mean(disponibilidade_liquida)
-}
-
-calc_indicador_valor_nominal_conservador <- function(disponibilidade_liquida, pagamentos_diarios) {
-  mean(disponibilidade_liquida) - mean(pagamentos_diarios)*30
-}
-
-calc_indicador_tempo <- function(disponibilidades_liquida) {
-  sum(disponibilidades_liquida > 0)/length(disponibilidades_liquida)
-}
-
-calc_iadl <- function(disponibilidade_liquida, lag_disponibilidade_liquida) {
-  
-  disp_positiva <- disponibilidade_liquida[disponibilidade_liquida>0]
-  
-  if (length(disp_positiva) == 0)
-    disp_positiva <- 0
-  
-  disp_positiva_media <- mean(disp_positiva)
-  
-  dif <- disponibilidade_liquida - lag_disponibilidade_liquida
-  # dif < 0 significa débito.
-  # sempre vai ter pelo menos 1 NA.
-  debitos <- sum(abs(dif[dif < 0]), na.rm = TRUE)
-  # numero menor que 1 fica ruim pq pode explodir tudo
-  debitos <- ifelse(debitos < 1, 1, debitos)
-  
-  disp_positiva_media/debitos
-}
-
-calcular_indices <- function(df) {
-  
-  df %>%
-    summarise(
-      n = n(),
-      integral_sobre_media_dos_gastos = calc_indicador_integral_sobre_media_dos_gastos(
-        disponibilidade_liquida = disponibilidade_liquida, 
-        pagamento_diario = pagamento_diario
-      ),
-      disponibilidade_estritamente_crescente = calc_disponibilidade_estritamente_crescente(
-        disponibilidade_liquida = disponibilidade_liquida,
-        dias_no_periodo = n(),
-        NO_DIA_COMPLETO_dmy = NO_DIA_COMPLETO_dmy
-      ),
-      iadl = calc_iadl(
-        disponibilidade_liquida,
-        lag(disponibilidade_liquida, 1, order_by = NO_DIA_COMPLETO_dmy)
-      ),
-      valor_nominal = calc_indicador_valor_nominal(disponibilidade_liquida),
-      valor_nominal_conservador = calc_indicador_valor_nominal_conservador(disponibilidade_liquida, pagamento_diario),
-      indicador_tempo = calc_indicador_tempo(disponibilidade_liquida)
-    )
-}
-
 set.seed(1)
 
 tic("rf tune")
-# dados
-rotulos <- read_csv("data/anotacoes-2020-03-08.csv") %>%
-  rename(rotulo = athos) %>%
-  select(id, rotulo) %>%
-  filter(!rotulo %in% c("Rever dados")) %>%
-  mutate(
-    rotulo = case_when(
-      rotulo %in% "Saudável" ~ "Saudável",
-      TRUE ~ "Empoçamento"
-    )
-  )
+# rotulos -------------
+rotulos <- read_rds("data/rotulos.rds")
 
-ts_das_disponibilidades_liquidas <- readRDS("data/ts_das_disponibilidades_liquidas.rds")
-ts_das_disponibilidades_liquidas_com_indicadores <- ts_das_disponibilidades_liquidas %>%
-  mutate(
-    n = map_dbl(serie_temporal, nrow),
-    indicadores = map(serie_temporal_random_crop, calcular_indices)
-  ) %>% 
-  filter(n > 365) %>%
-  select(id, NO_UG, NO_ORGAO, NO_FONTE_RECURSO, indicadores) %>%
-  unnest_legacy() %>%
+ts_das_disponibilidades_liquidas_com_indicadores <- readRDS("data/ts_das_disponibilidades_liquidas_com_indicadores.rds")
+
+# gruda rotulos -------------------------------
+ts_das_disponibilidades_liquidas_com_indicadores <- ts_das_disponibilidades_liquidas_com_indicadores %>%
   inner_join(
     rotulos,
     by = "id"
