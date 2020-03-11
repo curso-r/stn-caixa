@@ -1,5 +1,8 @@
 library(tidyverse)
 
+# dados zipados em
+# https://drive.google.com/drive/folders/1hFUtZmFCVXgUvouvsy3ppO2i09UANr1u
+
 unzip("data-raw/MJ_1_Mov_Lim_Saque.zip", exdir = "data-raw")
 lim_saque <- data.table::fread("data-raw/MJ_1_Mov_Lim_Saque.csv") %>% as_tibble(.name_repair = "unique")
 write_rds(lim_saque, path = "data/lim_saque.rds")
