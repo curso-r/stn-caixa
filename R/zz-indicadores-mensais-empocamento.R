@@ -43,7 +43,7 @@ calc_indicador_tempo <- function(disponibilidades_liquida) {
 
 calc_iadl <- function(disponibilidade_liquida, lag_disponibilidade_liquida) {
   
-  disp_positiva <- disponibilidade_liquida[disponibilidade_liquida>0]
+  disp_positiva <- trunc(disponibilidade_liquida[disponibilidade_liquida>0])
   
   if (length(disp_positiva) == 0)
     disp_positiva <- 0
@@ -58,6 +58,26 @@ calc_iadl <- function(disponibilidade_liquida, lag_disponibilidade_liquida) {
   debitos <- ifelse(debitos < 1, 1, debitos)
   
   disp_positiva_media/debitos
+}
+
+calc_dlp <- function(disponibilidade_liquida) {
+  dlp <- disponibilidade_liquida[disponibilidade_liquida > 0]
+  if (length(dlp) == 0)
+    return(0)
+  
+  mean(dlp)
+}
+
+calc_ipdl <- function(disponibilidade_liquida, lag_disponibilidade_liquida) {
+  
+  disponibilidade_liquida <- trunc(disponibilidade_liquida)
+  dif <- disponibilidade_liquida - lag_disponibilidade_liquida
+  # dif < 0 significa débito.
+  # sempre vai ter pelo menos 1 NA.
+  debitos <- mean(abs(dif[dif < 0]), na.rm = TRUE)
+  debitos <- ifelse(is.nan(debitos) || debitos < 0, 0, debitos)
+  
+  mean(disponibilidade_liquida -  debitos*0.5 > 0)
 }
 
 calcular_indices <- function(df) {
@@ -75,6 +95,11 @@ calcular_indices <- function(df) {
         NO_DIA_COMPLETO_dmy = NO_DIA_COMPLETO_dmy
       ),
       iadl = calc_iadl(
+        disponibilidade_liquida,
+        lag(disponibilidade_liquida, 1, order_by = NO_DIA_COMPLETO_dmy)
+      ),
+      dlp = calc_dlp(disponibilidade_liquida = disponibilidade_liquida),
+      ipdl = calc_ipdl(
         disponibilidade_liquida,
         lag(disponibilidade_liquida, 1, order_by = NO_DIA_COMPLETO_dmy)
       ),

@@ -1,87 +1,123 @@
 library(shiny)
+library(shinydashboard)
+library(shinyjs)
 library(tidyverse)
 library(lubridate)
 
-log_neg <- function(x) {
-  sign(x) * log10(abs(x) + 1)
-}
+indices_ug_fonte <- readRDS("indices_ug_fonte.rds")
+disponibilidades_liquidas_diarias <- read_rds("disponibilidades_liquidas_diarias.rds")
 
-inv <- function(x) sign(x) * (10^abs(x) - 1)
-
-ui <- fluidPage(
-  fluidRow(
-    plotly::plotlyOutput("dispersao")
+ui <- dashboardPage(
+  dashboardHeader(title = "Explorador de Índices"),
+  dashboardSidebar(
+    selectInput(inputId = "x", label = "Ordenar por:", choices = c("IADL", "IPDL", "DLP"), selected = "IADL"),
+    selectInput(inputId = "tam", label = "Tamanho por:", choices = c("IADL", "IPDL", "DLP"), selected = "IPDL")
   ),
-  fluidRow(
-    plotly::plotlyOutput("linhas") 
-  ),
-  fluidRow(
-    reactable::reactableOutput("data")
+  dashboardBody(
+    shinyjs::useShinyjs(),
+    fluidRow(
+      shinydashboard::box(
+        title = "Combinações UG/Fonte",
+        width = 12,
+        "Cada UG/Fonte está sendo representada no gráfico abaixo.",
+        "Clique em um ponto para visualizar a disponibilidade líquida.",
+        "Os pontos estão estão ordenados da esquerda para direita de acordo com o indicador selecionado.",
+        "O tamanho dos pontos está relacionado ao indicador selecionado.",
+        r2d3::d3Output("d3")
+      )
+    ),
+    fluidRow(
+      shinydashboard::box(
+        title = "Ug/Fonte",
+        width = 12,
+        fluidRow(
+          infoBoxOutput("iadl"),
+          infoBoxOutput("ipdl"),
+          infoBoxOutput("dlp")
+        ),
+        plotOutput("g_disponibilidade")
+      )
+    )
   )
 )
 
-indicadores <- readRDS("../../data/indicadores.rds")
-disponibilidade_liquida <- readRDS("../../data/disponibilidades_liquidas_diarias.rds")
-
 server <- function(input, output, session) {
   
-  output$dispersao <- plotly::renderPlotly({
+  output$d3 <- r2d3::renderD3({
     
-    p <- indicadores %>% 
-      ggplot(aes(y = "UG/FONTE", x = integral_sobre_media_dos_gastos, 
-                 text = sprintf("Indicador: %f\nUG: %s\nFONTE RECURSO: %s", 
-                                integral_sobre_media_dos_gastos, NO_UG, NO_FONTE_RECURSO))) +
-      geom_jitter(size = 0.1) +
-      labs(y = NULL, x = "Indicador") +
-      scale_x_continuous(
-        trans = scales::trans_new("log101p", log_neg, inv),
-        breaks = c(-1, 0, 0.25, 0.5, 10^(0:8)),
-        labels = scales::percent_format(accuracy = 1),
-      ) +
-      theme(axis.text.x = element_text(angle = -90, size = 5))
+    data <- indices_ug_fonte %>% 
+      transmute(
+        IPDL = ipdl, 
+        IADL = ifelse(iadl>1, 1, iadl), 
+        DLP = dlp,
+        IPDL_rank = percent_rank(ipdl), 
+        IADL_rank = percent_rank(ifelse(iadl>1, 1, iadl)), 
+        DLP_rank = percent_rank(dlp),
+        NO_UG, 
+        NO_FONTE_RECURSO
+      )
     
+    shinyjs::runjs("svg.selectAll('circle').remove();")
     
-    p <- plotly::ggplotly(p, tooltip = "text")
-    plotly::event_register(p, 'plotly_click')
-
-    p
+    r2d3::r2d3(data, "x.js", d3_version =  "3", 
+               options = list(x = input$x, tam = input$tam))
+    
+    #shinyjs::runjs("force.call()")
+    
   })
   
-  dt <- reactive({
-    d <- plotly::event_data("plotly_click")
+  ug_fonte <- reactive({
     
-    print(d)
-    
-    if (is.null(d))
-      return(NULL)
-    
-    indicadores[d$pointNumber + 1L,] %>% 
-      ungroup() %>% 
-      #select(NO_UG, NO_FONTE_RECURSO) %>% 
-      left_join(disponibilidade_liquida, c("NO_UG", "NO_FONTE_RECURSO"))
+    indices_ug_fonte %>% 
+      filter(
+        NO_UG == isolate(input$ug),
+        NO_FONTE_RECURSO == req(input$fonte)
+      )
+      
   })
   
-  output$linhas <- plotly::renderPlotly({
+  d_liquida <- reactive({
+    ug_fonte() %>% 
+      left_join(
+        disponibilidades_liquidas_diarias,
+        by = c("NO_UG", "NO_ORGAO", "NO_FONTE_RECURSO")
+      ) %>% 
+      filter(
+        NO_DIA_COMPLETO_dmy <= dia,
+        NO_DIA_COMPLETO_dmy >= dia - days(365)
+      ) %>% 
+      ungroup()
+  })
+  
+  output$g_disponibilidade <- renderPlot({
     
-    
-    p <- dt() %>% 
-      ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida, 
-                 pgt = pagamento_diario, obg = obrigacoes_a_pagar_diario,
-                 obg_ac = obrigacoes_a_pagar_diario_acumulado, saldo = saldo_diario_acumulado)) +
+    d_liquida() %>% 
+      ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
       geom_line() +
-      scale_x_date(limits = dmy(c("01/01/2017", "31/12/2019")))
+      geom_area(alpha = 0.1) +
+      facet_wrap(~NO_UG + NO_FONTE_RECURSO, scales = "free") +
+      scale_y_continuous(labels = scales::label_number()) +
+      labs(
+        y = "Disponibilidade Líquida (R$)",
+        x = "Data"
+      ) +
+      theme_bw() +
+      expand_limits(y = 0)
     
-    plotly::ggplotly(p)
   })
   
-  output$data <- reactable::renderReactable({
-    dt() %>% 
-      select(NO_UG, NO_FONTE_RECURSO, NO_DIA_COMPLETO_dmy, 
-             saldo_diario_acumulado:disponibilidade_liquida, -paded, 
-             soma_dos_gastos, integral, integral_sobre_media_dos_gastos) %>% 
-      arrange(NO_DIA_COMPLETO_dmy) %>% 
-      reactable::reactable(wrap = TRUE)
+  output$iadl <- renderInfoBox({
+    infoBox("IADL", value = scales::label_number(0.00001)(ug_fonte()$iadl))
   })
+  
+  output$ipdl <- renderInfoBox({
+    infoBox("IPDL", value = scales::label_number(0.00001)(ug_fonte()$ipdl))
+  })
+  
+  output$dlp <- renderInfoBox({
+    infoBox("DLP", value = scales::label_number()(ug_fonte()$dlp))
+  })
+  
   
 }
 

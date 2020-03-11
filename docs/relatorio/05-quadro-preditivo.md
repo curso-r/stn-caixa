@@ -9,7 +9,7 @@ output:
 
 ## Fontes de recursos que tendem a acumular recurso
 
-<img src="05-quadro-preditivo_files/figure-html/unnamed-chunk-2-1.png" width="672" />
+![](05-quadro-preditivo_files/figure-latex/unnamed-chunk-2-1.pdf)<!-- --> 
 
 A tendência é que as fontes de recursos 
 
