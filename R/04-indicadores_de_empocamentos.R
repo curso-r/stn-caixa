@@ -31,7 +31,6 @@ calc_indicador_tempo <- function(disponibilidades_liquida) {
 }
 
 calc_iadl <- function(disponibilidade_liquida, lag_disponibilidade_liquida) {
-  
   disp_positiva <- disponibilidade_liquida[disponibilidade_liquida>0]
   
   if (length(disp_positiva) == 0)
@@ -50,7 +49,6 @@ calc_iadl <- function(disponibilidade_liquida, lag_disponibilidade_liquida) {
 }
 
 calcular_indices <- function(df) {
-  
   df %>%
     summarise(
       n = n(),
@@ -69,22 +67,13 @@ calcular_indices <- function(df) {
       ),
       valor_nominal = calc_indicador_valor_nominal(disponibilidade_liquida),
       valor_nominal_conservador = calc_indicador_valor_nominal_conservador(disponibilidade_liquida, pagamento_diario),
-      indicador_tempo = calc_indicador_tempo(disponibilidade_liquida)
+      indicador_tempo = calc_indicador_tempo(disponibilidade_liquida),
+      meu_novo = meu_novo_indicador(disponibilidade_liquida)
     )
 }
 
 # dados ---------------------------------------------------------------------------------
 disponibilidades_liquidas_diarias <- read_rds("data/disponibilidades_liquidas_diarias.rds")
-
-# base auxiliar com os dezembros ------------------------------------------------------
-trinta_e_uns_de_dezembro <- tibble(
-  NO_DIA_COMPLETO_dmy = disponibilidades_liquidas_diarias$NO_DIA_COMPLETO_dmy %>% 
-    lubridate::year() %>% 
-    unique %>% 
-    paste0("-12-31") %>% 
-    as.Date
-)
-
 
 # indicador de disponibilidade liquida ---------------------------
 indicadores <- disponibilidades_liquidas_diarias %>%
@@ -172,6 +161,16 @@ saveRDS(ts_das_disponibilidades_liquidas_com_indicadores, file = "data/ts_das_di
 
 # # RASCUNHOS ---------------------------------------------------------------------------------------
 # 
+# # base auxiliar com os dezembros ------------------------------------------------------
+# trinta_e_uns_de_dezembro <- tibble(
+#   NO_DIA_COMPLETO_dmy = disponibilidades_liquidas_diarias$NO_DIA_COMPLETO_dmy %>% 
+#     lubridate::year() %>% 
+#     unique %>% 
+#     paste0("-12-31") %>% 
+#     as.Date
+# )
+# 
+
 # # Um gráfico ----------------------------------------------------------------
 # disponibilidades_liquidas_diarias %>%
 #   filter(
