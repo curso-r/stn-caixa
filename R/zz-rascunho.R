@@ -1,4 +1,5 @@
 library(tidyverse)
+library(data.table)
 
 obrigacoes <- read_rds("data/obrigacoes.rds")
 
@@ -25,3 +26,12 @@ obrigacoes %>% count(ID_DOCUMENTO_CCOR, sort = TRUE)
 # nao consegue fazer o pagamento por conta de cotas para as fontes.
 # cenário ruim: ug não consegue pagar. (problema de alocação)
 # a alocação seria feita entre UGs para a mesma fonte. (mesmo órgão é vantagem na burocracia)
+
+
+
+
+
+
+pagamentos <- read_rds(path = "data/pagamentos.rds") 
+pagamentos %>% filter(ID_DOCUMENTO == "200109000012019OB802321") %>% select(-starts_with("ID_"), - starts_with("CO_")) %>% View(title = "pagamentos")
+

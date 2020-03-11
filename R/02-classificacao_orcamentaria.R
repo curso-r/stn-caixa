@@ -4,9 +4,6 @@ library(tidyverse)
 obrigacoes <- read_rds("data/obrigacoes.rds")
 pagamentos <- read_rds("data/pagamentos.rds")
 lim_saque  <- read_rds("data/lim_saque.rds") 
-disponibilidades_liquidas_diarias <- read_rds(path = "data/disponibilidades_liquidas_diarias.rds")
-saldos_diarios <- read_rds(path = "data/saldos_diarios.rds")
-
 
 # saldos diários por documento --------------------------------------------
 saldos_diarios_por_documento <- lim_saque %>%
@@ -112,52 +109,55 @@ saveRDS(vinculacao_de_pagamentos, file = "apps/explorador_disponibilidades_liqui
 
 
 
-# sankey ------------------------------------------------------------------
-abrevia_palavras <- function(str) {
-  str %>%
-    str_replace_all("SUPERINTENDENCIA", "SUPT") %>%
-    str_replace_all("REGIONAL", "REG") %>%
-    str_replace_all("ADMINISTRACAO", "ADM") %>%
-    str_replace_all("DIRETORIA", "DIR") %>%
-    str_replace_all("COORDENACAO", "COORD") %>%
-    str_replace_all("NACIONAL", "NAC") %>%
-    str_replace_all("FINANCEIROS", "FIN") %>%
-    str_replace_all("PROGNOSTICOS", "PROG") %>%
-    str_replace_all("ESTADO", "EST") %>%
-    str_replace_all("POLITICAS", "POL") %>%
-    str_replace_all("RECURSOS", "REC") %>%
-    str_replace_all("ORDINARIOS", "ORD") %>%
-    str_replace_all("ARRECADADOS", "ARREC")
-}
-
-library(ggalluvial)
-library(ggrepel)
-
-data <- vinculacao_de_pagamentos %>%
-  ungroup %>%
-  filter(NO_DIA_COMPLETO == first(NO_DIA_COMPLETO), pagamento_positivo) %>%
-  group_by(
-    NO_FUNCAO_PT, 
-    NO_VINCULACAO_PAGAMENTO,
-    NO_FONTE_RECURSO
-  ) %>%
-  summarise(
-    pagamento = abs(sum(pagamento))
-  )
 
 
-
-data %>%
-  ggplot(aes(
-    y = pagamento, 
-    axis1 = NO_FONTE_RECURSO,
-    axis2 = NO_VINCULACAO_PAGAMENTO,
-    axis3 = NO_FUNCAO_PT
-  )) +
-  stat_alluvium(width = 1/12, alpha = 0.5, aes(fill = NO_VINCULACAO_PAGAMENTO)) +
-  # scale_x_discrete(limits = c("NO_FUNCAO_PT", "NO_SUBFUNCAO_PT", "NO_PROGRAMA_PT", "NO_GRUPO_DESPESA_NADE", "NO_MOAP_NADE"), expand = c(0.05,0.05, 0.05, 0.05, 0.05)) +
-  stat_stratum(width = 1/12) +
-  geom_label_repel(stat = "stratum", infer.label = TRUE)
+# 
+# # sankey ------------------------------------------------------------------
+# abrevia_palavras <- function(str) {
+#   str %>%
+#     str_replace_all("SUPERINTENDENCIA", "SUPT") %>%
+#     str_replace_all("REGIONAL", "REG") %>%
+#     str_replace_all("ADMINISTRACAO", "ADM") %>%
+#     str_replace_all("DIRETORIA", "DIR") %>%
+#     str_replace_all("COORDENACAO", "COORD") %>%
+#     str_replace_all("NACIONAL", "NAC") %>%
+#     str_replace_all("FINANCEIROS", "FIN") %>%
+#     str_replace_all("PROGNOSTICOS", "PROG") %>%
+#     str_replace_all("ESTADO", "EST") %>%
+#     str_replace_all("POLITICAS", "POL") %>%
+#     str_replace_all("RECURSOS", "REC") %>%
+#     str_replace_all("ORDINARIOS", "ORD") %>%
+#     str_replace_all("ARRECADADOS", "ARREC")
+# }
+# 
+# library(ggalluvial)
+# library(ggrepel)
+# 
+# data <- vinculacao_de_pagamentos %>%
+#   ungroup %>%
+#   filter(NO_DIA_COMPLETO == first(NO_DIA_COMPLETO), pagamento_positivo) %>%
+#   group_by(
+#     NO_FUNCAO_PT, 
+#     NO_VINCULACAO_PAGAMENTO,
+#     NO_FONTE_RECURSO
+#   ) %>%
+#   summarise(
+#     pagamento = abs(sum(pagamento))
+#   )
+# 
+# 
+# 
+# data %>%
+#   ggplot(aes(
+#     y = pagamento, 
+#     axis1 = NO_FONTE_RECURSO,
+#     axis2 = NO_VINCULACAO_PAGAMENTO,
+#     axis3 = NO_FUNCAO_PT
+#   )) +
+#   stat_alluvium(width = 1/12, alpha = 0.5, aes(fill = NO_VINCULACAO_PAGAMENTO)) +
+#   # scale_x_discrete(limits = c("NO_FUNCAO_PT", "NO_SUBFUNCAO_PT", "NO_PROGRAMA_PT", "NO_GRUPO_DESPESA_NADE", "NO_MOAP_NADE"), expand = c(0.05,0.05, 0.05, 0.05, 0.05)) +
+#   stat_stratum(width = 1/12) +
+#   geom_label_repel(stat = "stratum", infer.label = TRUE)
 
 
 

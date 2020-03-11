@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Capítulo 6 Quadro analítico preditivo | Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)</title>
+  <meta name="description" content="STN-Caixa" />
+  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Capítulo 6 Quadro analítico preditivo | Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="STN-Caixa" />
+  <meta name="github-repo" content="curso-r/stn-caixa" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 6 Quadro analítico preditivo | Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)" />
+  
+  <meta name="twitter:description" content="STN-Caixa" />
+  
+
+<meta name="author" content="R6 Estatística e Treinamentos LTDA" />
+
+
+<meta name="date" content="2020-02-20" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="disponibilidades-líquidas.html"/>
+<link rel="next" href="referências.html"/>
+<script src="book_assets/jquery-2.2.3/jquery.min.js"></script>
+<link href="book_assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Relatório de análise de dados</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introdução</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#questões-investigadas"><i class="fa fa-check"></i><b>1.1</b> Questões investigadas</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#as-bases-de-dados"><i class="fa fa-check"></i><b>1.2</b> As bases de dados</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#análise-descritiva"><i class="fa fa-check"></i><b>1.3</b> Análise descritiva</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#análise-preditiva"><i class="fa fa-check"></i><b>1.4</b> Análise preditiva</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#oficina-de-repasses-e-implementação-dos-produtos"><i class="fa fa-check"></i><b>1.5</b> Oficina de repasses e implementação dos produtos</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="validação-e-compreensão-dos-dados.html"><a href="validação-e-compreensão-dos-dados.html"><i class="fa fa-check"></i><b>2</b> Validação e Compreensão dos Dados</a><ul>
+<li class="chapter" data-level="2.1" data-path="validação-e-compreensão-dos-dados.html"><a href="validação-e-compreensão-dos-dados.html#introdução-1"><i class="fa fa-check"></i><b>2.1</b> Introdução</a></li>
+<li class="chapter" data-level="2.2" data-path="validação-e-compreensão-dos-dados.html"><a href="validação-e-compreensão-dos-dados.html#questões-elementares"><i class="fa fa-check"></i><b>2.2</b> Questões elementares</a></li>
+<li class="chapter" data-level="2.3" data-path="validação-e-compreensão-dos-dados.html"><a href="validação-e-compreensão-dos-dados.html#bases-de-dados-levantadas-para-endereçar-as-questões"><i class="fa fa-check"></i><b>2.3</b> Bases de dados levantadas para endereçar as questões</a></li>
+<li class="chapter" data-level="2.4" data-path="validação-e-compreensão-dos-dados.html"><a href="validação-e-compreensão-dos-dados.html#base-1-movimentações-diárias-do-limite-de-saque"><i class="fa fa-check"></i><b>2.4</b> Base 1: Movimentações diárias do Limite de Saque</a></li>
+<li class="chapter" data-level="2.5" data-path="validação-e-compreensão-dos-dados.html"><a href="validação-e-compreensão-dos-dados.html#base-2-pagamentos-diários"><i class="fa fa-check"></i><b>2.5</b> Base 2: Pagamentos diários</a></li>
+<li class="chapter" data-level="2.6" data-path="validação-e-compreensão-dos-dados.html"><a href="validação-e-compreensão-dos-dados.html#base-3-movimentações-diárias-em-obrigações-a-pagar"><i class="fa fa-check"></i><b>2.6</b> Base 3: Movimentações diárias em obrigações a pagar</a></li>
+<li class="chapter" data-level="2.7" data-path="validação-e-compreensão-dos-dados.html"><a href="validação-e-compreensão-dos-dados.html#tabelas-derivadas"><i class="fa fa-check"></i><b>2.7</b> Tabelas Derivadas</a><ul>
+<li class="chapter" data-level="2.7.1" data-path="validação-e-compreensão-dos-dados.html"><a href="validação-e-compreensão-dos-dados.html#disponibilidades-líquidas-diárias"><i class="fa fa-check"></i><b>2.7.1</b> Disponibilidades líquidas Diárias</a></li>
+<li class="chapter" data-level="2.7.2" data-path="validação-e-compreensão-dos-dados.html"><a href="validação-e-compreensão-dos-dados.html#vinculação-de-pagamentos"><i class="fa fa-check"></i><b>2.7.2</b> Vinculação de Pagamentos</a></li>
+<li class="chapter" data-level="2.7.3" data-path="validação-e-compreensão-dos-dados.html"><a href="validação-e-compreensão-dos-dados.html#limimtes-de-saque-por-tipo-de-documento"><i class="fa fa-check"></i><b>2.7.3</b> Limimtes de Saque Por Tipo De Documento</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="empoçamento.html"><a href="empoçamento.html"><i class="fa fa-check"></i><b>3</b> Empoçamento</a><ul>
+<li class="chapter" data-level="3.1" data-path="empoçamento.html"><a href="empoçamento.html#o-que-é-empoçamento"><i class="fa fa-check"></i><b>3.1</b> O que é empoçamento?</a></li>
+<li class="chapter" data-level="3.2" data-path="empoçamento.html"><a href="empoçamento.html#empoçamento-total"><i class="fa fa-check"></i><b>3.2</b> Empoçamento total</a></li>
+<li class="chapter" data-level="3.3" data-path="empoçamento.html"><a href="empoçamento.html#empoçamento-temporário"><i class="fa fa-check"></i><b>3.3</b> Empoçamento temporário</a></li>
+<li class="chapter" data-level="3.4" data-path="empoçamento.html"><a href="empoçamento.html#empoçamento-natural"><i class="fa fa-check"></i><b>3.4</b> Empoçamento natural</a></li>
+<li class="chapter" data-level="3.5" data-path="empoçamento.html"><a href="empoçamento.html#conclusão"><i class="fa fa-check"></i><b>3.5</b> Conclusão</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="índices-de-empoçamento.html"><a href="índices-de-empoçamento.html"><i class="fa fa-check"></i><b>4</b> Índices de empoçamento</a><ul>
+<li class="chapter" data-level="4.1" data-path="índices-de-empoçamento.html"><a href="índices-de-empoçamento.html#índice-acumulação-de-disponibilidade-líquida"><i class="fa fa-check"></i><b>4.1</b> Índice acumulação de disponibilidade líquida</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="índices-de-empoçamento.html"><a href="índices-de-empoçamento.html#cálculo"><i class="fa fa-check"></i><b>4.1.1</b> Cálculo</a></li>
+<li class="chapter" data-level="4.1.2" data-path="índices-de-empoçamento.html"><a href="índices-de-empoçamento.html#distribuição"><i class="fa fa-check"></i><b>4.1.2</b> Distribuição</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="disponibilidades-líquidas.html"><a href="disponibilidades-líquidas.html"><i class="fa fa-check"></i><b>5</b> Disponibilidades Líquidas</a><ul>
+<li class="chapter" data-level="5.1" data-path="disponibilidades-líquidas.html"><a href="disponibilidades-líquidas.html#indicador-de-acumulação-de-disponibilidade-líquida-i_adl"><i class="fa fa-check"></i><b>5.1</b> Indicador de acumulação de disponibilidade líquida (<span class="math inline">\(I_{ADL}\)</span>)</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="disponibilidades-líquidas.html"><a href="disponibilidades-líquidas.html#definição"><i class="fa fa-check"></i><b>5.1.1</b> Definição</a></li>
+<li class="chapter" data-level="5.1.2" data-path="disponibilidades-líquidas.html"><a href="disponibilidades-líquidas.html#exemplos"><i class="fa fa-check"></i><b>5.1.2</b> Exemplos</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="disponibilidades-líquidas.html"><a href="disponibilidades-líquidas.html#indicador-de-persistência-de-saldo-positivo-i_psp"><i class="fa fa-check"></i><b>5.2</b> Indicador de persistência de saldo positivo (<span class="math inline">\(I_{PSP}\)</span>)</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="disponibilidades-líquidas.html"><a href="disponibilidades-líquidas.html#definição-1"><i class="fa fa-check"></i><b>5.2.1</b> Definição</a></li>
+<li class="chapter" data-level="5.2.2" data-path="disponibilidades-líquidas.html"><a href="disponibilidades-líquidas.html#exemplos-1"><i class="fa fa-check"></i><b>5.2.2</b> Exemplos</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="disponibilidades-líquidas.html"><a href="disponibilidades-líquidas.html#distribuição-dos-indicadores"><i class="fa fa-check"></i><b>5.3</b> Distribuição dos indicadores</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="disponibilidades-líquidas.html"><a href="disponibilidades-líquidas.html#ugfonte"><i class="fa fa-check"></i><b>5.3.1</b> Ug/Fonte</a></li>
+<li class="chapter" data-level="5.3.2" data-path="disponibilidades-líquidas.html"><a href="disponibilidades-líquidas.html#ug"><i class="fa fa-check"></i><b>5.3.2</b> UG</a></li>
+<li class="chapter" data-level="5.3.3" data-path="disponibilidades-líquidas.html"><a href="disponibilidades-líquidas.html#fonte"><i class="fa fa-check"></i><b>5.3.3</b> Fonte</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="disponibilidades-líquidas.html"><a href="disponibilidades-líquidas.html#indicador-de-valor-nominal-r"><i class="fa fa-check"></i><b>5.4</b> Indicador de Valor Nominal (R$)</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="disponibilidades-líquidas.html"><a href="disponibilidades-líquidas.html#definição-2"><i class="fa fa-check"></i><b>5.4.1</b> Definição</a></li>
+<li class="chapter" data-level="5.4.2" data-path="disponibilidades-líquidas.html"><a href="disponibilidades-líquidas.html#distribuição-1"><i class="fa fa-check"></i><b>5.4.2</b> Distribuição</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="disponibilidades-líquidas.html"><a href="disponibilidades-líquidas.html#indicador-de-disponibilidade-líquida-projetada-por-12-meses"><i class="fa fa-check"></i><b>5.5</b> Indicador de disponibilidade líquida projetada por 12 meses</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="disponibilidades-líquidas.html"><a href="disponibilidades-líquidas.html#definição-3"><i class="fa fa-check"></i><b>5.5.1</b> Definição</a></li>
+<li class="chapter" data-level="5.5.2" data-path="disponibilidades-líquidas.html"><a href="disponibilidades-líquidas.html#exemplos-2"><i class="fa fa-check"></i><b>5.5.2</b> Exemplos</a></li>
+<li class="chapter" data-level="5.5.3" data-path="disponibilidades-líquidas.html"><a href="disponibilidades-líquidas.html#distribuição-2"><i class="fa fa-check"></i><b>5.5.3</b> Distribuição</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="disponibilidades-líquidas.html"><a href="disponibilidades-líquidas.html#indicador-de-tempo"><i class="fa fa-check"></i><b>5.6</b> Indicador de Tempo</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="disponibilidades-líquidas.html"><a href="disponibilidades-líquidas.html#definição-4"><i class="fa fa-check"></i><b>5.6.1</b> Definição</a></li>
+<li class="chapter" data-level="5.6.2" data-path="disponibilidades-líquidas.html"><a href="disponibilidades-líquidas.html#exemplos-3"><i class="fa fa-check"></i><b>5.6.2</b> Exemplos</a></li>
+<li class="chapter" data-level="5.6.3" data-path="disponibilidades-líquidas.html"><a href="disponibilidades-líquidas.html#distribuição-3"><i class="fa fa-check"></i><b>5.6.3</b> Distribuição</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="disponibilidades-líquidas.html"><a href="disponibilidades-líquidas.html#indicador-de-variação-da-disponibilidade-líquida"><i class="fa fa-check"></i><b>5.7</b> Indicador de Variação da Disponibilidade Líquida</a><ul>
+<li class="chapter" data-level="5.7.1" data-path="disponibilidades-líquidas.html"><a href="disponibilidades-líquidas.html#definição-5"><i class="fa fa-check"></i><b>5.7.1</b> Definição</a></li>
+<li class="chapter" data-level="5.7.2" data-path="disponibilidades-líquidas.html"><a href="disponibilidades-líquidas.html#exemplos-4"><i class="fa fa-check"></i><b>5.7.2</b> Exemplos</a></li>
+<li class="chapter" data-level="5.7.3" data-path="disponibilidades-líquidas.html"><a href="disponibilidades-líquidas.html#distribuição-4"><i class="fa fa-check"></i><b>5.7.3</b> Distribuição</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="quadro-analítico-preditivo.html"><a href="quadro-analítico-preditivo.html"><i class="fa fa-check"></i><b>6</b> Quadro analítico preditivo</a><ul>
+<li class="chapter" data-level="6.1" data-path="quadro-analítico-preditivo.html"><a href="quadro-analítico-preditivo.html#fontes-de-recursos-que-tendem-a-acumular-recurso"><i class="fa fa-check"></i><b>6.1</b> Fontes de recursos que tendem a acumular recurso</a></li>
+<li class="chapter" data-level="6.2" data-path="quadro-analítico-preditivo.html"><a href="quadro-analítico-preditivo.html#previsão-de-disponibilidade-líquida"><i class="fa fa-check"></i><b>6.2</b> Previsão de disponibilidade líquida</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="referências.html"><a href="referências.html"><i class="fa fa-check"></i>Referências</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado com bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Documentação do projeto ‘Execução Orçamentária e Financeira do Governo Federal’ (“Projeto Caixa”)</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="quadro-analítico-preditivo" class="section level1">
+<h1><span class="header-section-number">Capítulo 6</span> Quadro analítico preditivo</h1>
+<div id="fontes-de-recursos-que-tendem-a-acumular-recurso" class="section level2">
+<h2><span class="header-section-number">6.1</span> Fontes de recursos que tendem a acumular recurso</h2>
+<p><img src="05-quadro-preditivo_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>A tendência é que as fontes de recursos</p>
+<ul>
+<li><strong>destinados às atividades com fins de seguridade social</strong>,</li>
+<li><strong>não financeiros diretamente arrecadados</strong> e</li>
+<li><strong>ordinários</strong></li>
+</ul>
+<p>tenham perfil recursos de acumulantes enquanto que as fontes de recursos</p>
+<ul>
+<li><strong>de consessões e permissões</strong>,
+-<strong>livres da seguridade social</strong>,</li>
+<li><strong>fundo social parcialmente destinados à educação pública e saúde</strong>,</li>
+<li><strong>destinados a manutenção e desenvolvimento do ensino</strong> e</li>
+<li><strong>de alienação de bens e direito do patrimônio público</strong></li>
+</ul>
+<p>tendem a não acumularem.</p>
+</div>
+<div id="previsão-de-disponibilidade-líquida" class="section level2">
+<h2><span class="header-section-number">6.2</span> Previsão de disponibilidade líquida</h2>
+<p>Construímos modelos de séries temporais para previsão de disponibilidade líquida para cada fonte de recursos e UGs.
+O desempenho dos modelos foi avaliado para os períodos de 1 semana, 1 mês, 6 meses e 1 ano.</p>
+<p>Foi construída uma calculadora em Shiny para consultar as previsões e resultados de cada um dos cenários.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="disponibilidades-líquidas.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="referências.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="book_assets/gitbook-2.6.7/js/app.min.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/lunr.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/05-quadro-preditivo.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
