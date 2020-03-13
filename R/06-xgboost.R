@@ -29,7 +29,8 @@ ts_das_disponibilidades_liquidas_com_indicadores <- ts_das_disponibilidades_liqu
   inner_join(
     rotulos,
     by = "id"
-  )
+  ) %>%
+  select(-serie_temporal, -serie_temporal_random_crop)
 
 # Treino/Teste
 ids_train <- initial_split(ts_das_disponibilidades_liquidas_com_indicadores)
@@ -133,7 +134,6 @@ modelo_wflow_final <- workflow() %>%
 modelo <- fit(modelo_wflow_final, data =  modelo_train)
 
 # performace
-
 modelo_obs_vs_pred_train <- modelo_train %>%
   mutate(
     base = "train",
@@ -178,7 +178,43 @@ write_rds(modelo, "data/modelo.rds")
 write_rds(modelo_wflow_final, "data/modelo_wflow_final.rds")
 write_rds(modelo_obs_vs_pred, "data/modelo_obs_vs_pred.rds")
 
+# pin
+system("gcloud auth login")
+pins::board_register_gcloud(bucket = "ministerio_da_justica")
+pins::pin(modelo, "modelo_xgboost", "Modelo XGboost para 'empocamento' ajustado com dados do Ministerio da Justica", board = "gcloud")
+
 toc()
 
 
 
+#####
+library(pdp)
+library(xgboost)
+mod <- modelo$fit$fit$fit
+
+xgboost::xgb.importance(model = mod)
+
+
+pred <- function(object, newdata) {predict(object, newdata, type = "prob")}
+partial(
+  mod,
+  train = modelo_obs_vs_pred %>% 
+    select(integral_sobre_media_dos_gastos, disponibilidade_estritamente_crescente, iadl, valor_nominal, valor_nominal_conservador, indicador_tempo), 
+  pred.var = "indicador_tempo",
+  pred.fun = pred,
+  grid.resolution = 20,
+  plot = TRUE,
+  center = TRUE,
+  plot.engine = "ggplot2"
+)
+
+predictor <- Predictor$new(mod, data = modelo_obs_vs_pred %>% 
+                             select(valor_nominal, valor_nominal_conservador, 
+                                    indicador_tempo, disponibilidade_estritamente_crescente, iadl, 
+                                    integral_sobre_media_dos_gastos) %>% xgb.DMatrix(), y = modelo_obs_vs_pred$rotulo)
+str(predictor)
+
+pdp_obj <- Partial$new(predictor, feature = "valor_nominal")
+pdp_obj$center(min(wine_train$alcohol))
+glimpse(pdp_obj$results)
+pdp_obj$plot()

@@ -2,7 +2,6 @@ library(tidyverse)
 library(lubridate)
 
 # Funções auxiliares para construção dos indicadores -------------------------------------------------
-
 calc_disponibilidade_estritamente_crescente <- function(disponibilidade_liquida, dias_no_periodo, NO_DIA_COMPLETO_dmy) {
   proporcao_de_disponibilidade_liquida_negativa <- mean(disponibilidade_liquida < 0)
   disponibilidade_mais_recente <- disponibilidade_liquida[which.max(NO_DIA_COMPLETO_dmy)]
@@ -52,23 +51,28 @@ calcular_indices <- function(df) {
   df %>%
     summarise(
       n = n(),
+      
       integral_sobre_media_dos_gastos = calc_indicador_integral_sobre_media_dos_gastos(
         disponibilidade_liquida = disponibilidade_liquida, 
         pagamento_diario = pagamento_diario
       ),
+      
       disponibilidade_estritamente_crescente = calc_disponibilidade_estritamente_crescente(
         disponibilidade_liquida = disponibilidade_liquida,
         dias_no_periodo = n(),
         NO_DIA_COMPLETO_dmy = NO_DIA_COMPLETO_dmy
       ),
+      
       iadl = calc_iadl(
         disponibilidade_liquida,
         lag(disponibilidade_liquida, 1, order_by = NO_DIA_COMPLETO_dmy)
       ),
+      
       valor_nominal = calc_indicador_valor_nominal(disponibilidade_liquida),
+      
       valor_nominal_conservador = calc_indicador_valor_nominal_conservador(disponibilidade_liquida, pagamento_diario),
-      indicador_tempo = calc_indicador_tempo(disponibilidade_liquida),
-      meu_novo = meu_novo_indicador(disponibilidade_liquida)
+      
+      indicador_tempo = calc_indicador_tempo(disponibilidade_liquida)
     )
 }
 
@@ -137,7 +141,7 @@ ts_das_disponibilidades_liquidas_com_indicadores <- ts_das_disponibilidades_liqu
   ) %>% 
   filter(n > 365) %>%
   select(id, NO_UG, NO_ORGAO, NO_FONTE_RECURSO, serie_temporal, serie_temporal_random_crop, indicadores) %>%
-  unnest(indicadores) 
+  unnest(indicadores)
 
 saveRDS(ts_das_disponibilidades_liquidas_com_indicadores, file = "apps/app_para_rotular_as_series_temporais_das_disponibilidades_liquidas/ts_das_disponibilidades_liquidas_com_indicadores.rds")
 saveRDS(ts_das_disponibilidades_liquidas_com_indicadores, file = "data/ts_das_disponibilidades_liquidas_com_indicadores.rds")

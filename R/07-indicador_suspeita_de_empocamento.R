@@ -18,7 +18,7 @@ ts_das_disponibilidades_liquidas_com_indicadores_final <- ts_das_disponibilidade
     by = "id"
   ) %>%
   mutate(
-    suspeita_de_empocamento = predict(modelo, ., type = "prob")$.pred_Empoçamento,
+    suspeita_de_empocamento = predict(modelo, ., type = "prob")$.pred_Empoçamento
   )
 
 write_rds(ts_das_disponibilidades_liquidas_com_indicadores_final, "data/ts_das_disponibilidades_liquidas_com_indicadores_final.rds")
