@@ -146,30 +146,40 @@ server <- function(input, output, session) {
     validate(
       need(id_selecionado(), "linha não selecionada.")
     )
-    ts <- dados() %>%
-      filter(id %in% id_selecionado()) %$%
-      serie_temporal_random_crop[[1]] %$% xts::xts(round(disponibilidade_liquida, 8), NO_DIA_COMPLETO_dmy)
-    highchart(type = "stock") %>%
-      hc_add_series(ts, type = "area") %>%
-      hc_plotOptions(area = list(fillOpaticy = 0.3))
+    selec <- dados() %>% filter(id %in% id_selecionado()) %$% serie_temporal_random_crop[[1]]
+    disponibilidade_liquida <- selec %$% xts::xts(round(disponibilidade_liquida, 8), NO_DIA_COMPLETO_dmy)
+    obrigacoes_a_pagar_diario <- selec %$% xts::xts(round(obrigacoes_a_pagar_diario, 8), NO_DIA_COMPLETO_dmy)
+    pagamento_diario <- selec %$% xts::xts(round(pagamento_diario, 8), NO_DIA_COMPLETO_dmy)
+    saldo_diario <- selec %$% xts::xts(round(saldo_diario, 8), NO_DIA_COMPLETO_dmy)
+    
+    highchart(type = "chart") %>%
+      hc_add_series(disponibilidade_liquida, type = "area", name = "Disponibilidade Líquida") %>%
+      hc_add_series(obrigacoes_a_pagar_diario, type = "line", name = "Obrigações a Pagar") %>%
+      hc_add_series(pagamento_diario, type = "line", name = "Pagamentos") %>%
+      hc_add_series(saldo_diario, type = "line", name = "Saldo Diário") %>%
+      hc_plotOptions(area = list(fillOpaticy = 0.3)) %>%
+      hc_tooltip()
   })
   
   output$dispersao <- renderHighchart({
+    browser()
     dados() %>%
       dplyr::mutate(
         x := !!rlang::sym(input$indice_x),
         y := !!rlang::sym(input$indice_y)
       ) %>%
-      select(x, y) %>%
+      select(x, y, NO_UG, NO_FONTE_RECURSO) %>%
       highcharter::hchart(
-        type = "scatter",
-        highcharter::hcaes(x = x, y =  y)
+        type = "scatter"
       ) %>%
       hc_add_event_point(event = "click") %>% 
       hc_yAxis(type = ifelse(input$type_y, "logarithmic", "linear"),
                allowNegativeLog = TRUE) %>% 
       hc_xAxis(type = ifelse(input$type_x, "logarithmic", "linear"),
-               allowNegativeLog = TRUE)
+               allowNegativeLog = TRUE) %>%
+      hc_tooltip(
+        headerFormat = '<span style="color:{point.color}">●</span> Clique para expandir<br/>',
+        pointFormat = 'X <b>{point.x}</b><br/>Y <b>{point.y}</b><br/>UG <b>{point.NO_UG}</b><br/>FONTE <b>{point.NO_FONTE_RECURSO}</b>')
   })
   
   output$info <- reactable::renderReactable({

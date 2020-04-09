@@ -1,23 +1,20 @@
 library(lubridate)
 library(tidyverse)
 
-obrigacoes <- read_rds("data/obrigacoes.rds")
-pagamentos <- read_rds("data/pagamentos.rds")
-lim_saque  <- read_rds("data/lim_saque.rds") 
+mj_simplificado <- read_rds("data/mj_simplificado.rds")
 
 # saldos diários ----------------------------------------------------------
-saldos_diarios <- lim_saque %>%
-  group_by(
-    ID_ANO_LANC,
-    NO_DIA_COMPLETO,
-    NO_UG,
-    NO_ORGAO,
-    NO_FONTE_RECURSO
+saldos_diarios <- mj_simplificado %>%
+  filter(NO_ITEM_INFORMACAO %in% "LIMITES DE SAQUE (OFSS, DIVIDA, BACEN E PREV)") %>%
+  rename(saldo_diario = SALDORITEMINFORMAODIALANAMENT) %>%
+  select(
+    ID_ANO_LANC,            
+    NO_DIA_COMPLETO,        
+    NO_UG,                  
+    NO_ORGAO,               
+    NO_FONTE_RECURSO,       
+    saldo_diario 
   ) %>%
-  summarise(
-    saldo_diario = sum(SALDORITEMINFORMAO)
-  ) %>%
-  ungroup() %>%
   mutate(
     flag_saldo_anual = str_detect(NO_DIA_COMPLETO , "-09/00/"),
     NO_DIA_COMPLETO_dmy = dmy(if_else(!flag_saldo_anual, NO_DIA_COMPLETO, paste0("01/01/", ID_ANO_LANC)))
@@ -35,7 +32,7 @@ saldos_diarios <- lim_saque %>%
   mutate(
     saldo_diario_acumulado = cumsum(saldo_diario)
   ) %>%
-  padr::pad(group = c("NO_UG", "NO_ORGAO", "NO_FONTE_RECURSO"), by = "NO_DIA_COMPLETO_dmy") %>% 
+  padr::pad(group = c("NO_UG", "NO_ORGAO", "NO_FONTE_RECURSO"), by = "NO_DIA_COMPLETO_dmy", break_above = 5) %>% 
   tidyr::fill(saldo_diario_acumulado) %>%
   mutate(
     paded = !is.na(saldo_diario),
@@ -49,21 +46,17 @@ saldos_diarios <- lim_saque %>%
 saveRDS(saldos_diarios, file = "data/saldos_diarios.rds")
 
 # obrigações a pagar diárias ----------------------------------------------
-obrigacoes_a_pagar_diarias <- obrigacoes %>%
-  rename(
-    NO_ORGAO = NO_ORGAO...16
+obrigacoes_a_pagar_diarias <- mj_simplificado %>%
+  filter(NO_ITEM_INFORMACAO %in% "VALORES LIQUIDADOS A PAGAR (EXERCICIO + RP)") %>%
+  rename(obrigacoes_a_pagar_diario = SALDORITEMINFORMAODIALANAMENT) %>%
+  select(
+    ID_ANO_LANC,            
+    NO_DIA_COMPLETO,        
+    NO_UG,                  
+    NO_ORGAO,               
+    NO_FONTE_RECURSO,       
+    obrigacoes_a_pagar_diario 
   ) %>%
-  group_by(
-    ID_ANO_LANC,
-    NO_DIA_COMPLETO,
-    NO_UG,
-    NO_ORGAO,
-    NO_FONTE_RECURSO
-  ) %>%
-  summarise(
-    obrigacoes_a_pagar_diario = sum(SALDORITEMINFORMAO)
-  ) %>%
-  ungroup() %>%
   mutate(
     flag_saldo_anual = str_detect(NO_DIA_COMPLETO , "-09/00/"),
     NO_DIA_COMPLETO_dmy = dmy(if_else(!flag_saldo_anual, NO_DIA_COMPLETO, paste0("01/01/", ID_ANO_LANC)))
@@ -81,7 +74,7 @@ obrigacoes_a_pagar_diarias <- obrigacoes %>%
   mutate(
     obrigacoes_a_pagar_diario_acumulado = cumsum(obrigacoes_a_pagar_diario)
   ) %>%
-  padr::pad(group = c("NO_UG", "NO_ORGAO", "NO_FONTE_RECURSO"), by = "NO_DIA_COMPLETO_dmy") %>% 
+  padr::pad(group = c("NO_UG", "NO_ORGAO", "NO_FONTE_RECURSO"), by = "NO_DIA_COMPLETO_dmy", break_above = 5) %>% 
   tidyr::fill(obrigacoes_a_pagar_diario_acumulado) %>%
   mutate(
     paded = !is.na(obrigacoes_a_pagar_diario),
@@ -95,21 +88,17 @@ obrigacoes_a_pagar_diarias <- obrigacoes %>%
 saveRDS(obrigacoes_a_pagar_diarias, file = "data/obrigacoes_a_pagar_diarias.rds")
 
 # pagamentos diários ----------------------------------------------
-pagamentos_diarios <- pagamentos %>%
-  rename(
-    NO_ORGAO = NO_ORGAO...16
+pagamentos_diarios <- mj_simplificado %>%
+  filter(NO_ITEM_INFORMACAO %in% "PAGAMENTOS TOTAIS (EXERCICIO E RAP)") %>%
+  rename(pagamento_diario = SALDORITEMINFORMAODIALANAMENT) %>%
+  select(
+    ID_ANO_LANC,            
+    NO_DIA_COMPLETO,        
+    NO_UG,                  
+    NO_ORGAO,               
+    NO_FONTE_RECURSO,       
+    pagamento_diario 
   ) %>%
-  group_by(
-    ID_ANO_LANC,
-    NO_DIA_COMPLETO,
-    NO_UG,
-    NO_ORGAO,
-    NO_FONTE_RECURSO
-  ) %>%
-  summarise(
-    pagamento_diario = sum(SALDORITEMINFORMAO)
-  ) %>%
-  ungroup() %>%
   mutate(
     flag_saldo_anual = str_detect(NO_DIA_COMPLETO , "-09/00/"),
     NO_DIA_COMPLETO_dmy = dmy(if_else(!flag_saldo_anual, NO_DIA_COMPLETO, paste0("01/01/", ID_ANO_LANC)))
@@ -127,7 +116,7 @@ pagamentos_diarios <- pagamentos %>%
   mutate(
     pagamento_diario_acumulado = cumsum(pagamento_diario)
   ) %>%
-  padr::pad(group = c("NO_UG", "NO_ORGAO", "NO_FONTE_RECURSO"), by = "NO_DIA_COMPLETO_dmy") %>% 
+  padr::pad(group = c("NO_UG", "NO_ORGAO", "NO_FONTE_RECURSO"), by = "NO_DIA_COMPLETO_dmy", break_above = 4) %>% 
   tidyr::fill(pagamento_diario_acumulado) %>%
   mutate(
     paded = !is.na(pagamento_diario),

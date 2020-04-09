@@ -5,8 +5,8 @@ account: rseis
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 1546578
-bundleId: 2631401
+bundleId: 2744883
 url: https://rseis.shinyapps.io/explorador_disponibilidades_liquidas/
-when: 1575257476.57919
+when: 1579645990.27218
 asMultiple: FALSE
 asStatic: FALSE
