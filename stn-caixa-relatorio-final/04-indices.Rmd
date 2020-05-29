@@ -468,6 +468,7 @@ indices_ug_fonte %>%
 ```
 
 
+
 #### DLSG menor que zero
 
 O DLSG é menor que zero significa que a combinação UG/Fonte teve disponibilidade líquida média negativa no período, portanto essas combinações não devem ter sinais de empoçamento.
