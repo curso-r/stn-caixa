@@ -20,7 +20,6 @@ trinta_e_uns_de_dezembro <- tibble(
   NO_DIA_COMPLETO_dmy = as.Date(c("2017-12-31", "2018-12-31", "2019-12-31"))
 )
 
-
 indicadores_no_tempo_ug <- read_rds("../data/indices_no_tempo_ug.rds")
 indicadores_no_tempo_ug_fonte <- read_rds("../data/indices_no_tempo_ug_fonte.rds")
 indices_ug <- read_rds("../data/indices_ug.rds")
@@ -257,7 +256,7 @@ Em que $dl_i$ é a disponibilaidade líquida no dia $i$ e $d_i$ é o valor debit
 Abaixo temoos um histograma da distribuição do IPDL Podemos ver que a distribuição tem concentrações nas extremidades - muitas combinações UG/Fonte possuem IPDL igual a zero e muitas igual a um. 
 
 ```{r}
-indices_ug_fonte %>% 
+indices_ug_fonte %>%
   ggplot(aes(x = ipdl)) +
   geom_histogram(binwidth = 0.02, fill = "black", color = "grey") +
   labs(x = "IPDL", y = "# UG/Fonte")

@@ -1,30 +1,17 @@
-# Índices de Empoçamento
+# Índices de empoçamento
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+```{r, echo=FALSE, message=FALSE, warning=FALSE, cache=FALSE}
 knitr::opts_chunk$set(
   echo = FALSE, 
   message = FALSE, 
   warning = FALSE, 
   eval = TRUE
 )
-library(ggalluvial)
 library(tidyverse)
-theme_set(theme_minimal(12))
-
-disponibilidades_liquidas_diarias <- read_rds("../data/disponibilidades_liquidas_diarias.rds")
-obrigacoes_a_pagar_diarias <- read_rds("../data/obrigacoes_a_pagar_diarias.rds")
-indicadores <- read_rds("../data/indicadores.rds")
-
-trinta_e_uns_de_dezembro <- tibble(
-  NO_DIA_COMPLETO_dmy = as.Date(c("2017-12-31", "2018-12-31", "2019-12-31"))
-)
-
-
-indicadores_no_tempo_ug <- read_rds("../data/indices_no_tempo_ug.rds")
-indicadores_no_tempo_ug_fonte <- read_rds("../data/indices_no_tempo_ug_fonte.rds")
-indices_ug <- read_rds("../data/indices_ug.rds")
-indices_ug_fonte <- read_rds("../data/indices_ug_fonte.rds")
+library(empocamento)
+theme_set(theme_minimal(10))
 ```
+
 
 No capítulo anterior identificamos o que é empoçamento e quais são os seus principais tipos. Neste capítulo vamos apresentar e avaliar indicadores que permitem:
 
@@ -40,23 +27,13 @@ Os índices foram calculados por janelas de 1 ano, isto é, para cada data dispo
 
 Para os casos em que queremos avaliar as UG's/FONTE sem observar o efeito do tempo consideramos a média do índice em todos os instantes do tempo em que foi calculado.
 
-Também é importante notar que algumas UG/FONTE possuem histórico pequeno para ser analisado de formar estatística, e por isso, foram excluidas das análises a seguir. Para decidir quais seriam analisadas fizemos gráfico a seguir que mostra a quantidade de UG's para cada quantidade de dias com hisórico.
-
-```{r}
-disponibilidades_liquidas_diarias %>% 
-  group_by(NO_UG, NO_FONTE_RECURSO) %>% 
-  count() %>% 
-  ungroup() %>% 
-  count(n) %>% 
-  ggplot(aes(x = n, y = nn)) +
-  geom_col() + 
-  labs(y = "Quantidade de UG/Fonte", x = "Quantidade de dias no histórico") +
-  geom_vline(xintercept = 365, color = "red")
+```{r, echo=FALSE, message=FALSE, warning=FALSE, cache=TRUE, include=FALSE}
+indices_ug_fonte <- empocamento::movimentacoes_diarias_mj %>% 
+  empocamento::prepara() %>% 
+  empocamento::adiciona_descritores()
 ```
 
-Como boa parte das UG/Fonte possuem todo o histórico, optamos por pegar apenas aquelas que possuem pelo menos 1 ano de histórico, de forma a obter estimativas mais robustas. Com a exclusão de algumas combinações passamos de `r nrow(count(disponibilidades_liquidas_diarias, NO_UG, NO_FONTE_RECURSO))` para `r nrow(indices_ug_fonte)` combinações de UG e Fonte de recurso.
-
-## Índice acumulação de disponibilidade líquida
+## Índice acumulação de disponibilidade líquida (IADL)
 
 Esse índice representa o quanto o valor de disponibilidade líquida positiva foi maior em média do que total de débitos em 1 ano. Em outras palavras, podemos dizer que quando este índice é próximo de 0 significa que sua disponibilidade líquida média sempre foi muito menor do que os seus pagamentos. Quando ele é próximo de 1, indica que a disponibilidade líquida média foi sempre parecida com todos os gastos de 1 ano.
 
@@ -79,7 +56,7 @@ Note que estamos avaliando a combinação UG/FONTE o que totaliza `r nrow(indice
 
 #### IADL maior do que 1
 
-Em primeiro lugar avaliamos aquelas combinações UG e Fonte que possuem  IADL mairo do que 1. O índice ser maior do que 1 significa que a disponibilidade líquida média diária foi maior do que tudo que foi gasto durante o ano inteiro. Em geral, quando o IADL é maior do que 1, é por que nenhuma despesa aconteceu durante ano e aquela combinação possuia disponibilidade líquida positiva.
+Em primeiro lugar avaliamos aquelas combinações UG e Fonte que possuem IADL mairo do que 1. O índice ser maior do que 1 significa que a disponibilidade líquida média diária foi maior do que tudo que foi gasto durante o ano inteiro. Em geral, quando o IADL é maior do que 1, é por que nenhuma despesa aconteceu durante ano e aquela combinação possuia disponibilidade líquida positiva.
 
 ```{r, results = "asis"}
 indices_ug_fonte %>%
@@ -88,20 +65,20 @@ indices_ug_fonte %>%
   knitr::kable()
 ```
 
-No gráfico abaixo é possível visualizar as 10 combinações com maiores valores do IADL.
+No gráfico abaixo é possível visualizar as 4 combinações com maiores valores do IADL.
 
-```{r, fig.height=10}
+```{r, fig.height=4.1}
 library(lubridate)
 
 em_milhoes <- function(x) {
   paste0(round(x/1e6,3), "M")
 }
-
+dia <- as.Date("2019-10-10")
 indices_ug_fonte %>% 
   ungroup() %>% 
-  top_n(10, iadl) %>% 
-  left_join(disponibilidades_liquidas_diarias) %>% 
-  #rowwise() %>% 
+  filter(n > 364) %>%
+  top_n(5, iadl) %>% 
+  unnest(series_temporais) %>%
   filter(
     NO_DIA_COMPLETO_dmy <= dia,
     NO_DIA_COMPLETO_dmy >= dia - days(365)
@@ -129,7 +106,7 @@ No gráfico abaixo podemos visualizar um historama da distribuição do IADL.
 Cada barra mostra a quantidade de combinações UG e Fonte que possuem aquele valor do IADL.
 Podemos verificar que a maioria das combinações possui valor do IADL muito ptóximo de 0.
 
-```{r}
+```{r, fig.height=3}
 indices_ug_fonte %>% 
   ggplot(aes(x = ifelse(iadl > 1, 1.1, iadl), fill = ifelse(iadl > 1, "sim", "não"))) +
   geom_histogram(binwidth = 0.02, colour = "gray") +
@@ -142,7 +119,7 @@ indices_ug_fonte %>%
 Vamos observar agora alguns exemplos de combinações que possuem IADL bem próximo de zero. 
 Lembre-se que próximo de zero significa que não há empoçamento.
 
-```{r, fig.height=10}
+```{r, fig.height=3}
 
 em_milhoes <- function(x) {
   
@@ -152,14 +129,13 @@ em_milhoes <- function(x) {
   y <- round(x/1e6,3)
   sig <- ifelse(sign(y) == "-1", "-", "")
   
-  paste0(sig, abs(y), "M")
+  paste0(sig, abs(y), "M") 
 }
 
 indices_ug_fonte %>% 
   ungroup() %>% 
-  filter(row_number(iadl) <= 10) %>%  
-  left_join(disponibilidades_liquidas_diarias) %>% 
-  #rowwise() %>% 
+  filter(row_number(iadl) <= 4) %>%  
+  unnest(series_temporais) %>%
   filter(
     NO_DIA_COMPLETO_dmy <= dia,
     NO_DIA_COMPLETO_dmy >= dia - days(365)
@@ -184,14 +160,51 @@ Mais uma vez esses podem não ser os casos mais interessantes de empoçamento, p
 O gráfico a seguir mostra exemplos de combinações UG/Fonte que estão próximas
 de cada quantil da distribuição do IADL. Podemos verificar por esse gráfico que o IADL parece ser uma medida razoável para quantificar o empoçamento.
 
-```{r,fig.height=25}
+```{r,fig.height=9}
 graficos <- map(
-  c(0, 0.05, 0.15, 0.25, 0.5, 0.65, 0.75, 0.85, 0.95, 1), function(i) {
+  c(0.05, 0.25, 0.5), function(i) {
     q <- quantile(indices_ug_fonte$iadl, i)
     indices_ug_fonte %>% 
       ungroup() %>% 
-      filter(row_number(abs(iadl - q)) <= 2) %>%  
-      left_join(disponibilidades_liquidas_diarias) %>% 
+      filter(row_number(abs(iadl - q)) <= 2) %>%
+      head(4) %>%
+      unnest(series_temporais) %>%
+      filter(
+        NO_DIA_COMPLETO_dmy <= dia,
+        NO_DIA_COMPLETO_dmy >= dia - days(365)
+      ) %>% 
+      ungroup() %>%
+      mutate(
+        NO_UG = str_wrap(NO_UG, 35),
+        NO_FONTE_RECURSO = str_wrap(NO_FONTE_RECURSO, 35)
+      ) %>% 
+      ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
+      geom_line() +
+      geom_area(alpha = 0.1) +
+      facet_wrap(~NO_UG + NO_FONTE_RECURSO, 
+                 scales = "free", ncol = 2) +
+      scale_y_continuous(labels = em_milhoes) +
+      labs(
+        y = "Disponibilidade Líquida (R$)",
+        x = "Data"
+      ) +
+      ggtitle(paste("UG/Fonte com próximos do quantil", scales::percent(i)), "do IADL") +
+      expand_limits(y = 0)
+  }
+)
+patchwork::wrap_plots(graficos) + patchwork::plot_layout(ncol = 1)
+```
+
+
+```{r,fig.height=6}
+graficos <- map(
+  c(0.75, 0.95), function(i) {
+    q <- quantile(indices_ug_fonte$iadl, i)
+    indices_ug_fonte %>% 
+      ungroup() %>% 
+      filter(row_number(abs(iadl - q)) <= 2) %>%
+      head(4) %>%
+      unnest(series_temporais) %>%
       filter(
         NO_DIA_COMPLETO_dmy <= dia,
         NO_DIA_COMPLETO_dmy >= dia - days(365)
@@ -240,7 +253,7 @@ indices_ug_fonte %>%
   knitr::kable(col.names = c("Categoria IADL", "#"))
 ```
 
-## Indicador de persistência de saldo positivo
+## Indicador de persistência de saldo positivo (IPDL)
 
 Este indicadore representa a proporção de dias no ano que uma combinação UG/Fonte teve disponibilidade líquida suficientemente
 positiva. A definição *suficientemente positiva* foi calculada com base na média diária de débitos. Portanto, se a disponibilidade líquida for maior que a média ddiária de débitos consideramos que a disponibilidade é suficientemente positiva.
@@ -253,25 +266,25 @@ Em que $dl_i$ é a disponibilaidade líquida no dia $i$ e $d_i$ é o valor debit
 
 ### Distribuição
 
-Abaixo temoos um histograma da distribuição do IPDL Podemos ver que a distribuição tem concentrações nas extremidades - muitas combinações UG/Fonte possuem IPDL igual a zero e muitas igual a um. 
+Abaixo temos um histograma da distribuição do IPDL Podemos ver que a distribuição tem concentrações nas extremidades - muitas combinações UG/Fonte possuem IPDL igual a zero e muitas igual a um. 
 
-```{r}
-indices_ug_fonte %>% 
+```{r, fig.height = 3}
+indices_ug_fonte %>%
   ggplot(aes(x = ipdl)) +
   geom_histogram(binwidth = 0.02, fill = "black", color = "grey") +
   labs(x = "IPDL", y = "# UG/Fonte")
 ```
 
-#### IDLP igual a zero
+#### IPDL igual a zero
 
 Em seguida vamos avaliar alguns exemplos de combinações UG/Fonte que possuem o IPDL igual a zero. Isso vai nos ajudar a verificar se o índice está fazendo sentido para indicar empoçamento.
 
-Quando o IPDL é igual zero, isso significa que a combinação UG/Fonte não teve nehum dia com a disponibilidade suficientemente positiva, portanto essas combinações não devem ter sinais de empoçamento.
+Quando o IPDL é igual zero, isso significa que a combinação UG/Fonte não teve nenhum dia com a disponibilidade suficientemente positiva, portanto essas combinações não devem ter sinais de empoçamento.
 
-```{r, fig.height = 10}
+```{r, fig.height = 4.1}
 indices_ug_fonte %>% 
-  filter(row_number(ipdl) <= 10) %>%  
-  left_join(disponibilidades_liquidas_diarias) %>% 
+  filter(row_number(ipdl) <= 4) %>%  
+  unnest(series_temporais) %>%
   filter(
     NO_DIA_COMPLETO_dmy <= dia,
     NO_DIA_COMPLETO_dmy >= dia - days(365)
@@ -292,18 +305,16 @@ indices_ug_fonte %>%
     x = "Data"
   )
 ```
-
-De fato é isso que observamos no gráfico acima. 
+ 
 
 #### IPDL igual a um
 
-Agora vamos
-avaliar combinações que possuem o IPDL igual a um. Essas combinações ficaram o ano inteiro com o IPDL suficientemente positivo, portanto devem ter sinais de empoçamento.
+Combinações que possuem o IPDL igual a um ficaram o ano inteiro com o IPDL suficientemente positivo, portanto devem ter sinais de empoçamento.
 
-```{r, fig.height=10}
+```{r, fig.height=5}
 indices_ug_fonte %>% 
-  filter(row_number(-ipdl) <= 10) %>%  
-  left_join(disponibilidades_liquidas_diarias) %>% 
+  filter(row_number(-ipdl) <= 4) %>%  
+  unnest(series_temporais) %>%
   filter(
     NO_DIA_COMPLETO_dmy <= dia,
     NO_DIA_COMPLETO_dmy >= dia - days(365)
@@ -331,14 +342,50 @@ Veja que, no gráfico todas as combinações apresentam sinais de empoçamento t
 
 No gráfico abaixo visualizamos diversos exemplos de combinações UG/Fonte que possuem IPDL próximos de alguns quantis. Esse gráfico é útil p/ visualizarmos o comportamento das séries dependendo dos valores do IPDL.
 
-```{r, fig.height=25}
+```{r, fig.height=9}
 graficos <- map(
-  c(0, 0.05, 0.15, 0.25, 0.5, 0.75, 0.85, 0.95, 1), function(i) {
+  c(0.05, 0.25, 0.5), function(i) {
     q <- quantile(indices_ug_fonte$ipdl, i)
     indices_ug_fonte %>% 
+      filter(n > 200) %>%
       ungroup() %>% 
       filter(row_number(abs(ipdl - q)) <= 2) %>%  
-      left_join(disponibilidades_liquidas_diarias) %>% 
+      unnest(series_temporais) %>%
+      filter(
+        NO_DIA_COMPLETO_dmy <= dia,
+        NO_DIA_COMPLETO_dmy >= dia - days(365)
+      ) %>% 
+      ungroup() %>%
+      mutate(
+        NO_UG = str_wrap(NO_UG, 35),
+        NO_FONTE_RECURSO = str_wrap(NO_FONTE_RECURSO, 35)
+      ) %>% 
+      ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
+      geom_line() +
+      geom_area(alpha = 0.1) +
+      facet_wrap(~NO_UG + NO_FONTE_RECURSO, 
+                 scales = "free", ncol = 2) +
+      scale_y_continuous(labels = em_milhoes) +
+      labs(
+        y = "Disponibilidade Líquida (R$)",
+        x = "Data"
+      ) +
+      ggtitle(paste("UG/Fonte com próximos do quantil", scales::percent(i)), "do IPDL") +
+      expand_limits(y = 0)
+  }
+)
+patchwork::wrap_plots(graficos) + patchwork::plot_layout(ncol = 1)
+```
+
+```{r, fig.height=6}
+graficos <- map(
+  c(0.75, 0.95), function(i) {
+    q <- quantile(indices_ug_fonte$ipdl, i)
+    indices_ug_fonte %>% 
+      filter(n > 200) %>%
+      ungroup() %>% 
+      filter(row_number(abs(ipdl - q)) <= 2) %>%  
+      unnest(series_temporais) %>%
       filter(
         NO_DIA_COMPLETO_dmy <= dia,
         NO_DIA_COMPLETO_dmy >= dia - days(365)
@@ -390,46 +437,46 @@ indices_ug_fonte %>%
   knitr::kable(col.names = c("Categoria IPDL", "#"))
 ```
 
-## IADL e IPDL
 
-Nests seção vamos avaliar a relação entre os indicadores criados. ''
+## Disponibilidade Líquida Sobre Gastos (DLSG)
 
-```{r}
-indices_ug_fonte %>% 
-  mutate(ipdl_c = case_when(
-    ipdl < 0.02  ~ "1. Sem empoçamento",
-    ipdl < 0.8  ~ "2. Empoçamento temporário",
-    ipdl < 0.9 ~  "3. Empoçamento natural",
-    ipdl >= 0.9 ~ "4. Empoçamento total"
-  )) %>% 
-  mutate(iadl_c = case_when(
-    iadl < 0.02 ~ "1. Sem empoçamento",
-    iadl < 0.8  ~ "2. Empoçamento moderado",
-    iadl >= 0.8 ~ "3. Empoçamento alto"
-  )) %>% 
-  # filter(
-  #   iadl_c != "1. Sem empoçamento", 
-  #   ipdl_c  != "1. Sem empoçamento"
-  # ) %>% 
-  ggplot(aes(x = ifelse(iadl>1 ,1 ,iadl), y = ipdl)) +
-  geom_point() + 
-  labs(y = "IPDL", x = "IADL")
+O indicador DLSG é a razão entre a disponibilidade líquida média no período e a soma dos gastos (pagamentos diários), anualizado. 
+
+### Cálculo 
+
+A expressão abaixo considera o período de N dias.
+
+
+$$
+DLSG_i = \frac{\frac{1}{n}\sum_{i=i}^{N}dl_{-i}}{\sum_{i=i}^{365}d_{-i}} \times \frac{365}{N}
+$$
+
+Em que $dl_i$ é a disponibilidade líquida no dia $i$ e $d_i$ é o débito no dia $i$ 
+
+### Distribuição
+
+Os valores de DLSG podem ser muito altos. Eles ocorrem quando a UG gasta pouco do dinheiro que vem da respectiva fonte de recursos.
+
+
+```{r oaak, fig.height = 3, warning=FALSE, message=FALSE}
+indices_ug_fonte %>%
+  mutate(xs = log1p(integral_sobre_media_dos_gastos)) %>%
+  ggplot(aes(x = xs)) +
+  geom_histogram(fill = "black", color = "grey") +
+  labs(x = "DLSG", y = "# UG/Fonte ")
+
 ```
 
-Note que não existe uma correlação forte entre os índices, o que é importgante uma vez que um deles pretende quantificar o empoçamento enquanto o outro possui o objetivo de classificá-lo.
 
-#### IADL = 1 e IPDL = 0
+#### DLSG menor que zero
 
-Alguns casos chamam atenção pois apresentam IADL muito alto e IPDL baixo.
-Podemos visualizar essers casos no gráfico abaixo.
+O DLSG é menor que zero significa que a combinação UG/Fonte teve disponibilidade líquida média negativa no período, portanto essas combinações não devem ter sinais de empoçamento.
 
-Isso acontece quando o período de acúmulo foi muito pequeno mas com
-valores muito exorbitantes para aquela combinação UG/Fonte.
-
-```{r}
+```{r, fig.height = 4.1}
 indices_ug_fonte %>% 
-  filter(iadl >= 1, ipdl <= 0.02)%>%
-  left_join(disponibilidades_liquidas_diarias) %>% 
+  filter(integral_sobre_media_dos_gastos < 0) %>%  
+  head(4) %>%
+  unnest(series_temporais) %>%
   filter(
     NO_DIA_COMPLETO_dmy <= dia,
     NO_DIA_COMPLETO_dmy >= dia - days(365)
@@ -451,19 +498,45 @@ indices_ug_fonte %>%
   )
 ```
 
-O caso contrário, isto é, o caso em que o IADL = 0 e IPDL = 1 não acontece na base de dados.
+#### DLSG maior que 20
 
-#### Mais exemplos
+O DLSG maior que 20 significa que a combinação UG/Fonte teve disponibilidade líquida média positiva no período elevada e/ou despesas moderadas, portanto essas combinações devem ter sinais de empoçamento.
 
-Agora vamos mostrar alguns exemplos de outros casos que podem acontecer na nossa base de dados. Esses exemplos servem para criar uma sensibilidade do que a combinação do IADL com o IPDL podem nos ajudar a identificar.
-
-Veja que quando ambos os índices possuem o valor muito alto encontramos casos de empoçamento total com combinações de UG/Fonte que praticamennte não fizeram nenhum pagamento.
-
-```{r, fig.height=10}
+```{r a, fig.height = 4.1}
+set.seed(100)
 indices_ug_fonte %>% 
-  filter(iadl >= 1, ipdl == 1) %>%
-  filter(row_number() <= 10) %>% 
-  left_join(disponibilidades_liquidas_diarias) %>% 
+  filter(integral_sobre_media_dos_gastos > 0) %>%  
+  filter(integral_sobre_media_dos_gastos < 19) %>%  
+  head(4) %>%
+  unnest(series_temporais) %>% 
+  ungroup() %>%
+  mutate(
+    NO_UG = str_wrap(NO_UG, 40),
+    NO_FONTE_RECURSO = str_wrap(NO_FONTE_RECURSO, 40)
+  ) %>% 
+  ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
+  geom_line() +
+  geom_area(alpha = 0.1) +
+  facet_wrap(~NO_UG + NO_FONTE_RECURSO, 
+             scales = "free", ncol = 2) +
+  scale_y_continuous(labels = em_milhoes) +
+  labs(
+    y = "Disponibilidade Líquida (R$)",
+    x = "Data"
+  )
+
+```
+
+#### DLSG entre 0 e 20
+
+O DLSG mediano significa que a combinação UG/Fonte teve disponibilidade líquida média positiva moderada no período e/ou despesas elevadas, portanto essas combinações não devem ter fortes sinais de empoçamento.
+
+```{r, fig.height = 4.1}
+set.seed(1)
+indices_ug_fonte %>% 
+  filter(log1p(integral_sobre_media_dos_gastos) %>% between(0,20)) %>%  
+  sample_n(4) %>%
+  unnest(series_temporais) %>%
   filter(
     NO_DIA_COMPLETO_dmy <= dia,
     NO_DIA_COMPLETO_dmy >= dia - days(365)
@@ -482,186 +555,592 @@ indices_ug_fonte %>%
   labs(
     y = "Disponibilidade Líquida (R$)",
     x = "Data"
-  ) +
-  ggtitle("IADL = 1 e IPDL = 1")
+  )
 ```
 
-Abaixo, quando o IPDL é 0.5 e o IADL é alto encontramos exemplos de empoçamento temporário com períodos mais longos ou com valores mais altos comparados aos gastos da Ug/Fonte.
+#### Classificação
 
-```{r, fig.height=10}
-indices_ug_fonte %>% 
-  filter(iadl >= 0.98) %>%
-  filter(row_number(abs(ipdl - 0.5)) <= 10) %>% 
-  left_join(disponibilidades_liquidas_diarias) %>% 
-  filter(
-    NO_DIA_COMPLETO_dmy <= dia,
-    NO_DIA_COMPLETO_dmy >= dia - days(365)
-  ) %>% 
-  ungroup() %>%
-  mutate(
-    NO_UG = str_wrap(NO_UG, 35),
-    NO_FONTE_RECURSO = str_wrap(NO_FONTE_RECURSO, 35)
-  ) %>% 
-  ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
-  geom_line() +
-  geom_area(alpha = 0.1) +
-  facet_wrap(~NO_UG + NO_FONTE_RECURSO, 
-             scales = "free", ncol = 2) +
-  scale_y_continuous(labels = em_milhoes) +
-  labs(
-    y = "Disponibilidade Líquida (R$)",
-    x = "Data"
-  ) +
-  ggtitle("IADL = 1 e IPDL = 0.5")
-```
+Com base nas análises anteriores conseguimos criar classificações para as combinações UG/Fonte de acordo com o valor do índice DLSG. As classificações foram:
 
-Quando o IPDL é baixo e o IADL é alto encontramos os casos típicos de empoçamento temporário.
+1. SEM EMPOÇAMENTO: DLSG < 0
+2. EMPOÇAMENTO TEMPORÁRIO: DLSG entre 0 e 10
+3. EMPOÇAMENTO NATURAL: DLSG entre 10 e 20
+4. EMPOÇAMENTO TOTAL: DLSG > 20
 
-```{r, fig.height = 10}
-indices_ug_fonte %>% 
-  filter(iadl >= 0.98) %>%
-  filter(row_number(abs(ipdl - 0.1)) <= 10) %>% 
-  left_join(disponibilidades_liquidas_diarias) %>% 
-  filter(
-    NO_DIA_COMPLETO_dmy <= dia,
-    NO_DIA_COMPLETO_dmy >= dia - days(365)
-  ) %>% 
-  ungroup() %>%
-  mutate(
-    NO_UG = str_wrap(NO_UG, 35),
-    NO_FONTE_RECURSO = str_wrap(NO_FONTE_RECURSO, 35)
-  ) %>% 
-  ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
-  geom_line() +
-  geom_area(alpha = 0.1) +
-  facet_wrap(~NO_UG + NO_FONTE_RECURSO, 
-             scales = "free", ncol = 2) +
-  scale_y_continuous(labels = em_milhoes) +
-  labs(
-    y = "Disponibilidade Líquida (R$)",
-    x = "Data"
-  ) +
-  ggtitle("IADL = 1 e IPDL = 0.5")
-```
-
-No gráfico abaixo encontramos casos de empoçamento total com intensidade moderada.
-
-```{r, fig.height = 10}
-indices_ug_fonte %>% 
-  filter(ipdl >= 0.98) %>%
-  filter(row_number(abs(iadl - 0.5)) <= 10) %>% 
-  left_join(disponibilidades_liquidas_diarias) %>% 
-  filter(
-    NO_DIA_COMPLETO_dmy <= dia,
-    NO_DIA_COMPLETO_dmy >= dia - days(365)
-  ) %>% 
-  ungroup() %>%
-  mutate(
-    NO_UG = str_wrap(NO_UG, 35),
-    NO_FONTE_RECURSO = str_wrap(NO_FONTE_RECURSO, 35)
-  ) %>% 
-  ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
-  geom_line() +
-  geom_area(alpha = 0.1) +
-  facet_wrap(~NO_UG + NO_FONTE_RECURSO, 
-             scales = "free", ncol = 2) +
-  scale_y_continuous(labels = em_milhoes) +
-  labs(
-    y = "Disponibilidade Líquida (R$)",
-    x = "Data"
-  ) +
-  ggtitle("IADL = 0.5 e IPDL = 1")
-```
-Vemos abaixo exemplos de empoçamento total porém com intensidade ainda menor.
-
-```{r, fig.height = 10}
-indices_ug_fonte %>% 
-  filter(ipdl >= 0.98) %>%
-  filter(row_number(abs(iadl - 0.1)) <= 10) %>% 
-  left_join(disponibilidades_liquidas_diarias) %>% 
-  filter(
-    NO_DIA_COMPLETO_dmy <= dia,
-    NO_DIA_COMPLETO_dmy >= dia - days(365)
-  ) %>% 
-  ungroup() %>%
-  mutate(
-    NO_UG = str_wrap(NO_UG, 35),
-    NO_FONTE_RECURSO = str_wrap(NO_FONTE_RECURSO, 35)
-  ) %>% 
-  ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
-  geom_line() +
-  geom_area(alpha = 0.1) +
-  facet_wrap(~NO_UG + NO_FONTE_RECURSO, 
-             scales = "free", ncol = 2) +
-  scale_y_continuous(labels = em_milhoes) +
-  labs(
-    y = "Disponibilidade Líquida (R$)",
-    x = "Data"
-  ) +
-  ggtitle("IADL = 0.1 e IPDL = 1")
-```
-
-Verificamos com os exemplos que os índices estão aparentemente conseguindo quantificar e classificar as combinações UG/Fonte de acordo com a intensidade e tipo de empoçamento.
-
-## Indicadores e Disponibilidade Líquida positiva
-
-Avaliamos também o comportamento dos indicadores de acordo com a disponibilidade líquida positiva média.
-
-### IADL
-
-Vemos que não existe também uma relação muito forte entre o IADL e a Disponibilidade líquida positiva média. Indicando que podemos usar a combinação dos dois para encontrar casos de empoçamento alto e que envolvem bastante dinheiro.
+A tabela a seguir apresenta a quantidade de combinações UG/Fonte em cada uma das categorias.
 
 ```{r}
 indices_ug_fonte %>% 
-  ggplot(aes(x = ifelse(iadl>1, 1, iadl), y = dlp)) +
-  geom_point() +
+  mutate(integral_sobre_media_dos_gastos_c = case_when(
+    integral_sobre_media_dos_gastos < 0 ~ "1. Sem empoçamento",
+    log1p(integral_sobre_media_dos_gastos) < 10  ~ "2. Empoçamento temporário",
+    log1p(integral_sobre_media_dos_gastos) < 20 ~  "3. Empoçamento natural",
+    log1p(integral_sobre_media_dos_gastos) >= 20 ~ "4. Empoçamento total"
+  )) %>% 
+  count(integral_sobre_media_dos_gastos_c) %>% 
+  knitr::kable(col.names = c("Categoria DLSG", "#"))
+```
+
+## Valor Nominal (VN)
+
+Valor Nominal é o acúmulo das disponibilidades líquidas, anualizado. O valor elevado significa maior montante de recurso. Empoçamentos que ocorrem em UG/FONTEs de baixa expressão financeira não apresentarão VN alto, mas os cenários de altos valores e empoçamentos tendem a terem os maiores valores de VN.
+
+### Cálculo 
+
+A expressão abaixo considera o período de N dias.
+
+$$
+VL_i = \sum_{i=i}^{N}dl_{-i} \times \frac{365}{N}
+$$
+
+Em que $dl_i$ é a disponibilidade líquida no dia $i$.
+
+
+### Distribuição
+
+O histograma da distribuição do VN mostra uma densidade bem distribuida. A barra centrada em zero mostra os casos de VN negativas, que ocorrem quando a disponibilidade líquida total é negativa.
+
+```{r, fig.height = 3, message=FALSE, warning=FALSE}
+indices_ug_fonte %>%
+  ggplot(aes(x = log1p(valor_nominal))) +
+  geom_histogram( fill = "black", color = "grey") +
+  labs(x = "VN", y = "# UG/Fonte")
+```
+
+
+
+#### VN menor que zero
+
+O VN é menor que zero significa que a combinação UG/Fonte teve disponibilidade líquida média negativa no período, portanto essas combinações não devem ter sinais de empoçamento.
+
+```{r, fig.height = 4.1}
+indices_ug_fonte %>% 
+  filter(valor_nominal < 0) %>%  
+  head(4) %>%
+  unnest(series_temporais) %>%
+  filter(
+    NO_DIA_COMPLETO_dmy <= dia,
+    NO_DIA_COMPLETO_dmy >= dia - days(365)
+  ) %>% 
+  ungroup() %>%
+  mutate(
+    NO_UG = str_wrap(NO_UG, 35),
+    NO_FONTE_RECURSO = str_wrap(NO_FONTE_RECURSO, 35)
+  ) %>% 
+  ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
+  geom_line() +
+  geom_area(alpha = 0.1) +
+  facet_wrap(~NO_UG + NO_FONTE_RECURSO, 
+             scales = "free", ncol = 2) +
   scale_y_continuous(labels = em_milhoes) +
-  labs(x = "IADL", y = "DLP")
+  labs(
+    y = "Disponibilidade Líquida (R$)",
+    x = "Data"
+  )
 ```
 
-No gráfico abaixo, ao invés de usarmos o valor absoluto da DLP usamos o percentil de cada observação, isso ajuda a evidenciar que não existe uma relação forte entre as duas medidas.
+#### VN maior que 15
 
-```{r}
+O VN maior que 15 significa que a combinação UG/Fonte teve disponibilidade líquida média positiva no período elevada e por um longo período de tempo, portanto essas combinações devem ter sinais de empoçamento.
+
+```{r, fig.height = 4.1}
 indices_ug_fonte %>% 
-  ggplot(aes(x = ifelse(iadl>1, 1, iadl), y = percent_rank(dlp))) +
-  geom_point() +
-  scale_y_continuous(labels = scales::percent) +
-  labs(x = "IADL", y = "Quantil da DLP")
-```
-
-### IPDL
-
-Também não há uma relação muito forte entre IPDL e DLP. 
-
-```{r}
-indices_ug_fonte %>% 
-  ggplot(aes(x = ipdl, y = dlp)) +
-  geom_point() +
+  filter(log1p(valor_nominal) > 15) %>%  
+  head(4) %>%
+  unnest(series_temporais) %>%
+  filter(
+    NO_DIA_COMPLETO_dmy <= dia,
+    NO_DIA_COMPLETO_dmy >= dia - days(365)
+  ) %>% 
+  ungroup() %>%
+  mutate(
+    NO_UG = str_wrap(NO_UG, 35),
+    NO_FONTE_RECURSO = str_wrap(NO_FONTE_RECURSO, 35)
+  ) %>% 
+  ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
+  geom_line() +
+  geom_area(alpha = 0.1) +
+  facet_wrap(~NO_UG + NO_FONTE_RECURSO, 
+             scales = "free", ncol = 2) +
   scale_y_continuous(labels = em_milhoes) +
-  labs(x = "IPDL", y = "DLP")
+  labs(
+    y = "Disponibilidade Líquida (R$)",
+    x = "Data"
+  )
 ```
+
+#### VN entre 0 e 15
+
+O VN mediano significa que a combinação UG/Fonte teve disponibilidade líquida média positiva moderada no período, mas por tempo moderado. Ou são casos de empoçamento de combinações menos expressivas financeiramente.
+
+```{r, fig.height = 4.1}
+set.seed(100)
+indices_ug_fonte %>% 
+  filter(log1p(valor_nominal) %>% between(4,15)) %>%  
+  sample_n(4) %>%
+  unnest(series_temporais) %>%
+  filter(
+    NO_DIA_COMPLETO_dmy <= dia,
+    NO_DIA_COMPLETO_dmy >= dia - days(365)
+  ) %>% 
+  ungroup() %>%
+  mutate(
+    NO_UG = str_wrap(NO_UG, 35),
+    NO_FONTE_RECURSO = str_wrap(NO_FONTE_RECURSO, 35)
+  ) %>% 
+  ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
+  geom_line() +
+  geom_area(alpha = 0.1) +
+  facet_wrap(~NO_UG + NO_FONTE_RECURSO, 
+             scales = "free", ncol = 2) +
+  scale_y_continuous(labels = em_milhoes) +
+  labs(
+    y = "Disponibilidade Líquida (R$)",
+    x = "Data"
+  )
+```
+
+#### Classificação
+
+Com base nas análises anteriores conseguimos criar classificações para as combinações UG/Fonte de acordo com o valor do índice VN. As classificações foram:
+
+1. SEM EMPOÇAMENTO: VN < 0
+2. EMPOÇAMENTO POUCO EXPRESSIVO: VN entre 0 e 15
+3. EMPOÇAMENTO EXPRESSIVO: VN > 15
+
+A tabela a seguir apresenta a quantidade de combinações UG/Fonte em cada uma das categorias.
 
 ```{r}
 indices_ug_fonte %>% 
-  ggplot(aes(x = ipdl, y = percent_rank(dlp))) +
-  geom_point() +
-  scale_y_continuous(labels = scales::percent) +
-  labs(x = "IPDL", y = "DLP")
+  mutate(valor_nominal_c = case_when(
+    valor_nominal < 0 ~ "1. Sem empoçamento",
+    log1p(valor_nominal) < 15 ~  "3. Empoçamento pouco expressivo",
+    log1p(valor_nominal) >= 15 ~ "4. Empoçamento expressivo"
+  )) %>% 
+  count(valor_nominal_c) %>% 
+  knitr::kable(col.names = c("Categoria VN", "#"))
 ```
 
-## Conclusão
+## Valor Nominal Conservador (VNC)
 
-Com as análises apresentadas podemos verificar que o IADL e o IPDL cumprem as suas funções de quantificar a intensidade e classificar o tipo de empoçamento. 
+O Valor Nominal Conservador considera um abatimento médio mensal de despesas no Valor Nominal.
 
-Em conjunto com a disponibilidade positiva média podemos encontrar as combinações de UG/Fonte que apresentam certos tipos e intensidades de empoçamento.
+### Cálculo
 
-Para auxiliar na exploração dos indicadores foi desenvolvido um app que está acessível pelo [link a seguir](https://rseis.shinyapps.io/explorador_indicador_empocamento/).
+$$
+VL_i = VL_i - \frac{1}{N}\sum_{i=i}^{N}d_{-i} \times 30
+$$
+
+Em que $d_i$ é o valor debitado no dia $i$.
+
+
+### Distribuição
+
+O histograma da distribuição do VNC tem o mesmo perfil de VN. A mudança será em trazer para valores menores as combinações de UG/fonte que gastam mais, deixando os valores altos para as combinações de valores expressivos e com baixa circulação de recursos.
+
+```{r, fig.height = 3, message=FALSE, warning=FALSE}
+indices_ug_fonte %>%
+  ggplot(aes(x = log1p(valor_nominal_conservador))) +
+  geom_histogram( fill = "black", color = "grey") +
+  labs(x = "VNC", y = "# UG/Fonte")
+```
 
 
 
+#### VNC menor que zero
+
+O VNC é menor que zero significa que a combinação UG/Fonte teve disponibilidade líquida média negativa no período, portanto essas combinações não devem ter sinais de empoçamento.
+
+```{r, fig.height = 4.1}
+indices_ug_fonte %>% 
+  filter(valor_nominal_conservador < 0) %>%  
+  head(4) %>%
+  unnest(series_temporais) %>%
+  filter(
+    NO_DIA_COMPLETO_dmy <= dia,
+    NO_DIA_COMPLETO_dmy >= dia - days(365)
+  ) %>% 
+  ungroup() %>%
+  mutate(
+    NO_UG = str_wrap(NO_UG, 35),
+    NO_FONTE_RECURSO = str_wrap(NO_FONTE_RECURSO, 35)
+  ) %>% 
+  ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
+  geom_line() +
+  geom_area(alpha = 0.1) +
+  facet_wrap(~NO_UG + NO_FONTE_RECURSO, 
+             scales = "free", ncol = 2) +
+  scale_y_continuous(labels = em_milhoes) +
+  labs(
+    y = "Disponibilidade Líquida (R$)",
+    x = "Data"
+  )
+```
+
+#### VNC maior que 15
+
+O VNC maior que 15 significa que a combinação UG/Fonte teve disponibilidade líquida média positiva no período elevada, por um longo período de tempo e com baixo gasto, portanto essas combinações devem ter sinais de empoçamento.
+
+```{r, fig.height = 4.1}
+set.seed(103)
+indices_ug_fonte %>% 
+  filter(log1p(valor_nominal_conservador) > 15) %>%  
+  sample_n(4) %>%
+  unnest(series_temporais) %>%
+  filter(
+    NO_DIA_COMPLETO_dmy <= dia,
+    NO_DIA_COMPLETO_dmy >= dia - days(365)
+  ) %>% 
+  ungroup() %>%
+  mutate(
+    NO_UG = str_wrap(NO_UG, 35),
+    NO_FONTE_RECURSO = str_wrap(NO_FONTE_RECURSO, 35)
+  ) %>% 
+  ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
+  geom_line() +
+  geom_area(alpha = 0.1) +
+  facet_wrap(~NO_UG + NO_FONTE_RECURSO, 
+             scales = "free", ncol = 2) +
+  scale_y_continuous(labels = em_milhoes) +
+  labs(
+    y = "Disponibilidade Líquida (R$)",
+    x = "Data"
+  )
+```
+
+#### VNC entre 0 e 15
+
+O VNC mediano significa que a combinação UG/Fonte teve disponibilidade líquida média positiva moderada no período, mas por tempo moderado ou com gastos elevados. Ou são casos de empoçamento de combinações menos expressivas financeiramente.
+
+```{r, fig.height = 4.1}
+set.seed(1)
+indices_ug_fonte %>% 
+  filter(log1p(valor_nominal_conservador) %>% between(4,15)) %>%  
+  sample_n(4) %>%
+  unnest(series_temporais) %>%
+  filter(
+    NO_DIA_COMPLETO_dmy <= dia,
+    NO_DIA_COMPLETO_dmy >= dia - days(365)
+  ) %>% 
+  ungroup() %>%
+  mutate(
+    NO_UG = str_wrap(NO_UG, 35),
+    NO_FONTE_RECURSO = str_wrap(NO_FONTE_RECURSO, 35)
+  ) %>% 
+  ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
+  geom_line() +
+  geom_area(alpha = 0.1) +
+  facet_wrap(~NO_UG + NO_FONTE_RECURSO, 
+             scales = "free", ncol = 2) +
+  scale_y_continuous(labels = em_milhoes) +
+  labs(
+    y = "Disponibilidade Líquida (R$)",
+    x = "Data"
+  )
+```
+
+#### Classificação
+
+Com base nas análises anteriores conseguimos criar classificações para as combinações UG/Fonte de acordo com o valor do índice VNC. As classificações foram:
+
+1. SEM EMPOÇAMENTO: VNC < 0
+2. EMPOÇAMENTO POUCO EXPRESSIVO: VNC entre 0 e 15
+3. EMPOÇAMENTO EXPRESSIVO: VNC > 15
+
+A tabela a seguir apresenta a quantidade de combinações UG/Fonte em cada uma das categorias.
+
+```{r}
+indices_ug_fonte %>% 
+  mutate(valor_nominal_conservador_c = case_when(
+    valor_nominal_conservador < 0 ~ "1. Sem empoçamento",
+    log1p(valor_nominal_conservador) < 15 ~  "3. Empoçamento pouco expressivo",
+    log1p(valor_nominal_conservador) >= 15 ~ "4. Empoçamento expressivo"
+  )) %>% 
+  count(valor_nominal_conservador_c) %>% 
+  knitr::kable(col.names = c("Categoria VNC", "#"))
+```
+
+## Tempo Positivo (TP)
+
+Tempo Positivo é a proporção de dias em que a disponibilidade líquida estava positiva no período. O valor 1 significa que a disponibilidade líquida esteve positiva durante todo o período. Zero significa que a disponibilidade líquida esteve negativa duranto todo o período.
+
+### Cálculo
+
+A expressão abaixo considera o período de N dias.
+
+$$
+VL_i = \frac{1}{N}\sum_{i=i}^{N}I(dl_{-i} > 0)
+$$
+
+Em que $dl_i$ é a disponibilidade líquida no dia $i$.
+
+### Distribuição
+
+O histograma da distribuição do TP mostra que é comum disponibilidades líquidas sempre positivas. Recurso parado se reflete em disponibilidade líquida sempre disponível, então TP de valor 1 está associado com empoçamento.
+
+```{r, fig.height = 3, message=FALSE, warning=FALSE}
+indices_ug_fonte %>%
+  ggplot(aes(x = log1p(indicador_tempo))) +
+  geom_histogram( fill = "black", color = "grey") +
+  labs(x = "TP", y = "# UG/Fonte")
+```
 
 
 
+#### TP igual a zero
+
+O TP igual a zero significa que a combinação UG/Fonte teve disponibilidade líquida sempre negativa no período, portanto essas combinações não devem ter sinais de empoçamento.
+
+```{r, fig.height = 4.1}
+indices_ug_fonte %>% 
+  filter(indicador_tempo == 0) %>%  
+  head(4) %>%
+  unnest(series_temporais) %>%
+  filter(
+    NO_DIA_COMPLETO_dmy <= dia,
+    NO_DIA_COMPLETO_dmy >= dia - days(365)
+  ) %>% 
+  ungroup() %>%
+  mutate(
+    NO_UG = str_wrap(NO_UG, 35),
+    NO_FONTE_RECURSO = str_wrap(NO_FONTE_RECURSO, 35)
+  ) %>% 
+  ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
+  geom_line() +
+  geom_area(alpha = 0.1) +
+  facet_wrap(~NO_UG + NO_FONTE_RECURSO, 
+             scales = "free", ncol = 2) +
+  scale_y_continuous(labels = em_milhoes) +
+  labs(
+    y = "Disponibilidade Líquida (R$)",
+    x = "Data"
+  )
+```
+
+#### TP igual a 1
+
+O TP igual a 1 significa que a combinação UG/Fonte teve disponibilidade líquida sempre positiva no período, portanto essas combinações devem ter sinais de empoçamento.
+
+```{r, fig.height = 4.1}
+set.seed(22)
+indices_ug_fonte %>% 
+  filter(indicador_tempo == 1) %>%  
+  sample_n(4) %>%
+  unnest(series_temporais) %>%
+  filter(
+    NO_DIA_COMPLETO_dmy <= dia,
+    NO_DIA_COMPLETO_dmy >= dia - days(365)
+  ) %>% 
+  ungroup() %>%
+  mutate(
+    NO_UG = str_wrap(NO_UG, 35),
+    NO_FONTE_RECURSO = str_wrap(NO_FONTE_RECURSO, 35)
+  ) %>% 
+  ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
+  geom_line() +
+  geom_area(alpha = 0.1) +
+  facet_wrap(~NO_UG + NO_FONTE_RECURSO, 
+             scales = "free", ncol = 2) +
+  scale_y_continuous(labels = em_milhoes) +
+  labs(
+    y = "Disponibilidade Líquida (R$)",
+    x = "Data"
+  )
+```
+
+#### TP entre 0 e 1
+
+O TP mediano significa que a combinação UG/Fonte teve disponibilidade líquida positiva em parte do período.
+
+```{r, fig.height = 4.1}
+set.seed(122)
+indices_ug_fonte %>% 
+  filter(indicador_tempo > 0.1) %>%
+  filter(indicador_tempo < 0.9) %>%  
+  sample_n(4) %>%
+  unnest(series_temporais) %>%
+  filter(
+    NO_DIA_COMPLETO_dmy <= dia,
+    NO_DIA_COMPLETO_dmy >= dia - days(365)
+  ) %>% 
+  ungroup() %>%
+  mutate(
+    NO_UG = str_wrap(NO_UG, 35),
+    NO_FONTE_RECURSO = str_wrap(NO_FONTE_RECURSO, 35)
+  ) %>% 
+  ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
+  geom_line() +
+  geom_area(alpha = 0.1) +
+  facet_wrap(~NO_UG + NO_FONTE_RECURSO, 
+             scales = "free", ncol = 2) +
+  scale_y_continuous(labels = em_milhoes) +
+  labs(
+    y = "Disponibilidade Líquida (R$)",
+    x = "Data"
+  )
+```
+
+#### Classificação
+
+Com base nas análises anteriores conseguimos criar classificações para as combinações UG/Fonte de acordo com o valor do índice TP. As classificações foram:
+
+1. SEM EMPOÇAMENTO: TP == 0
+2. EMPOÇAMENTO NATURAL: TP entre 0 e 1
+3. EMPOÇAMENTO POTENCIAL: TP == 1
+
+A tabela a seguir apresenta a quantidade de combinações UG/Fonte em cada uma das categorias.
+
+```{r}
+indices_ug_fonte %>% 
+  mutate(indicador_tempo_c = case_when(
+    indicador_tempo == 0 ~ "1. Sem empoçamento",
+    (indicador_tempo) < 1 ~  "2. Empoçamento natural",
+    (indicador_tempo) >= 1 ~ "3. Empoçamento potencial"
+  )) %>% 
+  count(indicador_tempo_c) %>% 
+  knitr::kable(col.names = c("Categoria TP", "#"))
+```
+
+
+
+## Suspeita de Empoçamento (SE)
+
+Suspeita de Empoçamento representa a propensão de um determinado par de UG/Fonte-de-recurso estarem com problema de empoçamento. Em outras palavras, reflete o quanto uma série temporal de disponibilidade líquida se parece com uma típica série temporal de recurso empoçado.
+
+O SE assume valores entre zero e um, em que zero representa "remota chance de haver empoçamento" e em que um representa "fortes evidências de empoçamento". O indicador leva em consideração os sete indicadores apresentados acima no seu cálculo.
+
+
+### Cálculo
+
+A descrição da metologia e da construção do SE está descrito no próximo capítulo.
+
+### Distribuição
+
+O histograma da distribuição do SE mostra a maioria das combinações não apresentam evidência de empoçamento. 
+
+```{r, fig.height = 3, message=FALSE, warning=FALSE}
+indices_ug_fonte %>%
+  ggplot(aes(x = log1p(suspeita_de_empocamento))) +
+  geom_histogram( fill = "black", color = "grey") +
+  labs(x = "SE", y = "# UG/Fonte")
+```
+
+
+
+#### SE próximo a zero
+
+O SE for próximo de zero significa que a combinação UG/Fonte tem baixa probabilidade de ser empoçamento.
+
+```{r, fig.height = 4.1}
+set.seed(333)
+indices_ug_fonte %>% 
+  filter(suspeita_de_empocamento < 0.1) %>%  
+  sample_n(4) %>%
+  unnest(series_temporais) %>%
+  filter(
+    NO_DIA_COMPLETO_dmy <= dia,
+    NO_DIA_COMPLETO_dmy >= dia - days(365)
+  ) %>% 
+  ungroup() %>%
+  mutate(
+    NO_UG = str_wrap(NO_UG, 35),
+    NO_FONTE_RECURSO = str_wrap(NO_FONTE_RECURSO, 35)
+  ) %>% 
+  ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
+  geom_line() +
+  geom_area(alpha = 0.1) +
+  facet_wrap(~NO_UG + NO_FONTE_RECURSO, 
+             scales = "free", ncol = 2) +
+  scale_y_continuous(labels = em_milhoes) +
+  labs(
+    y = "Disponibilidade Líquida (R$)",
+    x = "Data"
+  )
+```
+
+#### SE próximo a 1
+
+O SE for próximo de 1 significa que a combinação UG/Fonte tem alta probabilidade de ser de empoçamento.
+
+```{r, fig.height = 4.1}
+set.seed(13223)
+indices_ug_fonte %>% 
+  filter(suspeita_de_empocamento > 0.7) %>%  
+  sample_n(4) %>%
+  unnest(series_temporais) %>%
+  filter(
+    NO_DIA_COMPLETO_dmy <= dia,
+    NO_DIA_COMPLETO_dmy >= dia - days(365)
+  ) %>% 
+  ungroup() %>%
+  mutate(
+    NO_UG = str_wrap(NO_UG, 35),
+    NO_FONTE_RECURSO = str_wrap(NO_FONTE_RECURSO, 35)
+  ) %>% 
+  ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
+  geom_line() +
+  geom_area(alpha = 0.1) +
+  facet_wrap(~NO_UG + NO_FONTE_RECURSO, 
+             scales = "free", ncol = 2) +
+  scale_y_continuous(labels = em_milhoes) +
+  labs(
+    y = "Disponibilidade Líquida (R$)",
+    x = "Data"
+  )
+```
+
+#### SE entre 0 e 1
+
+O SE mediano significa incerteza sobre a condição de empoçamento para a combinação UG/Fonte.
+
+```{r, fig.height = 4.1}
+set.seed(12222)
+indices_ug_fonte %>% 
+  filter(suspeita_de_empocamento > 0.2) %>%
+  filter(suspeita_de_empocamento < 0.4) %>%  
+  sample_n(4) %>%
+  unnest(series_temporais) %>%
+  filter(
+    NO_DIA_COMPLETO_dmy <= dia,
+    NO_DIA_COMPLETO_dmy >= dia - days(365)
+  ) %>% 
+  ungroup() %>%
+  mutate(
+    NO_UG = str_wrap(NO_UG, 35),
+    NO_FONTE_RECURSO = str_wrap(NO_FONTE_RECURSO, 35)
+  ) %>% 
+  ggplot(aes(x = NO_DIA_COMPLETO_dmy, y = disponibilidade_liquida)) +
+  geom_line() +
+  geom_area(alpha = 0.1) +
+  facet_wrap(~NO_UG + NO_FONTE_RECURSO, 
+             scales = "free", ncol = 2) +
+  scale_y_continuous(labels = em_milhoes) +
+  labs(
+    y = "Disponibilidade Líquida (R$)",
+    x = "Data"
+  )
+```
+
+#### Classificação
+
+Com base nas análises anteriores conseguimos criar classificações para as combinações UG/Fonte de acordo com o valor do índice SE. As classificações foram:
+
+1. SEM EMPOÇAMENTO: SE < 0.1
+2. EMPOÇAMENTO BAIXA PROPENSÃO: SE entre 0.1 e 0.6
+3. EMPOÇAMENTO ALTA PROPENSÃO: SE > 0.6
+
+A tabela a seguir apresenta a quantidade de combinações UG/Fonte em cada uma das categorias.
+
+```{r}
+indices_ug_fonte %>% 
+  mutate(suspeita_de_empocamento_c = case_when(
+    suspeita_de_empocamento <0.1 ~ "1. Sem empoçamento",
+    (suspeita_de_empocamento) < 0.6 ~  "2. Empoçamento baixa propensão",
+    (suspeita_de_empocamento) >= 0.6 ~ "3. Empoçamento alta propensão"
+  )) %>% 
+  count(suspeita_de_empocamento_c) %>% 
+  knitr::kable(col.names = c("Categoria SE", "#"))
+```
 
 
 

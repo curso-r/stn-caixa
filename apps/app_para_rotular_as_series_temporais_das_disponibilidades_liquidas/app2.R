@@ -7,6 +7,7 @@ library(magrittr)
 library(shinyjs)
 library(shinycssloaders)
 participantes <- c("athos", "barba", "lucas", "tiago", "william", "renata", "daniel")
+cat(getwd())
 ts_das_disponibilidades_liquidas <- readRDS("ts_das_disponibilidades_liquidas.rds")
 
 # -- NÃO RODAR DE NOVO -- CRIAÇÃO INICIAL DA TABELA DE ANOTACOES -- NÃO RODAR DE NOVO -----------------------------------

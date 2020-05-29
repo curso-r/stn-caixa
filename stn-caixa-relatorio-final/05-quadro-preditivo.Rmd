@@ -16,7 +16,43 @@ knitr::opts_chunk$set(
 library(tidyverse)
 ```
 
-## Fontes de recursos que tendem a acumular recurso
+## Construção do Indicador SE
+
+O indicador SE (suspeita de empoçamento) é uma estimativa da probabilidade de uma série temporal de disponibilidade líquida ser de uma UG/Fonte empoçada. Para derivar essas probabilidades de empoçamento, a metodologia envolveu duas macro-etapas:
+
+1) Retulagem das séries temporais em "empoçadas" e "não empoçadas";
+2) Aplicação de métodos estatísticos de aprendizagem de máquina, especificamente o método do *XGBoost* [@xgboost], um algorítmo da classe dos "Gradient Boostings" [@esl].
+
+### Rotulagem
+
+A rotulagem foi elaborada em colaboração entre a equipe da R6 com a equipe do GT-CEAD. Os analistas rotularam 1223 séries temporais como ou "empoçada" ou "não empoçada". Tais anotações serviram como os alvos (variável resposta) para alimentar o algoritmo de aprendizagem de máquina.
+
+### Modelo de Aprendizagem de Máquina
+
+A modelagem preditiva consideraram as seguintes variáveis:
+
+**Variável Resposta**: empocamento (rótulos "empoçada"/"não empoçada")
+
+**Variáveis Explicativas**: os indicadores descritos no capítulo 3, a saber:
+
+- Disponibilidade Líquida Sobre Gastos (DLSG)
+- Índice acumulação de disponibilidade líquida (IADL)
+- Indicador de persistência de saldo positivo (IPDL)                               
+- Valor Nominal (VN)                   
+- Valor Nominal Conservador (VNC)
+- Tempo Positivo (TP)
+
+**Modelo Preditivo**: XGBoost
+
+**Software**: R
+
+**Código Fonte**: https://github.com/curso-r/empocamento/blob/master/inst/scripts/06-xgboost.R
+
+**Acurácia**: O algoritmo acertou 94% das séries temporais da base de dados de teste.
+
+## Resultados
+
+### Fontes de recursos que tendem a acumular recurso
 
 ```{r, fig.height=8}
 indicadores <- read_rds("../data/indicadores.rds")
@@ -52,19 +88,11 @@ A tendência é que as fontes de recursos
 tenham perfil recursos de acumulantes enquanto que as fontes de recursos 
 
 - **de consessões e permissões**,
--**livres da seguridade social**,
+- **livres da seguridade social**,
 - **fundo social parcialmente destinados à educação pública e saúde**,
 - **destinados a manutenção e desenvolvimento do ensino** e 
 - **de alienação de bens e direito do patrimônio público** 
 
-tendem a  não acumularem.
+tendem a não acumularem.
 
-
-
-## Previsão de disponibilidade líquida
-
-Construímos modelos de séries temporais para previsão de disponibilidade líquida para cada fonte de recursos e UGs.
-O desempenho dos modelos foi avaliado para os períodos de 1 semana, 1 mês, 6 meses e 1 ano.
-
-Foi construída uma calculadora em Shiny para consultar as previsões e resultados de cada um dos cenários.
 

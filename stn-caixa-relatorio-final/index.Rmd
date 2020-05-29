@@ -1,7 +1,7 @@
 --- 
 title: "Empoçamento Orçamentário - Análise de Perfil das Disponibilidades Líquidas das Unidades Gestoras do Ministério da Justiça."
 author: "R6 Estatística e Treinamentos LTDA"
-date: "`r Sys.Date()`"
+date: "`r format(Sys.Date(), 'São Paulo, Brasil, %B de %Y')`"
 site: bookdown::bookdown_site
 output: 
   bookdown::gitbook:
@@ -19,11 +19,24 @@ header-includes:
 
 # Introdução
 
-O objetivo deste projeto é analisar o comportamento do caixa e das obrigações financeiras dos órgãos federais, com a finalidade de fornecer informações para a gestão da programação financeira por parte do Tesouro Nacional, além de identificar oportunidades de melhorias nesse processo, e possivelmente fundamentar a criação de indicadores para avaliação da gestão financeira das unidades do Governo Federal.
+No contexto de finanças, segundo [@inst-fisc-indep], empoçamento é a diferença positiva entre o limite de pagamento e a despesa efetivamente paga em determinado período. O limite de pagamento corresponde ao fluxo mensal de liberação financeira por parte da Secretaria do Tesouro Nacional (STN) para órgãos que executam as despesas orçamentárias. Em outros termos, empoçamento é o fenômeno de recursos financeiros sem circulação por longo período de tempo e significa potencial ineficiência do uso de recursos públicos. 
 
-Elencamos aqui alguns aspectos importantes do projeto.
+Apesar de o empoçamento poder ser causado por projeções conservadoras de despesas obrigatórias, existe ainda empoçamentos decorrentes de despesas discricionárias (aquelas que não são obrigatórias em lei) e medidas imediatas ou de médio prazo podem ser tomadas para remediar esse problema.
 
-## Questões investigadas
+O desafio está em encontrar as oportunidades de ações para redução de empoçamentos nas despesas discrionárias, porém, os dados do SIAFI permitem análises restrospectivas dos fluxos de caixa de cada órgão para cada fonte de recurso, permitindo, assim, explorar possíveis padrões de empoçamento. Uma vez que se tenha construído indicadores de empoçamento com base nos fluxos de caixa de cada órgão, órgãos competentes podem consumí-los e priorizar ações cabíveis.
+
+
+
+## Objetivos
+
+Os objetivos deste projeto são:
+
+1) Analisar o comportamento do caixa e das obrigações financeiras dos órgãos federais, com a finalidade de fornecer informações para a gestão da programação financeira por parte do Tesouro Nacional, especificamente na detecção e priorização de ações à administração do fenômeno de empoçamento financeiro.
+
+2) Propor metodologia e disponibilizar ferramentas abertas para replicá-la a qualquer órgão máximo brasileiro e internacional.
+
+
+## Questões investigadass
 
 De início, analisamos o perfil das despesas e receitas das unidades do Governo Federal, começando com os órgãos do Ministério da Justiça (que já possui um sistema de acompanhamento de despesas bem estruturado).
 
@@ -37,13 +50,9 @@ a. Qual o comportamento do caixa e das obrigações a pagar (e da disponibilidad
 
 b. Existem casos em que unidades de um mesmo órgão permanecem com disponibilidade líquida negativa, enquanto outras unidades desse mesmo órgão encontram-se com disponibilidade positiva? E se considerar a fonte de recursos, há casos em que o órgão passa por períodos com disponibilidade negativa em uma fonte enquanto há recursos disponíveis em outra fonte? E se considerar as duas situações conjuntamente^[Ou seja, uma unidade de um mesmo órgão fica com disponibilidade negativa em uma fonte, enquanto outra unidade desse mesmo órgão possui disponibilidade positiva nessa mesma fonte.]? 
 
-c. Como as classificações orçamentárias se relacionam com as classificações financeiras? Especificamente, é possível identificar certos tipos de despesas que são sempre (ou frequentemente) pagas com recursos de determinadas vinculações? 
+c. Qual o comportamento do caixa das unidades em termos de movimentações?
 
-d. Caso seja possível a identificação mencionada em (c), as questões (a) e (b) seriam revisitadas para estimar a disponibilidade líquida para cada vinculação, considerando as classificações orçamentárias das obrigações. Nesse cenário, existem unidades com saldo total suficiente para cobrir todas as suas obrigações, porém com insuficiência em algumas vinculações?
-
-e. Qual o comportamento do caixa das unidades em termos de movimentações?
-
-f. Qual o intervalo entre duas operações^[Uma despesa alta seguida de um recebimento de recursos também alto.] de grande porte?
+d. Qual o intervalo entre duas operações^[Uma despesa alta seguida de um recebimento de recursos também alto.] de grande porte?
 
 Para responder essas perguntas, utilizamos ferramentas descritivas e de modelagem preditiva, descritas nos Capítulos 3 e 4, respectivamente. 
 
@@ -63,21 +72,23 @@ Finalmente com a Tabela 1, analisamos as movimentações para tipo de documento,
 
 Na primeira etapa do projeto, essas bases foram estudadas e validadas. Bases auxiliares também foram construídas para facilitar as análises subsequentes. A documentação dessa etapa se encontra no Capítulo 2.
 
-## Análise descritiva
+## Aplicativo e Ferramentas
 
 Dada a riqueza de informações e granularidade das bases de dados, todos os resultados descritivos foram construídos em uma aplicação online, que permite a manipulação das visualizações a partir de filtros e seletores.
 
-O aplicativo pode ser acessado a partir do seguinte link: https://rseis.shinyapps.io/explorador_disponibilidades_liquidas_v2/
+O aplicativo pode ser acessado a partir do seguinte link: 
 
-O código-fonte e manutenção do aplicativo foram repassados à equipe do GT-CEAD ao fim do projeto.
+[https://rseis.shinyapps.io/explorador_disponibilidades_liquidas_v3/]()
 
-Um resumo dos principais resultados se encontra no Capítulo 3.
+O código-fonte e manutenção do aplicativo foram repassados à equipe do GT-CEAD ao fim do projeto e estão acessíveis ao público no link:
+
+[https://curso-r.github.io/empocamento/]()
+
+O software necessário para utilizar as ferramentas é o [@r-core., Um resumo dos principais resultados se encontra no Capítulo 3.
 
 ## Análise preditiva
 
-Os modelos utilizados neste projeto consideraram os métodos em estado da arte dentro do contexto de modelagem preditiva, como florestas aleatórias, o algorítmo XGBoost e redes neurais.
-
-A descrição dos modelos ajustados e seus resultados se encontram no Capítulo 4.
+Os modelos utilizados neste projeto consideraram o algorítmo XGBoost [@xgboost], método de aprendizagem de máquina estado da arte dentro do contexto de modelagem preditiva. A descrição dos modelos ajustados e seus resultados se encontram no Capítulo 5.
 
 ## Oficina de repasses e implementação dos produtos
 

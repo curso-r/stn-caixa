@@ -18,7 +18,6 @@ indicadores_no_tempo_ug <- read_rds("../data/indices_no_tempo_ug.rds")
 indicadores_no_tempo_ug_fonte <- read_rds("../data/indices_no_tempo_ug_fonte.rds")
 ```
 
-## O que é empoçamento?
 
 Uma UG que gere seus recursos de forma saudável tende a manter a sua disponibilidade líquida próxima de do zero. Como por exemplo a *COORDENACAO DE ADMINISTRACAO-COAD/DLOG/DPF* com relação à fonte de recursos *REC.VINC.APLIC.POLITICAS PUBLICAS ESPECIFICA* conforme observamos no gráfico abaixo:
 
@@ -56,7 +55,7 @@ Este é o exemplo mais simples de empoçamento, no qual uma combinação de UG/F
 Vamos usar como exemplo a UG: *COORDENACAO DE ORCAMENTO E FINANCAS - COF/DPF*
 e sua respectiva fonte de recursos *REC.PROP.DECOR.ALIEN.BENS E DIR.DO PATR.PUB.*:
 
-```{r}
+```{r, fig.height=3}
 em_milhao <- function(x) {
   paste0(trunc(x/1e6), "M")
 }
@@ -82,7 +81,7 @@ Neste exemplo chamamos de empoçamento total pois uma grande quantidade de dinhe
 
 Outros exemplos deste comportamento podem ser observados no gráfico abaixo.
 
-```{r}
+```{r, fig.height = 4}
 d <- bind_rows(
   disponibilidades_liquidas_diarias %>% 
     filter(
@@ -125,7 +124,7 @@ O *empoçamento temporário* acontece quando uma UG/FONTE acumula dinheiro após
 
 Um exemplo é o que aconteceu com a *COORDENACAO-GERAL DE ORCAMENTO E FINANCAS-MJ* e a fonte de recursos *REC.DEST.AS ATIVIDADES-FINS SEGURIDADE SOCIAL*.
 
-```{r}
+```{r, fig.height = 3}
 disponibilidades_liquidas_diarias %>% 
   filter(
     NO_UG == "COORDENACAO-GERAL DE ORCAMENTO E FINANCAS-MJ",
@@ -146,7 +145,7 @@ No exemplo, vemos que a UG/FONTE possui o comportamento desejado de disponibilid
 
 Outros exemplos deste comportamento podem ser observados no gráfico abaixo.
 
-```{r}
+```{r, fig.height=4}
 d <- bind_rows(
   disponibilidades_liquidas_diarias %>% 
     filter(
@@ -188,7 +187,7 @@ Esse tipo de empoçamento não ocorre com muita frequência pois depende de UG/F
 
 Um exemplo pode ser observado na *COORDENACAO DE ORCAMENTO E FINANCAS - COF/DPF* com a fote de recursos *TX/MUL.P/PODER DE POLICIA E MUL.PROV.PROC.JUD*:
 
-```{r}
+```{r, fig.height = 3}
 disponibilidades_liquidas_diarias %>% 
   filter(
     NO_UG == "COORDENACAO DE ORCAMENTO E FINANCAS - COF/DPF",
